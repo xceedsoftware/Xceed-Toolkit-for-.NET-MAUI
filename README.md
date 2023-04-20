@@ -12,14 +12,30 @@ Thank you for considering Xceed's Toolkit for MAUI. We're excited to see what yo
 
 One of the issues we have with the basic border control offered in MAUI is the lack of having independent corner radius as an example, we fixed that, here’s a list of additional features: 
 
-•	A BorderBrush property of type Brush, instead of Stroke of type Brush.
-
-•	A BorderThickness property of type Thickness, instead of StrokeThickness of type double (for 
+-	A BorderBrush property of type Brush, instead of Stroke of type Brush.
+-	A BorderThickness property of type Thickness, instead of StrokeThickness of type double (for 
 independent borders).
+-	A CornerRadius property of type CornerRadius (for rounded corners).
+-	Fewer border properties (StrokeDashArray, StrokeLineCap, etc.).
+-	The Content's Labels benefit from the FontSize, FontAttributes, FontFamily, and TextColor properties.
 
-•	A CornerRadius property of type CornerRadius (for rounded corners).
+### Button
 
-•	Fewer border properties (StrokeDashArray, StrokeLineCap, etc.).
+The default .NET MAUI Framework Button did not include some essential features such as MouseOver and pressed styles, and did not allow for the addition of any content, such as images. We have addressed these limitations with our custom Button implementation, which includes the following features:
 
-•	The Content's Labels benefit from the FontSize, FontAttributes, FontFamily, and TextColor properties.
+- BorderBrush (type Brush) for more flexibility than BorderColor of type Color.
+- BorderThickness (type Thickness) to allow for independent borders rather than BorderWidth of type double.
+- ClickMode to trigger the Clicked event on a Press or Release.
+- Content (type object) to display the user's View or a Label if they pass a string.
+- CornerRadius (type CornerRadius) for independently rounded corners rather than int.
+- HorizontalContentAlignment (type LayoutOptions) to align content horizontally.
+- VerticalContentAlignment (type LayoutOptions) to align content vertically.
+- ContentTemplate (from ContentControl) to configure the content.
+- Labels in Content can use properties such as FontSize, FontAttributes, FontFamily, and TextColor.
+- PointerOver and PointerPressed (which are already present with Pressed).
+
+Note: The BorderColor property has been removed as Background already exists.
+
+With our custom Button implementation, you can create highly flexible and customizable buttons for your .NET MAUI apps.
+
 
