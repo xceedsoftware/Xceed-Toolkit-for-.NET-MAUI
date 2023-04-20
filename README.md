@@ -38,4 +38,42 @@ Note: The BorderColor property has been removed as Background already exists.
 
 With our custom Button implementation, you can create highly flexible and customizable buttons for your .NET MAUI apps.
 
+### RepeatButton
+
+We have created a new control called RepeatButton, which is derived from the Xceed Button. This control includes the Delay and Interval properties, which allow the Clicked event to be raised more than once.
+
+The RepeatButton control is similar to a standard button, but it provides the additional functionality of allowing the Clicked event to be raised repeatedly while the button is pressed. The Delay and Interval properties control the amount of time before the first repeated Clicked event is raised, and the frequency of subsequent events, respectively.
+
+With the RepeatButton control, you can create more responsive and interactive user interfaces in your .NET MAUI apps.
+
+### ContentControl
+
+We have created a new control called ContentControl, which allows you to set the content and its associated DataTemplate.
+
+The ContentControl is a versatile control that can display any type of content, including text, images, and other controls. By setting the Content property, you can specify the content to be displayed, and by setting the ContentTemplate property, you can specify how the content should be displayed.
+
+The DataTemplate allows you to define a layout for the content, including styles and formatting. By using the ContentControl in conjunction with DataTemplates, you can create highly customized and dynamic user interfaces in your .NET MAUI apps.
+
+### ButtonSpinner
+
+We have created a new control called ButtonSpinner, which is derived from the ContentControl. This control allows you to display content along with two RepeatButtons (Spinners) and includes several useful properties and events.
+
+The ButtonSpinner control includes the following properties:
+
+- AllowSpin: controls whether the Spinners are allowed to raise events.
+- SpinnerDownContentTemplate and SpinnerUpContentTemplate: specify the DataTemplates for the Spinners.
+- SpinnerLocation: determines the location of the Spinners (either left or right of the content).
+- ValidSpinDirection: specifies the allowed spin direction (either up or down).
+- In addition to these properties, the ButtonSpinner control raises a Spin event when the RepeatButtons are clicked or held down. This event can be used to respond to user input and update the content as needed.
+
+With the ButtonSpinner control, you can create highly interactive and customizable UI components in your .NET MAUI apps.
+
+### Card
+
+We have created a new control called the Card Control, which provides a visually appealing way to display content in your .NET MAUI apps.
+
+The Card Control is a frame with a subtle shadow effect, which creates the illusion of depth and makes the content stand out from the background. This makes it an ideal choice for displaying important information or creating a visually striking user interface.
+
+With the Card Control, you can easily add depth and visual interest to your .NET MAUI apps without the need for complex styling or layout. Simply add the control to your XAML code and specify the content to be displayed within it.
+
 
