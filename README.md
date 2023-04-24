@@ -145,3 +145,38 @@ Application.Current.UserAppTheme = ( Application.Current.UserAppTheme == AppThem
 
 This will cycle between the light and dark theme.
 
+### Using Our Controls
+
+Once you have added the code above, you are ready to start using Xceed Toolkit for .NET MAUI!
+
+One thing you can try, that is not available by default in .NET MAUI, is adding Content to a button. If you are used to WPF, this will look very similar with what you would have done on that platform : 
+
+`````xaml
+
+<xctk:Button HeightRequest="64"
+                 WidthRequest="225">
+      <HorizontalStackLayout>
+        <Image Source="palm.png"
+               HeightRequest="36"
+               WidthRequest="36"
+               Margin="0,0,8,0"/>
+        <Label Text="Xceed MAUI Button"               
+               VerticalOptions="Center"/>
+      </HorizontalStackLayout>
+    </xctk:Button>
+
+`````
+
+Of course, you will need to provide your own image. If for some reason, none of the controls show up on your app, most likely this is due to not having added the theme to your application :
+
+````xaml
+<Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <xctk:FluentDesign AccentColor="Pink" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Application.Resources>
+````
+
+
