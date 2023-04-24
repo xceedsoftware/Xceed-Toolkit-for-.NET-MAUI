@@ -1,6 +1,6 @@
 ### Table of Contents
 - [Welcome](#introduction)
-- [Getting Started](#getting-started)
+- [Getting Started (code)](#getting-started)
 
 #### Controls:
 
