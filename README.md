@@ -25,7 +25,9 @@ independent borders).
 
 ### Button
 
-The default .NET MAUI Framework Button did not include some essential features such as MouseOver and pressed styles, and did not allow for the addition of any content, such as images. We have addressed these limitations with our custom Button implementation, which includes the following features:
+![Alt Text](multistatebutton.png)
+
+The default .NET MAUI Framework Button did not include some essential features such as MouseOver and pressed styles (as shown in the screenshot above), and did not allow for the addition of any content, such as images. We have addressed these limitations with our custom Button implementation, which includes the following features:
 
 - BorderBrush (type Brush) for more flexibility than BorderColor of type Color.
 - BorderThickness (type Thickness) to allow for independent borders rather than BorderWidth of type double.
