@@ -93,7 +93,7 @@ xmlns:xctk="clr-namespace:Xceed.Maui.Toolkit;assembly=Xceed.Maui.Toolkit"
 
 Then, you will need to add our ResourceDictionary to your app or page :
 
-```
+````xaml
 <Application.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
@@ -101,22 +101,25 @@ Then, you will need to add our ResourceDictionary to your app or page :
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>
-```
+````
 
 You can also add the following line in your Application declaration : 
 
-```
+````xaml
 UserAppTheme="Dark"
-```
+````
+
 This can also be done through code:
-```
+
+````csharp
 Application.Current.UserAppTheme = AppTheme.Dark;
-```
+`````
 
 If you wish to offer your users to switch between Light and Dark, you can use this line of code:
 
-```
+`````csharp
 Application.Current.UserAppTheme = ( Application.Current.UserAppTheme == AppTheme.Dark) ? AppTheme.Light : AppTheme.Dark;
-```
+``````
+
 This will cycle between the light and dark theme.
 
