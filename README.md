@@ -82,4 +82,41 @@ The Card Control is a frame with a subtle shadow effect, which creates the illus
 
 With the Card Control, you can easily add depth and visual interest to your .NET MAUI apps without the need for complex styling or layout. Simply add the control to your XAML code and specify the content to be displayed within it.
 
+# Getting Started
+
+The first thing you will want to do is get the package on NuGet or add simply clone the project and add it to your references.
+Once this is done, you will need to add a reference to the Xceed namespace : 
+
+```
+xmlns:xctk="clr-namespace:Xceed.Maui.Toolkit;assembly=Xceed.Maui.Toolkit"
+```
+
+Then, you will need to add our ResourceDictionary to your app or page :
+
+```
+<Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <xctk:FluentDesign AccentColor="Pink" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Application.Resources>
+```
+
+You can also add the following line in your Application declaration : 
+
+```
+UserAppTheme="Dark"
+```
+This can also be done through code:
+```
+Application.Current.UserAppTheme = AppTheme.Dark;
+```
+
+If you wish to offer your users to switch between Light and Dark, you can use this line of code:
+
+```
+Application.Current.UserAppTheme = ( Application.Current.UserAppTheme == AppTheme.Dark) ? AppTheme.Light : AppTheme.Dark;
+```
+This will cycle between the light and dark theme.
 
