@@ -129,6 +129,46 @@ Then, you will need to add our ResourceDictionary to your app or page :
     </ResourceDictionary>
   </Application.Resources>
 ````
+You can also set it in your page:
+
+````xaml
+<ContentPage>
+     <ContentPage.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <xctk:FluentDesign AccentColor="Blue"/>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+    ...
+   </ContentPage>
+````
+
+Or through code during the creation of the MauiApp, using a call to UseXceedMauiToolkit()
+   
+
+````csharp
+public static class MauiProgram
+: 
+  {
+    public static MauiApp CreateMauiApp()
+    {
+      var builder = MauiApp.CreateBuilder();
+      builder
+          .UseMauiApp<App>()
+          .UseXceedMauiToolkit( FluentDesignAccentColor.DarkLily )
+          .ConfigureFonts( fonts =>
+          {
+            fonts.AddFont( "OpenSans-Regular.ttf", "OpenSansRegular" );
+            fonts.AddFont( "OpenSans-Semibold.ttf", "OpenSansSemibold" );
+          } );
+      return builder.Build();
+    }
+  }
+
+````
+    
+
+Keep in mind that for this example we are using Pink. However, we offer a total of **48** different accent colors, each with its own variations. To see the complete list, you can type AccentColor="" to access the enumeration.
 
 You can also add the following line in your Application declaration : 
 
