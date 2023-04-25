@@ -8,6 +8,7 @@
 
 - [Border](#border)
 - [Button](#button)
+- [ToggleButton](#togglebutton)
 - [RepeatButton](#repeatbutton)
 - [ContentControl](#contentcontrol)
 - [ButtonSpinner](#buttonspinner)
@@ -65,6 +66,10 @@ The default .NET MAUI Framework Button did not include some essential features s
 Note: The BorderColor property has been removed as Background already exists.
 
 With our custom Button implementation, you can create highly flexible and customizable buttons for your .NET MAUI apps.
+
+<a id="togglebutton"></a>
+### ToggleButton
+MAUI currently does not include the ToggleButton control. Therefore, we have created one that has the same functionalities as our button. However, we added a simple yet useful feature to the ToggleButton: a "IsChecked" property that gives the button a "pressed" appearance. We believe that this feature can be helpful for users who are familiar with this control. Moreover, implementing this feature was not complicated, and it enhances the overall user experience of our library.
 
 <a id="repeatbutton"></a>
 ### RepeatButton
