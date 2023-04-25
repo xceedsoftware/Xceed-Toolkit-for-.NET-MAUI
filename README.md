@@ -36,15 +36,20 @@ One of the issues we have with the basic border control offered in MAUI is the l
 -	A BorderThickness property of type Thickness, instead of StrokeThickness of type double (for 
 independent borders).
 -	A CornerRadius property of type CornerRadius (for rounded corners).
--	Fewer border properties (StrokeDashArray, StrokeLineCap, etc.).
 -	The Content's Labels benefit from the FontSize, FontAttributes, FontFamily, and TextColor properties.
+
+Here's an example on how to set earch CornerRadius independantly
+
+````xaml
+<xctk:Border CornerRadius="40,0,40,0" />
+````
 
 <a id="button"></a>
 ### Button
 
 ![Alt Text](multistatebutton.png)
 
-The default .NET MAUI Framework Button did not include some essential features such as MouseOver and pressed styles (as shown in the screenshot above), and did not allow for the addition of any content, such as images. We have addressed these limitations with our custom Button implementation, which includes the following features:
+The default .NET MAUI Framework Button did not include some essential features such as MouseOver and pressed styles (as shown in the screenshot above), and did not allow for the addition of custom content, such as images layouted in particular ways. We have addressed these limitations with our custom Button implementation, which includes the following features:
 
 - BorderBrush (type Brush) for more flexibility than BorderColor of type Color.
 - BorderThickness (type Thickness) to allow for independent borders rather than BorderWidth of type double.
@@ -55,7 +60,7 @@ The default .NET MAUI Framework Button did not include some essential features s
 - VerticalContentAlignment (type LayoutOptions) to align content vertically.
 - ContentTemplate (from ContentControl) to configure the content.
 - Labels in Content can use properties such as FontSize, FontAttributes, FontFamily, and TextColor.
-- PointerOver and PointerPressed (which are already present with Pressed).
+- PointerOver and PointerPressed.
 
 Note: The BorderColor property has been removed as Background already exists.
 
@@ -106,7 +111,7 @@ With the Card Control, you can easily add depth and visual interest to your .NET
 <a id="getting-started"></a>
 # Getting Started
 
-The first thing you will want to do is get the package on NuGet or add simply clone the project and add it to your references.
+The first thing you will want to do is get the package on NuGet or simply clone the project and add it to your references.
 Once this is done, you will need to add a reference to the Xceed namespace : 
 
 ```
