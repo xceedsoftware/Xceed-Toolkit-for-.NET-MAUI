@@ -107,6 +107,8 @@ With the ButtonSpinner control, you can create highly interactive and customizab
 <a id="card"></a>
 ### Card
 
+![Alt Text](cardcontrol.png)
+
 We have created a new control called the Card Control, which provides a visually appealing way to display content in your .NET MAUI apps.
 
 The Card Control is a frame with a subtle shadow effect, which creates the illusion of depth and makes the content stand out from the background. This makes it an ideal choice for displaying important information or creating a visually striking user interface.
