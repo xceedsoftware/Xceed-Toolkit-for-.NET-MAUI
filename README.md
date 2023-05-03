@@ -1,4 +1,4 @@
-![Alt Text](Xceed_Toolkit Plus_for WPF_H.png)
+![Alt Text](Xceed_Toolkit Plus_for_MAUI.png)
 
 ![Alt Text](CompatibleWith.png)
 
