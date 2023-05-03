@@ -1,6 +1,6 @@
 ![Alt Text](Xceed_Toolkit Plus_for_MAUI.png)
 
-![Alt Text](CompatibleWith.png)
+
 
 ### Table of Contents
 - [Welcome](#introduction)
@@ -15,6 +15,8 @@
 - [ContentControl](#contentcontrol)
 - [ButtonSpinner](#buttonspinner)
 - [Card](#card)
+
+![Alt Text](CompatibleWith.png)
 
 <a id="introduction"></a>
 # Xceed is excited to introduce its new Toolkit for MAUI! 
