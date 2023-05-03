@@ -1,6 +1,4 @@
-![Alt_Text](Xceed_Toolkit Plus_for_MAUI.png)
-
-
+![Alt_Text](XcdTKMaui.png)
 
 ### Table of Contents
 - [Welcome](#introduction)
