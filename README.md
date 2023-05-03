@@ -1,3 +1,4 @@
+![Alt Text](Xceed_Toolkit Plus_for WPF_H.png)
 ![Alt Text](CompatibleWith.png)
 
 ### Table of Contents
