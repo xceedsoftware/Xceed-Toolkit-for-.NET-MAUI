@@ -10,6 +10,7 @@
 - [Button](#button)
 - [ToggleButton](#togglebutton)
 - [RepeatButton](#repeatbutton)
+- [NumericUpDown](#numericupdown)
 - [ContentControl](#contentcontrol)
 - [ButtonSpinner](#buttonspinner)
 - [Card](#card)
@@ -81,6 +82,23 @@ We have created a new control called RepeatButton, which is derived from the Xce
 The RepeatButton control is similar to a standard button, but it provides the additional functionality of allowing the Clicked event to be raised repeatedly while the button is pressed. The Delay and Interval properties control the amount of time before the first repeated Clicked event is raised, and the frequency of subsequent events, respectively.
 
 With the RepeatButton control, you can create more responsive and interactive user interfaces in your .NET MAUI apps.
+<a id="numericupdown"></a>
+### NumericUpDown
+Using our very own ButtonSpinner, we offer a series of brebuilt control for you to use, these controls includes: 
+
+- ByteUpDown
+- DecimalUpDown
+- DoubleUpDown
+- IntegerUpDown
+- LongUpDown
+- SByteUpDown  (integers with values ranging from negative 128 to positive 127)
+- ShortUpDown
+- SingleUpDown  (for float)
+- UIntegerUpDown (unsigned integer in the range of 0 to 4,294,967,295)
+- ULongUpDown (unsigned integer in the range of 0 to 18,446,744,073,709,551,615)
+- UShortUpDown (unsigned integer value between the range of 0 to 65,535)
+
+These controls should make our users lives easier when dealing with different datatype.
 
 <a id="contentcontrol"></a>
 ### ContentControl
