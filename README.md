@@ -15,6 +15,8 @@
 - [ButtonSpinner](#buttonspinner)
 - [Card](#card)
 
+## All controls are compatible with:
+
 ![Alt Text](CompatibleWith.png)
 
 <a id="introduction"></a>
