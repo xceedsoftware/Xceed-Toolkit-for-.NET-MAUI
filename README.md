@@ -252,5 +252,20 @@ Of course, you will need to provide your own image. If for some reason, none of 
     </ResourceDictionary>
   </Application.Resources>
 ````
+### Custom Styling
 
+Xceed Toolkit for MAUI does support custom styling, here is how to get started.
+
+#### Create your own style that targets our control : 
+
+````xaml
+ <Style TargetType="xctk:Button">
+    <Setter Property="Background"
+            Value="Red"/>
+    <Setter Property="OverrideDefaultVisualStates"
+            Value="True"/>
+ </Style>
+````
+
+The OverrideDefaultVisualStates will allow you to change the style of a Control while overriding our VisualStates.
 
