@@ -258,8 +258,21 @@ Xceed Toolkit for MAUI does support custom styling, here is how to get started.
 
 #### Create your own style that targets our control : 
 
+First make sure you add the reference to the FluentDesign dictionary
+
 ````xaml
- <Style TargetType="xctk:Button">
+<Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <xctk:FluentDesign AccentColor="Gold" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+</Application.Resources>
+````
+
+````xaml
+ <Style TargetType="xctk:Button"
+        BasedOn="{StaticResource FluentDesignButton}">
     <Setter Property="Background"
             Value="Red"/>
     <Setter Property="OverrideDefaultVisualStates"
