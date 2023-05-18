@@ -270,6 +270,8 @@ First make sure you add the reference to the FluentDesign dictionary
 </Application.Resources>
 ````
 
+Them, you can create your own style :
+
 ````xaml
  <Style TargetType="xctk:Button"
         BasedOn="{StaticResource FluentDesignButton}">
@@ -280,5 +282,15 @@ First make sure you add the reference to the FluentDesign dictionary
  </Style>
 ````
 
-The OverrideDefaultVisualStates will allow you to change the style of a Control while overriding our VisualStates.
+The BasedOn needs to be set to the name of our resource, here's the list of names you can use for other controls:
+
+- FluentDesignBorder
+- FluentDesignRepeatButton
+- FluentDesignButtonSpinner
+- FluentDesignCard
+- FluentDesignContentControl
+- FluentDesignNumericUpDown
+- FluentDesignToggleButton
+
+Note that the OverrideDefaultVisualStates will allow you to change the style of a Control while overriding our VisualStates.
 
