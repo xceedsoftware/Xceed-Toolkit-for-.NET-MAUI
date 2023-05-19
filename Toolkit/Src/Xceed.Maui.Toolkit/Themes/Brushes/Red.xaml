@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+/***************************************************************************************
+ 
+  Xceed Toolkit for MAUI is a multiplatform toolkit offered by Xceed Software Inc., 
+  makers of the popular WPF Toolkit.
+
+  COPYRIGHT (C) 2023 Xceed Software Inc. ALL RIGHTS RESERVED.
+
+  This program is provided to you under the terms of a Xceed Community License 
+  For more details about the Xceed Community License please visit the products GitHub or NuGet page .
+
+  DISCLAIMER: This code is provided as-is and without warranty of any kind, express or implied. The 
+  author(s) and owner(s) of this code shall not be liable for any damages or losses resulting from 
+  the use or inability to use the code. 
+
+ 
+  *************************************************************************************/
+  -->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                                 xmlns:local="clr-namespace:Xceed.Maui.Toolkit;assembly=Xceed.Maui.Toolkit"
+                                 x:Class="Xceed.Maui.Toolkit.Themes.Brushes.Red">
+  <Color x:Key="SystemAccentColor">#E81123</Color>
+  <Color x:Key="SystemAccentColorForeground">#FFFFFF</Color>
+  <Color x:Key="SystemAccentColorLight1">#EF2733</Color>
+  <Color x:Key="SystemAccentColorLight1Foreground">#000000</Color>
+  <Color x:Key="SystemAccentColorLight2">#F46762</Color>
+  <Color x:Key="SystemAccentColorLight2Foreground">#000000</Color>
+  <Color x:Key="SystemAccentColorLight3">#FB9D8B</Color>
+  <Color x:Key="SystemAccentColorLight3Foreground">#000000</Color>
+  <Color x:Key="SystemAccentColorDark1">#D20E1E</Color>
+  <Color x:Key="SystemAccentColorDark1Foreground">#ffffff</Color>
+  <Color x:Key="SystemAccentColorDark2">#9E0912</Color>
+  <Color x:Key="SystemAccentColorDark2Foreground">#ffffff</Color>
+  <Color x:Key="SystemAccentColorDark3">#6F0306</Color>
+  <Color x:Key="SystemAccentColorDark3Foreground">#ffffff</Color>
+</ResourceDictionary>

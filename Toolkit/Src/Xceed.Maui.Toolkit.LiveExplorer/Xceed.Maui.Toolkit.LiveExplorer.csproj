@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <!-- Disable automatic/default item gathering to help automatic builds -->
+    <EnableDefaultItems>false</EnableDefaultItems>
+  </PropertyGroup>
+  <!-- Do not use the <Sdk> element to help automatic builds -->
+  <!-- Manual top Sdk import -->
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+  <PropertyGroup>
+    <!-- Explicitly define a <AssemblyName> to help automatic builds -->
+    <AssemblyName>Xceed.Maui.Toolkit.LiveExplorer</AssemblyName>
+    <!-- There is a bug in the .NET SDK where errors are generated if the minimum Windows version is not specified directly in the TargetFrameworks property
+         as opposed to other platforms where the SupportedOSPlatformVersion property is sufficent -->
+    <!-- Package Microsoft.Maui.Graphics.Win2D.WinUI.Desktop 7.0.49 forces the minimum Windows version to be 10.0.19041.0 as opposed to 10.0.17763.0 -->
+    <MinWindowsVersion>10.0.19041.0</MinWindowsVersion>
+    <TargetFrameworks>net7.0-windows$(MinWindowsVersion);net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
+    <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+    <!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Xceed.Maui.Toolkit.LiveExplorer</RootNamespace>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ErrorReport>prompt</ErrorReport>
+    <!-- Display name -->
+    <ApplicationTitle>Xceed.Maui.Toolkit.LiveExplorer</ApplicationTitle>
+    <!-- App Identifier -->
+    <ApplicationId>com.companyname.Xceed.Maui.Toolkit.LiveExplorer</ApplicationId>
+    <ApplicationIdGuid>dac11efa-5487-46e8-8d1f-697b48cb8bb5</ApplicationIdGuid>
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">$(MinWindowsVersion)</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;ANDROID</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;ANDROID</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;IOS</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;IOS</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-maccatalyst|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;MACCATALYST</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-maccatalyst|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;MACCATALYST</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows10.0.19041.0|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;WINDOWS</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows10.0.19041.0|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;WINDOWS</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AboutXceedPage.xaml.cs" />
+    <Compile Include="App.xaml.cs" />
+    <Compile Include="AppShell.xaml.cs" />
+    <Compile Include="MainPage.xaml.cs" />
+    <Compile Include="MauiProgram.cs" />
+    <MauiXaml Include="App.xaml" />
+    <MauiXaml Include="AppShell.xaml" />
+    <MauiXaml Include="MainPage.xaml" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <MauiXaml Include="Resources\Styles\Colors.xaml" />
+    <MauiXaml Include="Resources\Styles\Styles.xaml" />
+  </ItemGroup>
+  <!-- Android-specifc items -->
+  <ItemGroup>
+    <Compile Include="Platforms\Android\MainActivity.cs" />
+    <Compile Include="Platforms\Android\MainApplication.cs" />
+    <AndroidManifest Include="Platforms\Android\AndroidManifest.xml" />
+    <AndroidResource Include="Platforms\Android\Resources\values\colors.xml" />
+  </ItemGroup>
+  <!-- iOS-specifc items -->
+  <ItemGroup>
+    <Compile Include="Platforms\iOS\AppDelegate.cs" />
+    <Compile Include="Platforms\iOS\Program.cs" />
+    <None Include="Platforms\iOS\Info.plist" />
+  </ItemGroup>
+  <!-- Mac-Catalyst-specifc items -->
+  <ItemGroup>
+    <Compile Include="Platforms\MacCatalyst\AppDelegate.cs" />
+    <Compile Include="Platforms\MacCatalyst\Program.cs" />
+    <None Include="Platforms\MacCatalyst\Info.plist" />
+  </ItemGroup>
+  <!-- Tizen-specifc items -->
+  <ItemGroup>
+    <Compile Include="Platforms\Tizen\Main.cs" />
+    <None Include="Platforms\Tizen\tizen-manifest.xml" />
+  </ItemGroup>
+  <!-- Windows-specifc items -->
+  <ItemGroup>
+    <Compile Include="Platforms\Windows\App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Manifest Include="Platforms\Windows\app.manifest" />
+    <AppxManifest Include="Platforms\Windows\Package.appxmanifest" />
+    <ApplicationDefinition Include="Platforms\Windows\App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Images\logowhite_w.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\logox_w.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\logo_w.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <MauiImage Include="Resources\Images\logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </MauiImage>
+    <MauiImage Include="Resources\Images\logowhite.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </MauiImage>
+    <MauiImage Include="Resources\Images\logox.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </MauiImage>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- App Icon -->
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+    <!-- Splash Screen -->
+    <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+    <!-- Images -->
+    <MauiImage Include="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
+    <!-- Custom Fonts -->
+    <MauiFont Include="Resources\Fonts\OpenSans-Regular.ttf" />
+    <MauiFont Include="Resources\Fonts\OpenSans-Semibold.ttf" />
+    <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+    <MauiAsset Include="Resources\Raw\AboutAssets.txt" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+    <!-- Launch settings for Visual Studio -->
+    <None Include="Properties\launchSettings.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <MauiXaml Include="AboutXceedPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Xceed.Maui.Toolkit\Xceed.Maui.Toolkit.csproj" />
+  </ItemGroup>
+  <!-- Manual bottom Sdk import -->
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+  <!-- There is a bug in Visual Studio where files do not appear in the Solution Explorer if, in the csproj, they are in a Condition that is false for the
+       first TargetFramework in <TargetFrameworks>. Details here: <https://github.com/dotnet/project-system/issues/935>
+
+       To work around this, conditions for platform specific files have been removed and platform-specific conditions can be found below where for each platform,
+       if the active platform is not that platform, its specific items are removed from the <Compile>, <MauiXaml>, etc lists and placed in the <None> list.
+
+       By being in the <None> list, the items will still be displayed in the Solution Explorer but will not be compiled.
+       This is an ugly workaround but Microsoft has shown little interest in fixing this. -->
+  <!-- Not Android -->
+  <ItemGroup Condition="'$(TargetPlatformIdentifier)' != 'android'">
+    <Compile Remove="**\Android\**\*.*" />
+    <MauiXaml Remove="**\Android\**\*.*" />
+    <AndroidManifest Remove="**\**\*.*" />
+    <AndroidResource Remove="**\**\*.*" />
+    <None Include="**\Android\**\*.*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+  </ItemGroup>
+  <!-- Not iOS -->
+  <ItemGroup Condition="'$(TargetPlatformIdentifier)' != 'ios'">
+    <Compile Remove="**\iOS\**\*.*" />
+    <MauiXaml Remove="**\*OS\**\*.*" />
+    <None Include="**\iOS\**\*.*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+  </ItemGroup>
+  <!-- Not Mac Catalyst -->
+  <ItemGroup Condition="'$(TargetPlatformIdentifier)' != 'maccatalyst'">
+    <Compile Remove="**\MacCatalyst\**\*.*" />
+    <MauiXaml Remove="**\MacCatalyst\**\*.*" />
+    <None Include="**\MacCatalyst\**\*.*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+  </ItemGroup>
+  <!-- Not Tizen -->
+  <ItemGroup Condition="'$(TargetPlatformIdentifier)' != 'tizen'">
+    <Compile Remove="**\Tizen\**\*.*" />
+    <MauiXaml Remove="**\Tizen\**\*.*" />
+    <None Include="**\Tizen\**\*.*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+  </ItemGroup>
+  <!-- Not Windows -->
+  <ItemGroup Condition="'$(TargetPlatformIdentifier)' != 'windows'">
+    <Compile Remove="**\Windows\**\*.*" />
+    <MauiXaml Remove="**\Windows\**\*.*" />
+    <Manifest Remove="**\Windows\**\*.*" />
+    <AppxManifest Remove="**\Windows\**\*.*" />
+    <ApplicationDefinition Remove="**\Windows\**\*.*" />
+    <None Include="**\Windows\**\*.*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+  </ItemGroup>
+</Project>

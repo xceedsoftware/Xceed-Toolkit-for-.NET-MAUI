@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+/***************************************************************************************
+ 
+  Xceed Toolkit for MAUI is a multiplatform toolkit offered by Xceed Software Inc., 
+  makers of the popular WPF Toolkit.
+
+  COPYRIGHT (C) 2023 Xceed Software Inc. ALL RIGHTS RESERVED.
+
+  This program is provided to you under the terms of a Xceed Community License 
+  For more details about the Xceed Community License please visit the products GitHub or NuGet page .
+
+  DISCLAIMER: This code is provided as-is and without warranty of any kind, express or implied. The 
+  author(s) and owner(s) of this code shall not be liable for any damages or losses resulting from 
+  the use or inability to use the code. 
+
+ 
+  *************************************************************************************/
+  -->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit">
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="../../Themes/Glyphs.xaml;assembly=Xceed.Maui.Toolkit" />
+    <ResourceDictionary Source="../../Themes/Brushes/Common.xaml;assembly=Xceed.Maui.Toolkit" />
+  </ResourceDictionary.MergedDictionaries>
+
+  <!-- Targeting Control because NumericUpDown is a templated type and can't be used in XAML.-->
+  <Style x:Key="FluentDesignNumericUpDown"
+         TargetType="{x:Type local:InputBase}">
+    <Setter Property="Background"
+            Value="{AppThemeBinding Light={StaticResource LightBase0}, Dark={StaticResource DarkBase2}}" />
+    <Setter Property="BorderBrush"
+            Value="{AppThemeBinding Dark={StaticResource DarkControlBorderBrush},Light={StaticResource LightControlBorderBrush}}" />
+    <Setter Property="TextColor"
+            Value="{AppThemeBinding Dark={StaticResource DarkTextPrimary}, Light={StaticResource LightTextPrimary}}" />
+    <Setter Property="WatermarkColor"
+            Value="{AppThemeBinding Light={StaticResource LightTextTertiary}, Dark={StaticResource DarkTextTertiary}}" />
+    <Setter Property="BorderThickness"
+            Value="1" />
+    <Setter Property="CornerRadius"
+            Value="4" />
+    <Setter Property="HorizontalContentAlignment"
+            Value="Fill" />
+    <Setter Property="VerticalContentAlignment"
+            Value="Fill" />
+    <Setter Property="ControlTemplate">
+      <Setter.Value>
+        <ControlTemplate>
+          <local:Border BorderBrush="{TemplateBinding BorderBrush}"
+                        HorizontalOptions="{TemplateBinding HorizontalOptions}"
+                        VerticalOptions="{TemplateBinding VerticalOptions}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Background="{TemplateBinding Background}"
+                        HorizontalContentAlignment="Fill"
+                        WidthRequest="{TemplateBinding WidthRequest}"
+                        HeightRequest="{TemplateBinding HeightRequest}"
+                        Padding="0">
+            <local:ButtonSpinner x:Name="PART_Spinner"
+                                 Background="Transparent"
+                                 Padding="{TemplateBinding Padding}"
+                                 AllowSpin="{TemplateBinding AllowSpin}"
+                                 SpinnerLocation="{TemplateBinding SpinnerLocation}"
+                                 SpinnerDownContentTemplate="{Binding SpinnerDownContentTemplate, Source={RelativeSource TemplatedParent}, TargetNullValue={StaticResource DecreaseGlyph}}"
+                                 SpinnerUpContentTemplate="{Binding SpinnerUpContentTemplate, Source={RelativeSource TemplatedParent}, TargetNullValue={StaticResource IncreaseGlyph}}"
+                                 IsEnabled="{TemplateBinding IsEnabled}"
+                                 CornerRadius="{TemplateBinding CornerRadius}"
+                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" >
+              <!--For some reason, on Android, the TextColor will only work with Binding on TemplatedParent. A TemplateBinding won't work.-->
+              <Entry x:Name="PART_Entry"
+                     MinimumWidthRequest="40"
+                     HorizontalTextAlignment="End"
+                     Background="Transparent"
+                     Placeholder="{TemplateBinding Watermark}"
+                     PlaceholderColor="{TemplateBinding WatermarkColor}"
+                     TextColor="{Binding TextColor, Source={RelativeSource TemplatedParent}}"
+                     FontFamily="{TemplateBinding FontFamily}"
+                     FontSize="{TemplateBinding FontSize}"
+                     FontAttributes="{TemplateBinding FontAttributes}">
+              </Entry>
+            </local:ButtonSpinner>
+          </local:Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style TargetType="{x:Type local:IntegerUpDown}"
+         BasedOn="{StaticResource FluentDesignNumericUpDown}" />
+
+  <Style TargetType="{x:Type local:DoubleUpDown}"
+         BasedOn="{StaticResource FluentDesignNumericUpDown}" />
+
+  <Style TargetType="{x:Type local:ByteUpDown}"
+         BasedOn="{StaticResource FluentDesignNumericUpDown}" />
+
+  <Style TargetType="{x:Type local:DecimalUpDown}"
+         BasedOn="{StaticResource FluentDesignNumericUpDown}" />
+
+  <Style TargetType="{x:Type local:LongUpDown}"
+         BasedOn="{StaticResource FluentDesignNumericUpDown}" />
+
+  <Style TargetType="{x:Type local:SByteUpDown}"
+         BasedOn="{StaticResource FluentDesignNumericUpDown}" />
+
+  <Style TargetType="{x:Type local:ShortUpDown}"
+         BasedOn="{StaticResource FluentDesignNumericUpDown}" />
+
+  <Style TargetType="{x:Type local:SingleUpDown}"
+         BasedOn="{StaticResource FluentDesignNumericUpDown}" />
+
+  <Style TargetType="{x:Type local:UIntegerUpDown}"
+         BasedOn="{StaticResource FluentDesignNumericUpDown}" />
+
+  <Style TargetType="{x:Type local:ULongUpDown}"
+         BasedOn="{StaticResource FluentDesignNumericUpDown}" />
+
+  <Style TargetType="{x:Type local:UShortUpDown}"
+         BasedOn="{StaticResource FluentDesignNumericUpDown}" />
+</ResourceDictionary>

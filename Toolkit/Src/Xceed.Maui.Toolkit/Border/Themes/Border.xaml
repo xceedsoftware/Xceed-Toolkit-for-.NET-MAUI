@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+/***************************************************************************************
+ 
+  Xceed Toolkit for MAUI is a multiplatform toolkit offered by Xceed Software Inc., 
+  makers of the popular WPF Toolkit.
+
+  COPYRIGHT (C) 2023 Xceed Software Inc. ALL RIGHTS RESERVED.
+
+  This program is provided to you under the terms of a Xceed Community License 
+  For more details about the Xceed Community License please visit the products GitHub or NuGet page .
+
+  DISCLAIMER: This code is provided as-is and without warranty of any kind, express or implied. The 
+  author(s) and owner(s) of this code shall not be liable for any damages or losses resulting from 
+  the use or inability to use the code. 
+
+ 
+  *************************************************************************************/
+  -->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:local="clr-namespace:Xceed.Maui.Toolkit;assembly=Xceed.Maui.Toolkit"
+                    xmlns:conv="clr-namespace:Xceed.Maui.Toolkit.Converters;assembly=Xceed.Maui.Toolkit">
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="../../Themes/Brushes/Common.xaml;assembly=Xceed.Maui.Toolkit" />
+  </ResourceDictionary.MergedDictionaries>
+
+  <conv:AddThicknessConverter x:Key="AddThicknessConverter" />
+
+  <Style x:Key="FluentDesignBorder"
+         TargetType="{x:Type local:Border}">
+    <Setter Property="TextColor"
+            Value="{AppThemeBinding Light={StaticResource LightTextPrimary}, Dark={StaticResource DarkTextPrimary}}" />
+    <Setter Property="Padding"
+            Value="2" />
+    <Setter Property="HorizontalContentAlignment"
+            Value="Fill" />
+    <Setter Property="VerticalContentAlignment"
+            Value="Fill" />
+    <Setter Property="ControlTemplate">
+      <Setter.Value>
+        <ControlTemplate>
+          <Grid>
+            <local:BorderGraphicsView Background="{TemplateBinding Background}"
+                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                      BorderThickness="{TemplateBinding BorderThickness}"
+                                      CornerRadius="{TemplateBinding CornerRadius}" />
+            <ContentPresenter x:Name="PART_Content"
+                              HorizontalOptions="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalOptions="{TemplateBinding VerticalContentAlignment}">
+              <ContentPresenter.Margin>
+                <MultiBinding Converter="{StaticResource AddThicknessConverter}">
+                  <Binding Path="BorderThickness"
+                           Source="{RelativeSource TemplatedParent}" />
+                  <Binding Path="Padding"
+                           Source="{RelativeSource TemplatedParent}" />
+                </MultiBinding>
+              </ContentPresenter.Margin>
+            </ContentPresenter>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style TargetType="{x:Type local:Border}"
+         BasedOn="{StaticResource FluentDesignBorder}" />
+</ResourceDictionary>

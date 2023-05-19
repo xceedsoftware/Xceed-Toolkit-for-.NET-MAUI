@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+/***************************************************************************************
+ 
+  Xceed Toolkit for MAUI is a multiplatform toolkit offered by Xceed Software Inc., 
+  makers of the popular WPF Toolkit.
+
+  COPYRIGHT (C) 2023 Xceed Software Inc. ALL RIGHTS RESERVED.
+
+  This program is provided to you under the terms of a Xceed Community License 
+  For more details about the Xceed Community License please visit the products GitHub or NuGet page .
+
+  DISCLAIMER: This code is provided as-is and without warranty of any kind, express or implied. The 
+  author(s) and owner(s) of this code shall not be liable for any damages or losses resulting from 
+  the use or inability to use the code. 
+
+ 
+  *************************************************************************************/
+  -->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit"
+                    xmlns:conv="clr-namespace:Xceed.Maui.Toolkit.Converters;assembly=Xceed.Maui.Toolkit">
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="../../Themes/Glyphs.xaml;assembly=Xceed.Maui.Toolkit" />
+    <ResourceDictionary Source="../../Themes/Brushes/Common.xaml;assembly=Xceed.Maui.Toolkit" />
+  </ResourceDictionary.MergedDictionaries>
+
+  <conv:CornerRadiusToSideCornerRadius x:Key="CornerRadiusToSideCornerRadius" />
+
+  <Style x:Key="FluentDesignButtonSpinner"
+         TargetType="{x:Type local:ButtonSpinner}">
+    <Setter Property="Background"
+            Value="{AppThemeBinding Dark={StaticResource DarkBase2}, Light={StaticResource LightBase0}}" />
+    <Setter Property="BorderBrush"
+            Value="{AppThemeBinding Dark={StaticResource DarkControlBorderBrush}, Light={StaticResource LightControlBorderBrush}}" />
+    <Setter Property="TextColor"
+            Value="{AppThemeBinding Light={StaticResource LightTextPrimary}, Dark={StaticResource DarkTextPrimary}}" />
+    <Setter Property="BorderThickness"
+            Value="1" />
+    <Setter Property="FontSize"
+            Value="14" />
+    <Setter Property="HorizontalContentAlignment"
+            Value="Center" />
+    <Setter Property="VerticalContentAlignment"
+            Value="Center" />
+    <Setter Property="Padding"
+            Value="1" />
+    <Setter Property="SpinnerDownContentTemplate"
+            Value="{StaticResource DecreaseGlyph}" />
+    <Setter Property="SpinnerUpContentTemplate"
+            Value="{StaticResource IncreaseGlyph}" />
+    <Setter Property="ControlTemplate">
+      <Setter.Value>
+        <ControlTemplate>
+          <Grid>
+            <local:Border Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          Padding="0"
+                          HorizontalOptions="{TemplateBinding HorizontalOptions}"
+                          VerticalOptions="{TemplateBinding VerticalOptions}"
+                          HorizontalContentAlignment="Fill"
+                          VerticalContentAlignment="Fill"
+                          WidthRequest="{TemplateBinding WidthRequest}"
+                          HeightRequest="{TemplateBinding HeightRequest}">
+              <Grid ColumnDefinitions="*,Auto">
+                <ContentPresenter Grid.Column="0"
+                                  Content="{TemplateBinding View}"
+                                  Margin="{TemplateBinding Padding}"
+                                  HorizontalOptions="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalOptions="{TemplateBinding VerticalContentAlignment}" />
+
+                <HorizontalStackLayout Grid.Column="1">
+                  <local:RepeatButton x:Name="PART_IncreaseButton"
+                                      CornerRadius="0"
+                                      BorderBrush="Transparent"
+                                      ContentTemplate="{TemplateBinding SpinnerUpContentTemplate}"/>
+
+                  <local:RepeatButton x:Name="PART_DecreaseButton"
+                                      CornerRadius="{Binding CornerRadius, Source={RelativeSource TemplatedParent}, Converter={StaticResource CornerRadiusToSideCornerRadius}, ConverterParameter=Right}"
+                                      BorderBrush="Transparent"
+                                      ContentTemplate="{TemplateBinding SpinnerDownContentTemplate}" />
+                </HorizontalStackLayout>
+              </Grid>
+            </local:Border>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    <Style.Triggers>
+      <Trigger Property="OverrideDefaultVisualStates"
+               TargetType="{x:Type local:ButtonSpinner}"
+               Value="False">
+        <Setter Property="VisualStateManager.VisualStateGroups">
+          <VisualStateGroupList>
+            <VisualStateGroup>
+              <VisualState x:Name="Normal">
+                <VisualState.Setters>
+                  <Setter Property="Background"
+                          Value="{AppThemeBinding Dark={StaticResource DarkBase2}, Light={StaticResource LightBase0}}" />
+                  <Setter Property="TextColor"
+                          Value="{AppThemeBinding Dark={StaticResource DarkTextPrimary}, Light={StaticResource LightTextPrimary}}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="PointerOver">
+                <VisualState.Setters>
+                  <Setter Property="Background"
+                          Value="{AppThemeBinding Dark={StaticResource DarkBase2}, Light={StaticResource LightBase0}}" />
+                  <Setter Property="TextColor"
+                          Value="{AppThemeBinding Dark={StaticResource DarkTextPrimary}, Light={StaticResource LightTextPrimary}}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="Disabled">
+                <VisualState.Setters>
+                  <Setter Property="Opacity"
+                          Value="0.4" />
+                </VisualState.Setters>
+              </VisualState>
+            </VisualStateGroup>
+          </VisualStateGroupList>
+        </Setter>
+      </Trigger>
+
+      <Trigger Property="SpinnerLocation"
+               Value="Left"
+               TargetType="{x:Type local:ButtonSpinner}">
+        <Setter Property="ControlTemplate">
+          <Setter.Value>
+            <ControlTemplate>
+              <Grid>
+                <local:Border Background="{TemplateBinding Background}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              CornerRadius="{TemplateBinding CornerRadius}"
+                              Padding="0"
+                              HorizontalOptions="{TemplateBinding HorizontalOptions}"
+                              VerticalOptions="{TemplateBinding VerticalOptions}"
+                              HorizontalContentAlignment="Fill"
+                              VerticalContentAlignment="Fill"
+                              WidthRequest="{TemplateBinding WidthRequest}"
+                              HeightRequest="{TemplateBinding HeightRequest}">
+                  <Grid ColumnDefinitions="Auto,*">
+                    <HorizontalStackLayout Grid.Column="0">
+                      <local:RepeatButton x:Name="PART_IncreaseButton"
+                                          CornerRadius="{Binding CornerRadius, Source={RelativeSource TemplatedParent}, Converter={StaticResource CornerRadiusToSideCornerRadius}, ConverterParameter=Left}"
+                                          BorderBrush="Transparent"
+                                          ContentTemplate="{TemplateBinding SpinnerUpContentTemplate}" />
+
+                      <local:RepeatButton x:Name="PART_DecreaseButton"
+                                          CornerRadius="0"
+                                          BorderBrush="Transparent"
+                                          ContentTemplate="{TemplateBinding SpinnerDownContentTemplate}">
+                      </local:RepeatButton>
+                    </HorizontalStackLayout>
+
+                    <ContentPresenter Grid.Column="1"
+                                      Content="{TemplateBinding View}"
+                                      Margin="{TemplateBinding Margin}"
+                                      HorizontalOptions="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalOptions="{TemplateBinding VerticalContentAlignment}" />
+                  </Grid>
+                </local:Border>
+              </Grid>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+
+  <Style TargetType="{x:Type local:ButtonSpinner}"
+         BasedOn="{StaticResource FluentDesignButtonSpinner}" />
+
+</ResourceDictionary>

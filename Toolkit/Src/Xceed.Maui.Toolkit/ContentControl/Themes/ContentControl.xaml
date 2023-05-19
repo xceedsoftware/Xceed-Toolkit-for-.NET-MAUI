@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+/***************************************************************************************
+ 
+  Xceed Toolkit for MAUI is a multiplatform toolkit offered by Xceed Software Inc., 
+  makers of the popular WPF Toolkit.
+
+  COPYRIGHT (C) 2023 Xceed Software Inc. ALL RIGHTS RESERVED.
+
+  This program is provided to you under the terms of a Xceed Community License 
+  For more details about the Xceed Community License please visit the products GitHub or NuGet page .
+
+  DISCLAIMER: This code is provided as-is and without warranty of any kind, express or implied. The 
+  author(s) and owner(s) of this code shall not be liable for any damages or losses resulting from 
+  the use or inability to use the code. 
+
+ 
+  *************************************************************************************/
+  -->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit">
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="../../Themes/Brushes/Common.xaml;assembly=Xceed.Maui.Toolkit" />
+  </ResourceDictionary.MergedDictionaries>
+
+  <Style x:Key="FluentDesignContentControl"
+         TargetType="{x:Type local:ContentControl}">
+    <Setter Property="TextColor"
+            Value="{AppThemeBinding Light={StaticResource LightTextPrimary}, Dark={StaticResource DarkTextPrimary}}" />
+    <Setter Property="ControlTemplate">
+      <Setter.Value>
+        <ControlTemplate>
+          <ContentView Content="{TemplateBinding View}"
+                       Padding="{TemplateBinding Padding}"
+                       Margin="{TemplateBinding Margin}" />
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style TargetType="{x:Type local:ContentControl}"
+         BasedOn="{StaticResource FluentDesignContentControl}" />
+</ResourceDictionary>

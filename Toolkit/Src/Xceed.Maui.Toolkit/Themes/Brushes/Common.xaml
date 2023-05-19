@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+/***************************************************************************************
+ 
+  Xceed Toolkit for MAUI is a multiplatform toolkit offered by Xceed Software Inc., 
+  makers of the popular WPF Toolkit.
+
+  COPYRIGHT (C) 2023 Xceed Software Inc. ALL RIGHTS RESERVED.
+
+  This program is provided to you under the terms of a Xceed Community License 
+  For more details about the Xceed Community License please visit the products GitHub or NuGet page .
+
+  DISCLAIMER: This code is provided as-is and without warranty of any kind, express or implied. The 
+  author(s) and owner(s) of this code shall not be liable for any damages or losses resulting from 
+  the use or inability to use the code. 
+
+ 
+  *************************************************************************************/
+  -->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+  <!--LIGHT - BACKGROUND BASE COLORS-->
+  <Color x:Key="LightBase0">#FFFFFF</Color>
+  <Color x:Key="LightBase1">#F0F0F0</Color>
+  <Color x:Key="LightBase2">#E9E9E9</Color>
+  <Color x:Key="LightBase3">#D8D8D8</Color>
+  <Color x:Key="LightBase4">#CFCFCF</Color>
+  <Color x:Key="LightBase5">#C0C0C0</Color>
+
+  <Color x:Key="LightColorDefault">#FFE6E6E6</Color>
+  <Color x:Key="LightColorSecondary">#CFCFCF</Color>
+  <Color x:Key="LightColorTertiary">#BFBFBF</Color>
+  <Color x:Key="LightColorDisabled">#ADADAD</Color>
+  <Color x:Key="LightColorTransparent">#00FFFFFF</Color>
+  <Color x:Key="LightInputActive">#FFF2F2F2</Color>  
+
+  <!--DARK - BACKGROUND BASE COLORS-->
+  <Color x:Key="DarkBase0">#000000</Color>
+  <Color x:Key="DarkBase1">#101010</Color>
+  <Color x:Key="DarkBase2">#202020</Color>
+  <Color x:Key="DarkBase3">#252525</Color>
+  <Color x:Key="DarkBase4">#FF2B2B2B</Color>
+  <Color x:Key="DarkBase5">#333333</Color>
+
+  <Color x:Key="DarkColorDefault">#1F1F1F</Color>
+  <Color x:Key="DarkColorSecondary">#FF2B2B2B</Color>
+  <Color x:Key="DarkColorTertiary">#404040</Color>
+  <Color x:Key="DarkColorDisabled">#333333</Color>
+  <Color x:Key="DarkColorTransparent">#00FFFFFF</Color>
+  <Color x:Key="DarkColorInputActive">#171717</Color>
+
+  <!--LIGHT - TEXT BASE COLORS-->
+  <Color x:Key="LightTextPrimary">#E4000000</Color>
+  <Color x:Key="LightTextSecondary">#9E000000</Color>
+  <Color x:Key="LightTextTertiary">#72000000</Color>
+  <Color x:Key="LightTextDisabled">#5C000000</Color>
+  <Color x:Key="LightTextInverse">#FFFFFF</Color>
+
+  <!--DARK - TEXT BASE COLORS-->
+  <Color x:Key="DarkTextPrimary">#FFFFFFFF</Color>
+  <Color x:Key="DarkTextSecondary">#C5FFFFFF</Color>
+  <Color x:Key="DarkTextTertiary">#87FFFFFF</Color>
+  <Color x:Key="DarkTextDisabled">#5DFFFFFF</Color>
+  <Color x:Key="DarkTextInverse">#E4000000</Color>
+
+<!--BORDERS-->
+  <Color x:Key="DarkControlBorderBrush">#12FFFFFF</Color>
+  <Color x:Key="LightControlBorderBrush">#0F000000</Color>
+
+</ResourceDictionary>

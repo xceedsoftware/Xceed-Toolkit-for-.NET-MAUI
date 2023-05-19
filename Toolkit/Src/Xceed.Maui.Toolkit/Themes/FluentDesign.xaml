@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+/***************************************************************************************
+ 
+  Xceed Toolkit for MAUI is a multiplatform toolkit offered by Xceed Software Inc., 
+  makers of the popular WPF Toolkit.
+
+  COPYRIGHT (C) 2023 Xceed Software Inc. ALL RIGHTS RESERVED.
+
+  This program is provided to you under the terms of a Xceed Community License 
+  For more details about the Xceed Community License please visit the products GitHub or NuGet page .
+
+  DISCLAIMER: This code is provided as-is and without warranty of any kind, express or implied. The 
+  author(s) and owner(s) of this code shall not be liable for any damages or losses resulting from 
+  the use or inability to use the code. 
+
+ 
+  *************************************************************************************/
+  -->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:local="clr-namespace:Xceed.Maui.Toolkit;assembly=Xceed.Maui.Toolkit"
+                    x:Class="Xceed.Maui.Toolkit.FluentDesign">
+
+  <ResourceDictionary.MergedDictionaries>
+
+    <ResourceDictionary Source="../ContentControl/Themes/ContentControl.xaml" />
+
+    <ResourceDictionary Source="../Border/Themes/Border.xaml" />
+
+    <!--Wanted way not working per platform(https://github.com/dotnet/maui/issues/5583). 
+        So we use local:OnPlatform markup to insert the correct ResourceDictionary. -->
+    <!--<ResourceDictionary Source="{OnPlatform Default='../Button/Themes/Button.xaml', WinUI='../Button/Themes/Button.Windows.xaml'}" />-->
+    <ResourceDictionary Source="../Button/Themes/Button.xaml" />
+
+    <ResourceDictionary Source="../RepeatButton/Themes/RepeatButton.xaml" />
+
+    <ResourceDictionary Source="../ButtonSpinner/Themes/ButtonSpinner.xaml" />
+
+    <ResourceDictionary Source="../NumericUpDowns/Themes/NumericUpDown.xaml" />
+
+
+    <ResourceDictionary Source="../Card/Themes/Card.xaml" />
+
+    <ResourceDictionary Source="../ToggleButton/Themes/ToggleButton.xaml" />
+  </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>
