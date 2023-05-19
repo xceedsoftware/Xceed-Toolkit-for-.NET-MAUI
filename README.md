@@ -1,6 +1,6 @@
 ![Alt_Text](XcdTKMaui2C.png)
 
-https://img.shields.io/nuget/dt/Xceed.Product.Maui.Toolkit.Full?color=blue&label=nuget
+![Alt_Text](https://img.shields.io/nuget/dt/Xceed.Product.Maui.Toolkit.Full?color=blue&label=nuget)
 
 ### Table of Contents
 - [Welcome](#introduction)
