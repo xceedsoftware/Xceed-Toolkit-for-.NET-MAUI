@@ -1,12 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="17.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <!-- Disable automatic/default item gathering to help automatic builds -->
     <EnableDefaultItems>false</EnableDefaultItems>
   </PropertyGroup>
-  <!-- Do not use the <Sdk> element to help automatic builds -->
-  <!-- Manual top Sdk import -->
-  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+  <Sdk Name="Microsoft.NET.Sdk" />
   <PropertyGroup>
     <!-- Explicitly define a <AssemblyName> to help automatic builds -->
     <AssemblyName>Xceed.Maui.Toolkit</AssemblyName>
@@ -22,6 +20,7 @@
     <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
     <!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
     <UseMaui>true</UseMaui>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <SingleProject>true</SingleProject>
     <ImplicitUsings>enable</ImplicitUsings>
     <ErrorReport>prompt</ErrorReport>
@@ -459,8 +458,6 @@
     <Compile Include="ButtonSpinner\Implementation\ButtonSpinner.Windows.cs" />
     <Compile Include="ToggleButton\Implementation\ToggleButton.Windows.cs" />
   </ItemGroup>
-  <!-- Manual bottom Sdk import -->
-  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
   <!--
   There is a bug in Visual Studio where files do not appear in the Solution Explorer if, in the csproj, they are in a Condition that is false for the
   first TargetFramework in <TargetFrameworks>. Details here: <https://github.com/dotnet/project-system/issues/935>
