@@ -263,6 +263,10 @@ Once this is done, you will need to add a reference to the Xceed namespace :
 ```
 xmlns:xctk="clr-namespace:Xceed.Maui.Toolkit;assembly=Xceed.Maui.Toolkit"
 ```
+or
+```
+xmlns:xctk="http://schemas.xceed.com/maui/xaml/toolkit"
+```
 
 Then, you will need to add our ResourceDictionary to your app or page :
 
