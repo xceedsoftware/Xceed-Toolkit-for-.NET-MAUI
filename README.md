@@ -4,6 +4,16 @@
 ![Platforms](https://img.shields.io/badge/platforms-Android%20%7C%20Windows%20%7C%20iOS%20%7C%20macOS-brightgreen)
 
 
+# Update!
+We have added a series of new controls for the MAUI Toolkit
+- [Chart](#chart)
+- [ColorCanvas](#colorcanvas)
+- [Switch](#switch)
+- [Expander](#expander)
+- [TextBox](#textbox)
+- [CheckBox](#checkbox)
+
+
 ### Table of Contents
 - [Welcome](#introduction)
 - [Getting Started (code)](#getting-started)
@@ -24,6 +34,7 @@
 ![Image Description](https://raw.githubusercontent.com/xceedsoftware/mauitoolkit/main/CompatibleWith.png)
 
 <a id="introduction"></a>
+
 # Xceed is excited to introduce its new Toolkit for MAUI! 
 
 We're thrilled to introduce our new Toolkit for MAUI, an open-source and free version that includes additional controls and features to supplement the existing "basic controls". Our goal is to provide developers with the tools they need to create exceptional user experiences.
@@ -37,6 +48,109 @@ For those familiar with WPF, this toolkit will feel familiar, and we've made eve
 Currently, the toolkit includes a range of controls, with more to come in the future. These controls include an improved Border, Button, RepeatButton, ButtonSpinner, a series of NumericUpDown, ToggleButton, ContentControl, Card control, all these controls includes 48 accent colors for each control. We're committed to continually improving and updating the toolkit to meet the evolving needs of developers.
 
 Thank you for considering Xceed's Toolkit for MAUI. We're excited to see what you create with it! Meanwhile, here’s more information on the controls we provide: 
+
+<a id="chart"></a>
+### Chart
+
+![Image Description](https://raw.githubusercontent.com/xceedsoftware/mauitoolkit/main/chartControl.png)
+
+
+Our Chart Control allows you to build simple and beautiful charts with very little effort. You can customize the following elements : 
+
+- Horizontal and vertical Axis,
+- Show grid lines,
+- Modify ticks text,
+- Switch from Bar or Line chart,
+- Multiple series in one chart,
+- Redifine de datapoint Markers,
+- Create a custom legend.
+
+Here's a quick code sample to get you started:
+
+````xaml
+<xctk:Chart x:Name="MyChart"
+            Grid.Row="1">
+  <xctk:Chart.HorizontalAxis>
+    <xctk:Axis TickLabelType="Text" />
+  </xctk:Chart.HorizontalAxis>
+  <xctk:Chart.Series>
+    <xctk:Series x:Name="FirstSeries">
+      <xctk:Series.DataPoints>
+        <xctk:DataPoint Text="0"
+                        Y="44" />
+        <xctk:DataPoint Text="1"
+                        Y="64" />
+        <xctk:DataPoint Text="2"
+                        Y="60" />
+        <xctk:DataPoint Text="3"
+                        Y="32" />
+        <xctk:DataPoint Text="4"
+                        Y="52" />
+        <xctk:DataPoint Text="5"
+                        Y="72" />
+        <xctk:DataPoint Text="6"
+                        Y="32" />
+      </xctk:Series.DataPoints>
+    </xctk:Series>       
+  </xctk:Chart.Series>
+</xctk:Chart>
+````
+
+<a id="colorcanvas"></a>
+### Color Canvas
+
+The ColorCanvas control facilitates intuitive color selection in applications. It offers a simple graphical interface with including ColorSpectrum for seamless color picking.
+
+![Image Description](https://raw.githubusercontent.com/xceedsoftware/mauitoolkit/main/colorCanvasControl.png)
+
+<a id="textbox"></a>
+### TextBox
+The TextBox control is a versatile input element offering advanced features not available in the basic controls in MAUI. Including : 
+
+- Underline Removal: Option to remove underlines typically associated with standard text input controls.
+
+- Corner Radius Customization: Ability to set corner radius for rounded or customized corners, enhancing visual appeal.
+
+- Border Customization: Modify border properties, including thickness and color, to suit application design.
+
+- Non-proportional ClearButton: A ClearButton that does not follow proportional sizing, providing design flexibility.
+
+- Custom Watermark: Support for diverse watermark types instead of just strings, offering a more dynamic UI.
+
+- ClearButton Styling: Ability to style the ClearButton to match the overall design of the application.
+
+<a id="switch"></a>
+### Toggle Switch
+
+The ToggleSwitch is an advanced control that enhances the standard Switch from the MAUI framework. Allowing customization of size, borders, content, and thumb appearance based on the Checked or Unchecked state. Here's a quick list of features: 
+
+- Ability to set a size as well as BorderThickness, BorderBrush, CornerRadius
+- Modify elements when Checked/Unchecked (Background, ThumbContent, Content)
+- Configure the Thumb (Background, BorderBrush, BorderThickness, Content)
+- Choose the side when Checked
+- and of course all features that area already available in the MAUI Switch control.
+
+<a id="expander"></a>
+### Expander
+
+The Expander is a versatile control designed to improve the user interface by enabling the expansion and collapse of content in either a downward or upward direction. It provides a clean and intuitive way to manage and display additional information, enhancing user experience and interface organization. Users can easily expand to view more details or collapse to save space, offering flexibility in how information is presented within the application.
+
+To use, simply set the content property on the control to what you wish, you can use the header property to change the button's caption.
+
+![Image Description](https://raw.githubusercontent.com/xceedsoftware/mauitoolkit/main/expander.gif)
+
+<a id="checkbox"></a>
+### CheckBox
+The CheckBox is an enhanced version of the standard CheckBox control, providing additional features and flexibility. Key features include:
+
+- Tri-State Functionality: Supports three states - true, false, or indeterminate, offering more options for representing data.
+- Customizable Size and Appearance: Allows customization of size, box style, border, corner radius, and padding, providing design flexibility.
+- Content Support: Allows inclusion of content within the CheckBox, enabling a more informative and interactive user interface.
+- Custom Symbols: Enables customization of symbols for checked, indeterminate, and unchecked states, allowing for a personalized look and feel.
+
+These features enhance the usability and visual customization of the Xceed CheckBox, making it a valuable component for building interactive UIs.
+
+
 <a id="border"></a>
 ### Border
 
@@ -53,7 +167,6 @@ Here's an example on how to set earch CornerRadius independantly
 ````xaml
 <xctk:Border CornerRadius="40,0,40,0" />
 ````
-
 <a id="button"></a>
 ### Button
 
