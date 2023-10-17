@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+/***************************************************************************************
+ 
+  Xceed Toolkit for MAUI is a multiplatform toolkit offered by Xceed Software Inc., 
+  makers of the popular WPF Toolkit.
+
+  COPYRIGHT (C) 2023 Xceed Software Inc. ALL RIGHTS RESERVED.
+
+  This program is provided to you under the terms of a Xceed Community License 
+  For more details about the Xceed Community License please visit the products GitHub or NuGet page .
+
+  DISCLAIMER: This code is provided as-is and without warranty of any kind, express or implied. The 
+  author(s) and owner(s) of this code shall not be liable for any damages or losses resulting from 
+  the use or inability to use the code. 
+
+ 
+  *************************************************************************************/
+  -->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit"
+                    xmlns:conv="clr-namespace:Xceed.Maui.Toolkit.Converters;assembly=Xceed.Maui.Toolkit">
+
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="../../Themes/Glyphs.xaml;assembly=Xceed.Maui.Toolkit" />
+    <ResourceDictionary Source="../../Themes/Brushes/Common.xaml;assembly=Xceed.Maui.Toolkit" />
+  </ResourceDictionary.MergedDictionaries>
+
+  <local:ExpanderSizeConverter x:Key="ExpanderSizeConverter" />
+  <local:ExpanderCornerRadiusConverter x:Key="ExpanderCornerRadiusConverter" />
+
+  <Style x:Key="FluentDesignExpanderHeaderStyle"
+         TargetType="local:ToggleButton">
+    <Setter Property="Padding"
+            Value="0" />
+    <Setter Property="Background"
+            Value="Transparent" />
+    <Setter Property="HorizontalContentOptions"
+            Value="Fill" />
+    <Style.Triggers>
+      <Trigger Property="OverrideDefaultVisualStates"
+               TargetType="{x:Type local:ToggleButton}"
+               Value="False">
+        <Setter Property="VisualStateManager.VisualStateGroups">
+          <VisualStateGroupList>
+            <VisualStateGroup>
+              <VisualState x:Name="Normal">
+                <VisualState.Setters>
+                  <Setter Property="Background"
+                          Value="Transparent" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="Pressed">
+                <VisualState.Setters>
+                  <Setter Property="Background"
+                          Value="{AppThemeBinding Light={StaticResource LightBase4}, Dark={StaticResource DarkBase4}}" />
+                  <Setter Property="TextColor"
+                          Value="{AppThemeBinding Light={StaticResource LightTextPrimary}, Dark={StaticResource DarkTextPrimary}}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="PointerOver">
+                <VisualState.Setters>
+                  <Setter Property="Background"
+                          Value="{DynamicResource SystemAccentColorDark1}" />
+                  <Setter Property="TextColor"
+                          Value="{DynamicResource SystemAccentColorDark1Foreground}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="Checked">
+                <VisualState.Setters>
+                  <Setter Property="Background"
+                          Value="Transparent" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="Focused">
+                <VisualState.Setters>
+                  <Setter Property="BorderBrush"
+                          Value="{AppThemeBinding Light={StaticResource DarkBase0}, Dark={StaticResource LightBase0}}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="Disabled">
+                <VisualState.Setters>
+                  <Setter Property="Opacity"
+                          Value="0.4" />
+                </VisualState.Setters>
+              </VisualState>
+            </VisualStateGroup>
+          </VisualStateGroupList>
+        </Setter>
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+
+  <ControlTemplate x:Key="ExpandDownTemplate">
+    <local:Border Background="{TemplateBinding Background}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  Padding="0">
+      <Grid RowDefinitions="Auto,*">
+        <local:ToggleButton x:Name="PART_ToggleButton"
+                            IsChecked="{Binding IsExpanded, Source={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                            Style="{TemplateBinding HeaderStyle}"
+                            IsEnabled="{TemplateBinding IsEnabled}">
+          <local:ToggleButton.CornerRadius>
+            <MultiBinding Converter="{StaticResource ExpanderCornerRadiusConverter}">
+              <Binding Path="CornerRadius"
+                       Source="{RelativeSource TemplatedParent}" />
+              <Binding Path="IsExpanded"
+                       Source="{RelativeSource TemplatedParent}" />
+              <Binding Path="Direction"
+                       Source="{RelativeSource TemplatedParent}" />
+            </MultiBinding>
+          </local:ToggleButton.CornerRadius>
+          <Grid ColumnDefinitions="*,36"
+                VerticalOptions="Center"
+                HorizontalOptions="Fill">
+            <local:ContentControl Content="{Binding Header, Source={RelativeSource TemplatedParent}}"
+                                  Margin="{TemplateBinding Padding}"
+                                  VerticalOptions="{TemplateBinding VerticalContentOptions}"
+                                  HorizontalOptions="{TemplateBinding HorizontalContentOptions}" />
+            <Grid Grid.Column="1">
+              <local:ContentControl x:Name="PART_ArrowBorder"
+                                    Grid.Column="1"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    ContentTemplate="{StaticResource DecreaseGlyph}">
+                <local:ContentControl.Triggers>
+                  <DataTrigger TargetType="local:ContentControl"
+                               Binding="{Binding Direction, Source={RelativeSource TemplatedParent}}"
+                               Value="Up">
+                    <Setter Property="ContentTemplate"
+                            Value="{StaticResource IncreaseGlyph}" />
+                  </DataTrigger>
+                </local:ContentControl.Triggers>
+              </local:ContentControl>
+              <Grid.Triggers>
+                <DataTrigger TargetType="Grid"
+                             Binding="{Binding IsChecked, Source={Reference PART_ToggleButton}}"
+                             Value="True">
+                  <DataTrigger.EnterActions>
+                    <local:DoubleAnimation TargetProperty="Grid.Rotation"
+                                           To="180"
+                                           Duration="100" />
+                  </DataTrigger.EnterActions>
+                  <DataTrigger.ExitActions>
+                    <local:DoubleAnimation TargetProperty="Grid.Rotation"
+                                           To="0"
+                                           Duration="100" />
+                  </DataTrigger.ExitActions>
+                </DataTrigger>
+              </Grid.Triggers>
+
+
+            </Grid>
+          </Grid>
+          <local:ToggleButton.Triggers>
+            <DataTrigger TargetType="local:ToggleButton"
+                         Binding="{Binding Direction, Source={RelativeSource TemplatedParent}}"
+                         Value="Up">
+              <Setter Property="Grid.Row"
+                      Value="1" />
+            </DataTrigger>
+          </local:ToggleButton.Triggers>
+        </local:ToggleButton>
+        <Grid Grid.Row="1">
+          <Grid.HeightRequest>
+            <MultiBinding Converter="{StaticResource ExpanderSizeConverter}"
+                          ConverterParameter="Expander.Height">
+              <Binding Source="{Reference PART_Content}"
+                       Path="Height" />
+              <Binding Source="{Reference PART_Content}"
+                       Path="Opacity" />
+            </MultiBinding>
+          </Grid.HeightRequest>
+          <local:ContentControl x:Name="PART_Content"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                HorizontalOptions="{TemplateBinding HorizontalContentOptions}"
+                                VerticalOptions="{TemplateBinding VerticalContentOptions}"
+                                IsVisible="{Binding IsExpanded, Source={RelativeSource TemplatedParent}}">
+            <local:ContentControl.Triggers>
+              <DataTrigger TargetType="local:ContentControl"
+                           Binding="{Binding IsExpanded, Source={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                           Value="True">
+                <DataTrigger.EnterActions>
+                  <local:DoubleAnimation TargetProperty="local:ContentControl.Opacity"
+                                         From="0"
+                                         To="1"
+                                         Duration="100" />
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                  <local:DoubleAnimation TargetProperty="local:ContentControl.Opacity"
+                                         To="0"
+                                         Duration="100" />
+                </DataTrigger.ExitActions>
+              </DataTrigger>
+            </local:ContentControl.Triggers>
+          </local:ContentControl>
+          <Grid.Triggers>
+            <DataTrigger TargetType="Grid"
+                         Binding="{Binding Direction, Source={RelativeSource TemplatedParent}}"
+                         Value="Up">
+              <Setter Property="Grid.Row"
+                      Value="0" />
+            </DataTrigger>
+          </Grid.Triggers>
+        </Grid>
+        <Grid.Triggers>
+          <DataTrigger TargetType="Grid"
+                       Binding="{Binding Direction, Source={RelativeSource TemplatedParent}}"
+                       Value="Up">
+            <Setter Property="RowDefinitions">
+              <Setter.Value>
+                <RowDefinitionCollection>
+                  <RowDefinition Height="*" />
+                  <RowDefinition Height="Auto" />
+                </RowDefinitionCollection>
+              </Setter.Value>
+            </Setter>
+          </DataTrigger>
+        </Grid.Triggers>
+      </Grid>
+    </local:Border>
+  </ControlTemplate>
+
+
+  <Style x:Key="FluentDesignExpander"
+         TargetType="{x:Type local:Expander}">
+    <Setter Property="Background"
+            Value="{AppThemeBinding Light={StaticResource LightBase0}, Dark={StaticResource DarkBase4}}" />
+    <Setter Property="BorderBrush"
+            Value="{AppThemeBinding Dark={StaticResource DarkControlBorderBrush},Light={StaticResource LightControlBorderBrush}}" />
+    <Setter Property="BorderThickness"
+            Value="1" />
+    <Setter Property="CornerRadius"
+            Value="5" />
+    <Setter Property="Padding"
+            Value="2" />
+    <Setter Property="VerticalContentOptions"
+            Value="Center" />
+    <Setter Property="HorizontalContentOptions"
+            Value="Center" />
+    <Setter Property="Direction"
+            Value="Down" />
+    <Setter Property="TextColor"
+            Value="{AppThemeBinding Dark={StaticResource DarkTextPrimary},Light={StaticResource LightTextPrimary}}" />
+    <Setter Property="ControlTemplate"
+            Value="{StaticResource ExpandDownTemplate}" />
+    <Setter Property="HeaderStyle"
+            Value="{StaticResource FluentDesignExpanderHeaderStyle}" />
+  </Style>
+
+  <Style TargetType="{x:Type local:Expander}"
+         BasedOn="{StaticResource FluentDesignExpander}" />
+</ResourceDictionary>

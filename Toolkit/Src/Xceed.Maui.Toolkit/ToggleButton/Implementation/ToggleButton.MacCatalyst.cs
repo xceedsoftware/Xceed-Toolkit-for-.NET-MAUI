@@ -23,6 +23,8 @@ namespace Xceed.Maui.Toolkit
     #region Private Members
 
     private const string VisualState_PointerOver = "PointerOver";
+    private const string VisualState_PointerOverChecked = "PointerOverChecked";
+    private const string VisualState_PointerOverIndeterminate = "PointerOverIndeterminate";
 
     #endregion
 
@@ -34,9 +36,20 @@ namespace Xceed.Maui.Toolkit
       {
         if( this.IsPointerOver )
         {
-          VisualStateManager.GoToState( this, ToggleButton.VisualState_PointerOver );
+          if( this.IsChecked.HasValue )
+          {
+            VisualStateManager.GoToState( this, this.IsChecked.Value ? ToggleButton.VisualState_PointerOverChecked : ToggleButton.VisualState_PointerOver );
+          }
+          else
+          {
+            VisualStateManager.GoToState( this, this.IsThreeState ? ToggleButton.VisualState_PointerOverIndeterminate : ToggleButton.VisualState_PointerOver );
+          }
         }
-        else if( this.IsChecked )
+        else if( !this.IsChecked.HasValue )
+        {
+          VisualStateManager.GoToState( this, this.IsThreeState ? ToggleButton.VisualState_Indeterminate : VisualStateManager.CommonStates.Normal );
+        }
+        else if( this.IsChecked.Value )
         {
           VisualStateManager.GoToState( this, ToggleButton.VisualState_Checked );
         }

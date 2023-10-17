@@ -16,6 +16,8 @@
   *************************************************************************************/
 
 
+using Microsoft.Maui.Platform;
+
 namespace Xceed.Maui.Toolkit
 {
   // All the code in this file is only included on Windows.
@@ -27,46 +29,9 @@ namespace Xceed.Maui.Toolkit
 
     #endregion
 
-    #region Public Properties
-
-    #region IsPointerOver
-
-    public static readonly BindableProperty IsPointerOverProperty = BindableProperty.Create( nameof( IsPointerOver ), typeof( bool ), typeof( Button ), false, propertyChanged: OnIsPointerOverChanged );
-
-    public bool IsPointerOver
-    {
-      get => ( bool )GetValue( IsPointerOverProperty );
-      private set => SetValue( IsPointerOverProperty, value );
-    }
-
-    private static void OnIsPointerOverChanged( BindableObject bindable, object oldValue, object newValue )
-    {
-      var button = bindable as Button;
-      if( button != null )
-      {
-        button.OnIsPointerOverChanged( ( bool )oldValue, ( bool )newValue );
-      }
-    }
-
-    protected virtual void OnIsPointerOverChanged( bool oldValue, bool newValue )
-    {
-      if( newValue )
-      {
-        this.RaisePointerEnterEvent( this, EventArgs.Empty );
-      }
-      else
-      {
-        this.RaisePointerLeaveEvent( this, EventArgs.Empty );
-      }
-    }
-
-    #endregion
-
-    #endregion
-
     #region Partial Methods
 
-    partial void InitializeForPlatform( Border oldBorder, Border newBorder )
+    partial void ApplyTemplateForPlatform( Border oldBorder, Border newBorder )
     {
       if( oldBorder != null )
       {
@@ -78,6 +43,35 @@ namespace Xceed.Maui.Toolkit
       {
         m_border.PointerEnter += this.Border_PointerEnter;
         m_border.PointerLeave += this.Border_PointerLeave;
+      }
+    }
+
+    partial void InitializeForPlatform( object sender, EventArgs e )
+    {
+      var button = sender as Button;
+      if( button != null )
+      {
+        var contentPanel = button.Handler?.PlatformView as ContentPanel;
+        if( contentPanel != null )
+        {
+          contentPanel.IsTabStop = true;
+          contentPanel.KeyDown += this.ContentPanel_KeyDown;
+          contentPanel.KeyUp += this.ContentPanel_KeyUp;
+        }
+      }
+    }
+
+    partial void UninitializeForPlatform( object sender, HandlerChangingEventArgs e )
+    {
+      var button = sender as Button;
+      if( button != null )
+      {
+        var contentPanel = button.Handler?.PlatformView as ContentPanel;
+        if( contentPanel != null )
+        {
+          contentPanel.KeyDown -= this.ContentPanel_KeyDown;
+          contentPanel.KeyUp -= this.ContentPanel_KeyUp;
+        }
       }
     }
 
@@ -101,22 +95,20 @@ namespace Xceed.Maui.Toolkit
       this.IsPointerOver = false;
     }
 
-    #endregion
-
-    #region Events
-
-    public event EventHandler PointerEnter;
-
-    public void RaisePointerEnterEvent( object sender, EventArgs e )
+    private void ContentPanel_KeyUp( object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e )
     {
-      this.PointerEnter?.Invoke( sender, e );
+      if( ( e.Key == Windows.System.VirtualKey.Space ) || ( e.Key == Windows.System.VirtualKey.Enter ) )
+      {
+        this.Button_PointerUp();
+      }
     }
 
-    public event EventHandler PointerLeave;
-
-    public void RaisePointerLeaveEvent( object sender, EventArgs e )
+    private void ContentPanel_KeyDown( object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e )
     {
-      this.PointerLeave?.Invoke( sender, e );
+      if( ( e.Key == Windows.System.VirtualKey.Space ) || ( e.Key == Windows.System.VirtualKey.Enter ) )
+      {
+        this.Button_PointerDown();
+      }
     }
 
     #endregion

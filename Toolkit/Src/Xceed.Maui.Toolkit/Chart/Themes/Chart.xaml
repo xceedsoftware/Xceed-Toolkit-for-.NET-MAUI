@@ -1,0 +1,492 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+/***************************************************************************************
+ 
+  Xceed Toolkit for MAUI is a multiplatform toolkit offered by Xceed Software Inc., 
+  makers of the popular WPF Toolkit.
+
+  COPYRIGHT (C) 2023 Xceed Software Inc. ALL RIGHTS RESERVED.
+
+  This program is provided to you under the terms of a Xceed Community License 
+  For more details about the Xceed Community License please visit the products GitHub or NuGet page .
+
+  DISCLAIMER: This code is provided as-is and without warranty of any kind, express or implied. The 
+  author(s) and owner(s) of this code shall not be liable for any damages or losses resulting from 
+  the use or inability to use the code. 
+
+ 
+  *************************************************************************************/
+  -->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit">
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="../../Themes/Brushes/Common.xaml;assembly=Xceed.Maui.Toolkit" />
+    <ResourceDictionary Source="../../ContentControl/Themes/ContentControl.xaml;assembly=Xceed.Maui.Toolkit" />
+  </ResourceDictionary.MergedDictionaries>
+
+  <local:LabelPanelOffsetConverter x:Key="LabelPanelOffsetConverter" />
+  <local:PositiveValueConverter x:Key="PositiveValueConverter" />
+
+  <!--
+    ****************************
+    Series default templates and colors
+    ********************************
+  -->
+  <x:Array x:Key="ChartSeriesDefaultBackgroundColor"
+           Type="{x:Type Color}">
+    <Color x:FactoryMethod="FromHex">
+      <x:Arguments>
+        <x:String>#00876c</x:String>
+      </x:Arguments>
+    </Color>
+    <Color x:FactoryMethod="FromHex">
+      <x:Arguments>
+        <x:String>#00B7C3</x:String>
+      </x:Arguments>
+    </Color>
+    <Color x:FactoryMethod="FromHex">
+      <x:Arguments>
+        <x:String>#BF0077</x:String>
+      </x:Arguments>
+    </Color>
+    <Color x:FactoryMethod="FromHex">
+      <x:Arguments>
+        <x:String>#96bd6c</x:String>
+      </x:Arguments>
+    </Color>
+    <Color x:FactoryMethod="FromHex">
+      <x:Arguments>
+        <x:String>#C1CC70</x:String>
+      </x:Arguments>
+    </Color>
+    <Color x:FactoryMethod="FromHex">
+      <x:Arguments>
+        <x:String>#EEDA7A</x:String>
+      </x:Arguments>
+    </Color>
+    <Color x:FactoryMethod="FromHex">
+      <x:Arguments>
+        <x:String>#EFBD62</x:String>
+      </x:Arguments>
+    </Color>
+    <Color x:FactoryMethod="FromHex">
+      <x:Arguments>
+        <x:String>#EE9F52</x:String>
+      </x:Arguments>
+    </Color>
+    <Color x:FactoryMethod="FromHex">
+      <x:Arguments>
+        <x:String>#E9804B</x:String>
+      </x:Arguments>
+    </Color>
+    <Color x:FactoryMethod="FromHex">
+      <x:Arguments>
+        <x:String>#E1604C</x:String>
+      </x:Arguments>
+    </Color>
+    <Color x:FactoryMethod="FromHex">
+      <x:Arguments>
+        <x:String>#D43D51</x:String>
+      </x:Arguments>
+    </Color>
+  </x:Array>
+
+  <DataTemplate x:Key="LineRendererTemplate">
+    <Polyline Points="{Binding Points}"
+              Stroke="{Binding Background}"
+              StrokeThickness="{Binding StrokeThickness}" />
+  </DataTemplate>
+
+  <DataTemplate x:Key="DataPointMarkerTemplate">
+    <!--  RoundRectangle is problematic in Android  -->
+    <local:Border Background="{AppThemeBinding Dark={StaticResource LightColorTertiary}, Light={StaticResource DarkColorTertiary}}"
+                  CornerRadius="4"
+                  HeightRequest="8"
+                  WidthRequest="8" />
+  </DataTemplate>
+
+  <DataTemplate x:Key="BarRendererTemplate">
+    <!--  RoundRectangle is problematic in Android  -->
+    <local:Border Background="{Binding Background}"
+                  CornerRadius="2,2,0,0"
+                  HeightRequest="{Binding Height}"
+                  MinimumWidthRequest="5"
+                  WidthRequest="{Binding Width}" />
+  </DataTemplate>
+
+  <DataTemplate x:Key="DataPointLabelTemplate">
+    <local:Border Background="Transparent"
+                  BorderThickness="1"
+                  HorizontalOptions="Center"
+                  VerticalOptions="Center">
+      <Label FontAttributes="Italic"
+             FontSize="12"
+             Text="{Binding DataPoint.Y}"
+             TextColor="{AppThemeBinding Dark={StaticResource LightBase1}, Light={StaticResource DarkBase1}}" />
+    </local:Border>
+  </DataTemplate>
+
+  <DataTemplate x:Key="DataPointLabelLineTemplate">
+    <Polyline Points="{Binding Points}"
+              Stroke="{AppThemeBinding Dark={StaticResource DarkTextTertiary}, Light={StaticResource LightTextTertiary}}"
+              StrokeThickness="1"
+              WidthRequest="1" />
+  </DataTemplate>
+
+  <!--
+    ****************************
+    Style: SeriesLine
+    ********************************
+  -->
+  <Style x:Key="FluentDesignSeriesLine"
+         TargetType="{x:Type local:SeriesLine}"
+         BasedOn="{local:StaticResource {x:Type local:ContentControl}}">
+    <Setter Property="StrokeThickness"
+            Value="3" />
+  </Style>
+
+  <!--
+    ****************************
+    Style: SeriesBar
+    ********************************
+  -->
+  <Style x:Key="FluentDesignSeriesBar"
+         TargetType="{x:Type local:SeriesBar}"
+         BasedOn="{local:StaticResource {x:Type local:ContentControl}}">
+    <Setter Property="Width"
+            Value="40" />
+  </Style>
+
+  <!--
+    ****************************
+    Style: Series
+    ********************************
+  -->
+  <Style x:Key="FluentDesignSeries"
+         TargetType="{x:Type local:Series}">
+    <Setter Property="DataPointLabelTemplate"
+            Value="{StaticResource DataPointLabelTemplate}" />
+    <Setter Property="DataPointLabelLineTemplate"
+            Value="{StaticResource DataPointLabelLineTemplate}" />
+    <Setter Property="DataPointLabelLineLength"
+            Value="50" />
+  </Style>
+
+  <!--
+    ****************************
+    Style: Legend
+    ********************************
+  -->
+  <DataTemplate x:Key="LegendSeriesItemTemplate">
+    <ViewCell>
+      <HorizontalStackLayout>
+        <Ellipse Fill="{Binding Background}"
+                 HeightRequest="16"
+                 WidthRequest="16" />
+        <Label Margin="4"
+               FontAttributes="Italic"
+               FontSize="12"
+               Text="{Binding Text}"
+               TextColor="{AppThemeBinding Dark={StaticResource LightBase1}, Light={StaticResource DarkBase1}}"
+               VerticalOptions="Center" />
+      </HorizontalStackLayout>
+    </ViewCell>
+  </DataTemplate>
+
+  <Style x:Key="FluentDesignLegend"
+         TargetType="{x:Type local:Legend}">
+    <Setter Property="VerticalOptions"
+            Value="Start" />
+    <Setter Property="Margin"
+            Value="16" />
+    <Setter Property="Title"
+            Value="Legend" />
+    <Setter Property="TextColor"
+            Value="{AppThemeBinding Dark={StaticResource LightBase1}, Light={StaticResource DarkBase1}}" />
+    <Setter Property="SeriesItemTemplate"
+            Value="{StaticResource LegendSeriesItemTemplate}" />
+    <Setter Property="ControlTemplate">
+      <Setter.Value>
+        <ControlTemplate>
+          <local:Border Margin="{TemplateBinding Margin}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        HorizontalOptions="{TemplateBinding HorizontalOptions}"
+                        VerticalOptions="{TemplateBinding VerticalOptions}">
+            <VerticalStackLayout>
+              <Label Margin="0,0,0,8"
+                     Text="{TemplateBinding Title}" />
+              <ListView IsEnabled="False"
+                        ItemTemplate="{TemplateBinding SeriesItemTemplate}"
+                        ItemsSource="{TemplateBinding ItemsSource}" />
+            </VerticalStackLayout>
+          </local:Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!--
+    ****************************
+    Style: Tick
+    ********************************
+  -->
+  <Style x:Key="FluentDesignTick"
+         TargetType="{x:Type local:Tick}"
+         BasedOn="{local:StaticResource {x:Type local:ContentControl}}" />
+
+  <!--
+    ****************************
+    Style: TickLabel
+    ********************************
+  -->
+  <Style x:Key="FluentDesignTickLabel"
+         TargetType="{x:Type local:TickLabel}"
+         BasedOn="{local:StaticResource {x:Type local:ContentControl}}" />
+
+  <!--
+    ****************************
+    Style: TitleLabel
+    ********************************
+  -->
+  <Style x:Key="FluentDesignTitleLabel"
+         TargetType="{x:Type local:TitleLabel}"
+         BasedOn="{local:StaticResource {x:Type local:ContentControl}}" />
+
+  <!--
+    ****************************
+    Style: GridLine
+    ********************************
+  -->
+  <Style x:Key="FluentDesignGridLine"
+         TargetType="{x:Type local:GridLine}"
+         BasedOn="{local:StaticResource {x:Type local:ContentControl}}" />
+
+  <!--
+    ****************************
+    Style: DataPointMarker
+    ********************************
+  -->
+  <Style x:Key="FluentDesignDataPointMarker"
+         TargetType="{x:Type local:DataPointMarker}"
+         BasedOn="{local:StaticResource {x:Type local:ContentControl}}" />
+
+  <!--
+    ****************************
+    Style: DataPointLabel
+    ********************************
+  -->
+  <Style x:Key="FluentDesignDataPointLabel"
+         TargetType="{x:Type local:DataPointLabel}"
+         BasedOn="{local:StaticResource {x:Type local:ContentControl}}" />
+
+  <!--
+    ****************************
+    Style: DataPointLabelLine
+    ********************************
+  -->
+  <Style x:Key="FluentDesignDataPointLabelLine"
+         TargetType="{x:Type local:DataPointLabelLine}"
+         BasedOn="{local:StaticResource {x:Type local:ContentControl}}" />
+
+  <!--
+    ****************************
+    Axis default templates
+    ********************************
+  -->
+  <DataTemplate x:Key="AxisTemplate">
+    <Polyline Points="{Binding Points}"
+              Stroke="{AppThemeBinding Dark={StaticResource DarkTextTertiary}, Light={StaticResource LightTextTertiary}}"
+              StrokeThickness="1" />
+  </DataTemplate>
+
+  <DataTemplate x:Key="TickTemplate">
+    <Grid>
+      <Polyline Points="{Binding Points}"
+                Stroke="{AppThemeBinding Dark={StaticResource DarkTextTertiary}, Light={StaticResource LightTextTertiary}}"
+                StrokeThickness="1" />
+    </Grid>
+  </DataTemplate>
+
+  <DataTemplate x:Key="LabelTemplate">
+    <local:Border Margin="5"
+                  BorderThickness="0"
+                  HorizontalOptions="Center"
+                  VerticalOptions="Center">
+      <Label FontAttributes="Italic"
+             FontSize="12"
+             Text="{Binding Text}"
+             TextColor="{AppThemeBinding Dark={StaticResource LightBase1}, Light={StaticResource DarkBase1}}" />
+    </local:Border>
+  </DataTemplate>
+
+  <DataTemplate x:Key="GridLineTemplate">
+    <Polyline Points="{Binding Points}"
+              Stroke="{AppThemeBinding Dark={StaticResource LightBase1}, Light={StaticResource DarkBase1}}"
+              StrokeDashArray="1 2"
+              StrokeThickness="1" />
+  </DataTemplate>
+
+  <!--
+    ****************************
+    Style: Axis
+    ********************************
+  -->
+  <Style x:Key="FluentDesignAxis"
+         TargetType="{x:Type local:Axis}"
+         BasedOn="{local:StaticResource {x:Type local:ContentControl}}">
+    <Setter Property="ContentTemplate"
+            Value="{StaticResource AxisTemplate}" />
+    <Setter Property="TickTemplate"
+            Value="{StaticResource TickTemplate}" />
+    <Setter Property="TickLabelTemplate"
+            Value="{StaticResource LabelTemplate}" />
+    <Setter Property="GridLineTemplate"
+            Value="{StaticResource GridLineTemplate}" />
+    <Setter Property="TitleLabelTemplate"
+            Value="{StaticResource LabelTemplate}" />
+    <Setter Property="TickLength"
+            Value="8" />
+    <Setter Property="TickCount"
+            Value="10" />
+  </Style>
+
+  <!--
+    ****************************
+    Style: Chart
+    ********************************
+  -->
+  <Style x:Key="FluentDesignChart"
+         TargetType="{x:Type local:Chart}">
+    <Setter Property="MinimumHeightRequest"
+            Value="200" />
+    <Setter Property="MinimumWidthRequest"
+            Value="300" />
+    <Setter Property="Background"
+            Value="{AppThemeBinding Dark={StaticResource DarkBase0}, Light={StaticResource LightBase0}}" />
+    <Setter Property="AreaBackground"
+            Value="{AppThemeBinding Dark={StaticResource DarkBase1}, Light={StaticResource LightBase1}}" />
+    <Setter Property="ControlTemplate">
+      <Setter.Value>
+        <ControlTemplate>
+          <local:Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        MinimumHeightRequest="{TemplateBinding MinimumHeightRequest}"
+                        MinimumWidthRequest="{TemplateBinding MinimumWidthRequest}"
+                        MaximumHeightRequest="{TemplateBinding MaximumHeightRequest}"
+                        MaximumWidthRequest="{TemplateBinding MaximumWidthRequest}">
+            <!-- For some strange reasons, using a unique Grid for the AreaPanel and the 2 LabelPanels, of the form
+                 ColumnDefinitions="Auto,*" and RowDefinitions="*,Auto" is not working! -->
+            <Grid Padding="{TemplateBinding Padding}"
+                  Margin="0,5,5,0"
+                  ColumnDefinitions="Auto,*,Auto">
+
+              <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="*" />
+                  <RowDefinition Height="{Binding Height, Source={x:Reference PART_HorizontalLabelPanel}, Converter={StaticResource PositiveValueConverter}}" />
+                </Grid.RowDefinitions>
+
+                <local:LabelPanel x:Name="PART_VerticalLabelPanel"
+                                  Grid.Row="0">
+                  <local:LabelPanel.Margin>
+                    <MultiBinding Converter="{StaticResource LabelPanelOffsetConverter}"
+                                  ConverterParameter="1">
+                      <Binding Path="AxisOffset"
+                               Source="{Reference PART_AreaPanel}" />
+                      <Binding Path="AxisMargin"
+                               Source="{Reference PART_AreaPanel}" />
+                    </MultiBinding>
+                  </local:LabelPanel.Margin>
+                </local:LabelPanel>
+              </Grid>
+
+              <Grid Grid.Column="1"
+                    RowDefinitions="*,Auto">
+                <!--AreaPanel contains 2 AxisPanels and some SeriesPanels(1 per Series)-->
+                <local:AreaPanel x:Name="PART_AreaPanel"
+                                 Grid.Row="0"
+                                 Background="{TemplateBinding AreaBackground}" />
+
+                <local:LabelPanel x:Name="PART_HorizontalLabelPanel"
+                                  Grid.Row="1">
+                  <local:LabelPanel.Margin>
+                    <MultiBinding Converter="{StaticResource LabelPanelOffsetConverter}"
+                                  ConverterParameter="0">
+                      <Binding Path="AxisOffset"
+                               Source="{Reference PART_AreaPanel}" />
+                      <Binding Path="AxisMargin"
+                               Source="{Reference PART_AreaPanel}" />
+                    </MultiBinding>
+                  </local:LabelPanel.Margin>
+                </local:LabelPanel>
+              </Grid>
+
+              <local:ContentControl Grid.Column="2"
+                                    Content="{TemplateBinding Legend}"
+                                    IsVisible="{TemplateBinding ShowLegend}" />
+            </Grid>
+          </local:Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+
+    <Style.Triggers>
+      <Trigger Property="OverrideDefaultVisualStates"
+               TargetType="{x:Type local:Chart}"
+               Value="False">
+        <Setter Property="VisualStateManager.VisualStateGroups">
+          <VisualStateGroupList>
+            <VisualStateGroup>
+              <VisualState x:Name="Normal" />
+              <VisualState x:Name="Disabled">
+                <VisualState.Setters>
+                  <Setter Property="Opacity"
+                          Value="{StaticResource DisabledOpacity}" />
+                </VisualState.Setters>
+              </VisualState>
+            </VisualStateGroup>
+          </VisualStateGroupList>
+        </Setter>
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+
+  <!--
+    ****************************
+    Style: Implicit Styles.
+    ********************************
+  -->
+  <Style TargetType="{x:Type local:Chart}"
+         BasedOn="{StaticResource FluentDesignChart}" />
+  <Style TargetType="{x:Type local:Legend}"
+         BasedOn="{StaticResource FluentDesignLegend}" />
+  <Style TargetType="{x:Type local:Axis}"
+         BasedOn="{StaticResource FluentDesignAxis}" />
+  <Style TargetType="{x:Type local:Tick}"
+         BasedOn="{StaticResource FluentDesignTick}" />
+  <Style TargetType="{x:Type local:TickLabel}"
+         BasedOn="{StaticResource FluentDesignTickLabel}" />
+  <Style TargetType="{x:Type local:TitleLabel}"
+         BasedOn="{StaticResource FluentDesignTitleLabel}" />
+  <Style TargetType="{x:Type local:GridLine}"
+         BasedOn="{StaticResource FluentDesignGridLine}" />
+  <Style TargetType="{x:Type local:SeriesLine}"
+         BasedOn="{StaticResource FluentDesignSeriesLine}" />
+  <Style TargetType="{x:Type local:SeriesBar}"
+         BasedOn="{StaticResource FluentDesignSeriesBar}" />
+  <Style TargetType="{x:Type local:DataPointMarker}"
+         BasedOn="{StaticResource FluentDesignDataPointMarker}" />
+  <Style TargetType="{x:Type local:Series}"
+         BasedOn="{StaticResource FluentDesignSeries}" />
+  <Style TargetType="{x:Type local:DataPointLabel}"
+         BasedOn="{StaticResource FluentDesignDataPointLabel}" />
+  <Style TargetType="{x:Type local:DataPointLabelLine}"
+         BasedOn="{StaticResource FluentDesignDataPointLabelLine}" />
+</ResourceDictionary>

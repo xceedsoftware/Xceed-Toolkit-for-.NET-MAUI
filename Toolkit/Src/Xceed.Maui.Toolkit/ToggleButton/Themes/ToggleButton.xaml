@@ -42,56 +42,88 @@
             Value="8,5,8,6" />
     <Setter Property="CornerRadius"
             Value="4" />
-    <Style.Triggers>
-      <Trigger Property="OverrideDefaultVisualStates"
-               TargetType="{x:Type local:ToggleButton}"
-               Value="False">
-        <Setter Property="VisualStateManager.VisualStateGroups">
-          <VisualStateGroupList>
-            <VisualStateGroup>
-              <VisualState x:Name="Normal">
-                <VisualState.Setters>
-                  <Setter Property="Background"
-                          Value="{AppThemeBinding Light={StaticResource LightBase0}, Dark={StaticResource DarkBase2}}" />
-                  <Setter Property="TextColor"
-                          Value="{AppThemeBinding Light={StaticResource LightTextPrimary}, Dark={StaticResource DarkTextPrimary}}" />
-                </VisualState.Setters>
-              </VisualState>
-              <VisualState x:Name="Pressed">
-                <VisualState.Setters>
-                  <Setter Property="Background"
-                          Value="{AppThemeBinding Light={StaticResource LightBase4}, Dark={StaticResource DarkBase4}}" />
-                  <Setter Property="TextColor"
-                          Value="{AppThemeBinding Light={StaticResource LightTextPrimary}, Dark={StaticResource DarkTextPrimary}}" />
-                </VisualState.Setters>
-              </VisualState>
-              <VisualState x:Name="PointerOver">
-                <VisualState.Setters>
-                  <Setter Property="Background"
-                          Value="{DynamicResource SystemAccentColorDark1}" />
-                  <Setter Property="TextColor"
-                          Value="{DynamicResource SystemAccentColorDark1Foreground}" />
-                </VisualState.Setters>
-              </VisualState>
-              <VisualState x:Name="Checked">
-                <VisualState.Setters>
-                  <Setter Property="Background"
-                          Value="{DynamicResource SystemAccentColor}" />
-                  <Setter Property="TextColor"
-                          Value="{DynamicResource SystemAccentColorForeground}" />
-                </VisualState.Setters>
-              </VisualState>
-              <VisualState x:Name="Disabled">
-                <VisualState.Setters>
-                  <Setter Property="Opacity"
-                          Value="0.4" />
-                </VisualState.Setters>
-              </VisualState>
-            </VisualStateGroup>
-          </VisualStateGroupList>
-        </Setter>
-      </Trigger>
-    </Style.Triggers>
+    <Setter Property="OverrideDefaultVisualStates"
+            Value="True" />
+    <Setter Property="VisualStateManager.VisualStateGroups">
+      <VisualStateGroupList>
+        <VisualStateGroup>
+          <VisualState x:Name="Normal" />
+          <VisualState x:Name="Pressed">
+            <VisualState.Setters>
+              <Setter Property="Background"
+                      Value="{AppThemeBinding Light={StaticResource LightBase4}, Dark={StaticResource DarkBase4}}" />
+              <Setter Property="TextColor"
+                      Value="{AppThemeBinding Light={StaticResource LightTextPrimary}, Dark={StaticResource DarkTextPrimary}}" />
+            </VisualState.Setters>
+          </VisualState>
+          <VisualState x:Name="PointerOver">
+            <VisualState.Setters>
+              <Setter Property="Background"
+                      Value="{DynamicResource SystemAccentColorDark1}" />
+              <Setter Property="TextColor"
+                      Value="{DynamicResource SystemAccentColorDark1Foreground}" />
+            </VisualState.Setters>
+          </VisualState>
+          <VisualState x:Name="PointerOverChecked">
+            <VisualState.Setters>
+              <Setter Property="Background"
+                      Value="{DynamicResource SystemAccentColorDark1}" />
+              <Setter Property="TextColor"
+                      Value="{DynamicResource SystemAccentColorDark1Foreground}" />
+            </VisualState.Setters>
+          </VisualState>
+          <VisualState x:Name="PointerOverIndeterminate">
+            <VisualState.Setters>
+              <Setter Property="Background"
+                      Value="{DynamicResource SystemAccentColorDark1}" />
+              <Setter Property="TextColor"
+                      Value="{DynamicResource SystemAccentColorDark1Foreground}" />
+            </VisualState.Setters>
+          </VisualState>
+          <VisualState x:Name="Checked">
+            <VisualState.Setters>
+              <Setter Property="Background"
+                      Value="{DynamicResource SystemAccentColor}" />
+              <Setter Property="TextColor"
+                      Value="{DynamicResource SystemAccentColorForeground}" />
+            </VisualState.Setters>
+          </VisualState>
+          <VisualState x:Name="Indeterminate" />
+          <VisualState x:Name="Focused">
+            <VisualState.Setters>
+              <Setter Property="BorderBrush"
+                      Value="{AppThemeBinding Light={StaticResource DarkBase0}, Dark={StaticResource LightBase0}}" />
+            </VisualState.Setters>
+          </VisualState>
+          <VisualState x:Name="FocusedChecked">
+            <VisualState.Setters>
+              <Setter Property="BorderBrush"
+                      Value="{AppThemeBinding Light={StaticResource DarkBase0}, Dark={StaticResource LightBase0}}" />
+              <Setter Property="Background"
+                      Value="{DynamicResource SystemAccentColor}" />
+              <Setter Property="TextColor"
+                      Value="{DynamicResource SystemAccentColorForeground}" />
+            </VisualState.Setters>
+          </VisualState>
+          <VisualState x:Name="FocusedIndeterminate">
+            <VisualState.Setters>
+              <Setter Property="BorderBrush"
+                      Value="{AppThemeBinding Light={StaticResource DarkBase0}, Dark={StaticResource LightBase0}}" />
+              <Setter Property="Background"
+                      Value="{DynamicResource SystemAccentColor}" />
+              <Setter Property="TextColor"
+                      Value="{DynamicResource SystemAccentColorForeground}" />
+            </VisualState.Setters>
+          </VisualState>
+          <VisualState x:Name="Disabled">
+            <VisualState.Setters>
+              <Setter Property="Opacity"
+                      Value="{StaticResource DisabledOpacity}" />
+            </VisualState.Setters>
+          </VisualState>
+        </VisualStateGroup>
+      </VisualStateGroupList>
+    </Setter>
   </Style>
 
   <Style TargetType="{x:Type local:ToggleButton}"

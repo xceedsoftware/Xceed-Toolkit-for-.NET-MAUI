@@ -35,7 +35,7 @@ namespace Xceed.Maui.Toolkit
 
     #region FormatString
 
-    public static readonly BindableProperty FormatStringProperty = BindableProperty.Create( "FormatString", typeof( string ), typeof( NumericUpDown<T> ), string.Empty, propertyChanged: OnFormatStringChanged );
+    public static readonly BindableProperty FormatStringProperty = BindableProperty.Create( nameof(FormatString), typeof( string ), typeof( NumericUpDown<T> ), string.Empty, propertyChanged: OnFormatStringChanged );
 
     public string FormatString
     {
@@ -300,8 +300,7 @@ namespace Xceed.Maui.Toolkit
 
           // case 164198: Throw when replacing only the digit part of 99° through UI.
           // Check if CurrentValueText is also failing => it also contains special characters. ex : 90°
-          T currentValueTextOutputValue;
-          if( !TryParseText( currentValueText, out currentValueTextOutputValue ) )
+          if( !TryParseText( currentValueText, out T currentValueTextOutputValue ) )
           {
             // extract non-digit characters
             var currentValueTextSpecialCharacters = currentValueText.Where( c => !Char.IsDigit( c ) );
@@ -312,8 +311,7 @@ namespace Xceed.Maui.Toolkit
               if( currentValueTextSpecialCharacters.Except( textSpecialCharacters ).ToList().Count == 0 )
               {
                 var numericValue = new string( text.Where( c => char.IsDigit( c ) || this.CultureContainsCharacter( c ) ).ToArray() );
-                decimal number;
-                if( Decimal.TryParse( numericValue, NumberStyles.Any, this.CultureInfo, out number ) )
+                if( Decimal.TryParse( numericValue, NumberStyles.Any, this.CultureInfo, out decimal number ) )
                 {
                   foreach( var character in textSpecialCharacters )
                   {

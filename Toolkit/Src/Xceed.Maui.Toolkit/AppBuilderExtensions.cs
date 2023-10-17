@@ -35,6 +35,10 @@ namespace Xceed.Maui.Toolkit
     // ref : https://learn.microsoft.com/en-us/dotnet/maui/xaml/namespaces/custom-namespace-schemas?view=net-maui-7.0
     public static MauiAppBuilder UseXceedMauiToolkit( this MauiAppBuilder builder )
     {
+      builder.ConfigureMauiHandlers( collection =>
+      {
+      } );
+
       Task.Factory.StartNew( AppBuilderExtensions.SetDefaultStyles );
 
       return builder;
@@ -111,7 +115,7 @@ namespace Xceed.Maui.Toolkit
 
     private static async void SetDefaultStyles()
     {
-      await AppBuilderExtensions.ApplicationExists();   
+      await AppBuilderExtensions.ApplicationExists();
 
       Application.Current.PageAppearing += AppBuilderExtensions.ApplicationMainAppearing;
     }

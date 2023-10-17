@@ -16,6 +16,8 @@
   *************************************************************************************/
 
 
+using System.Runtime.CompilerServices;
+
 namespace Xceed.Maui.Toolkit
 {
   public abstract class Control : TemplatedView
@@ -60,19 +62,11 @@ namespace Xceed.Maui.Toolkit
 
     public new Brush Background
     {
-      get => ( Brush )GetValue( BackgroundProperty );
+      get => (Brush)GetValue( BackgroundProperty );
       set => SetValue( BackgroundProperty, value );
     }
 
     #endregion
-
-    public static readonly BindableProperty OverrideDefaultVisualStatesProperty = BindableProperty.Create( nameof( OverrideDefaultVisualStates ), typeof( bool? ), typeof( Control ), null );
-
-    public bool? OverrideDefaultVisualStates
-    {
-      get => ( bool? )GetValue( OverrideDefaultVisualStatesProperty );
-      set => SetValue( OverrideDefaultVisualStatesProperty, value );
-    }
 
     #region BorderBrush
 
@@ -80,7 +74,7 @@ namespace Xceed.Maui.Toolkit
 
     public Brush BorderBrush
     {
-      get => ( Brush )GetValue( BorderBrushProperty );
+      get => (Brush)GetValue( BorderBrushProperty );
       set => SetValue( BorderBrushProperty, value );
     }
 
@@ -92,7 +86,7 @@ namespace Xceed.Maui.Toolkit
 
     public Thickness BorderThickness
     {
-      get => ( Thickness )GetValue( BorderThicknessProperty );
+      get => (Thickness)GetValue( BorderThicknessProperty );
       set => SetValue( BorderThicknessProperty, value );
     }
 
@@ -104,7 +98,7 @@ namespace Xceed.Maui.Toolkit
 
     public CornerRadius CornerRadius
     {
-      get => ( CornerRadius )GetValue( CornerRadiusProperty );
+      get => (CornerRadius)GetValue( CornerRadiusProperty );
       set => SetValue( CornerRadiusProperty, value );
     }
 
@@ -116,7 +110,7 @@ namespace Xceed.Maui.Toolkit
 
     public FontAttributes FontAttributes
     {
-      get => ( FontAttributes )GetValue( FontAttributesProperty );
+      get => (FontAttributes)GetValue( FontAttributesProperty );
       set => SetValue( FontAttributesProperty, value );
     }
 
@@ -125,7 +119,7 @@ namespace Xceed.Maui.Toolkit
       var control = bindable as Control;
       if( control != null )
       {
-        control.OnFontAttributesChanged( ( FontAttributes )oldValue, ( FontAttributes )newValue );
+        control.OnFontAttributesChanged( (FontAttributes)oldValue, (FontAttributes)newValue );
       }
     }
 
@@ -142,7 +136,7 @@ namespace Xceed.Maui.Toolkit
 
     public string FontFamily
     {
-      get => ( string )GetValue( FontFamilyProperty );
+      get => (string)GetValue( FontFamilyProperty );
       set => SetValue( FontFamilyProperty, value );
     }
 
@@ -151,7 +145,7 @@ namespace Xceed.Maui.Toolkit
       var control = bindable as Control;
       if( control != null )
       {
-        control.OnFontFamilyChanged( ( string )oldValue, ( string )newValue );
+        control.OnFontFamilyChanged( (string)oldValue, (string)newValue );
       }
     }
 
@@ -168,7 +162,7 @@ namespace Xceed.Maui.Toolkit
 
     public double FontSize
     {
-      get => ( double )GetValue( FontSizeProperty );
+      get => (double)GetValue( FontSizeProperty );
       set => SetValue( FontSizeProperty, value );
     }
 
@@ -177,9 +171,9 @@ namespace Xceed.Maui.Toolkit
       var control = bindable as Control;
       if( control != null )
       {
-        if( ( double )newValue > 0 )
+        if( (double)newValue > 0 )
         {
-          control.OnFontSizeChanged( ( double )oldValue, ( double )newValue );
+          control.OnFontSizeChanged( (double)oldValue, (double)newValue );
         }
         else
         {
@@ -195,14 +189,26 @@ namespace Xceed.Maui.Toolkit
 
     #endregion
 
-    #region HorizontalContentAlignment
+    #region HorizontalContentOptions
 
-    public static readonly BindableProperty HorizontalContentAlignmentProperty = BindableProperty.Create( nameof( HorizontalContentAlignment ), typeof( LayoutOptions ), typeof( Control ), LayoutOptions.Center );
+    public static readonly BindableProperty HorizontalContentOptionsProperty = BindableProperty.Create( nameof( HorizontalContentOptions ), typeof( LayoutOptions ), typeof( Control ), LayoutOptions.Center );
 
-    public LayoutOptions HorizontalContentAlignment
+    public LayoutOptions HorizontalContentOptions
     {
-      get => ( LayoutOptions )GetValue( HorizontalContentAlignmentProperty );
-      set => SetValue( HorizontalContentAlignmentProperty, value );
+      get => (LayoutOptions)GetValue( HorizontalContentOptionsProperty );
+      set => SetValue( HorizontalContentOptionsProperty, value );
+    }
+
+    #endregion
+
+    #region OverrideDefaultVisualStates
+
+    public static readonly BindableProperty OverrideDefaultVisualStatesProperty = BindableProperty.Create( nameof( OverrideDefaultVisualStates ), typeof( bool? ), typeof( Control ), null );
+
+    public bool? OverrideDefaultVisualStates
+    {
+      get => (bool?)GetValue( OverrideDefaultVisualStatesProperty );
+      set => SetValue( OverrideDefaultVisualStatesProperty, value );
     }
 
     #endregion
@@ -213,7 +219,7 @@ namespace Xceed.Maui.Toolkit
 
     public new Thickness Padding
     {
-      get => ( Thickness )GetValue( PaddingProperty );
+      get => (Thickness)GetValue( PaddingProperty );
       set => SetValue( PaddingProperty, value );
     }
 
@@ -225,7 +231,7 @@ namespace Xceed.Maui.Toolkit
 
     public Color TextColor
     {
-      get => ( Color )GetValue( TextColorProperty );
+      get => (Color)GetValue( TextColorProperty );
       set => SetValue( TextColorProperty, value );
     }
 
@@ -234,7 +240,7 @@ namespace Xceed.Maui.Toolkit
       var control = bindable as Control;
       if( control != null )
       {
-        control.OnTextColorChanged( ( Color )oldValue, ( Color )newValue );
+        control.OnTextColorChanged( (Color)oldValue, (Color)newValue );
       }
     }
 
@@ -245,17 +251,31 @@ namespace Xceed.Maui.Toolkit
 
     #endregion
 
-    #region VerticalContentalignment
+    #region VerticalContentOptions
 
-    public static readonly BindableProperty VerticalContentAlignmentProperty = BindableProperty.Create( nameof( VerticalContentAlignment ), typeof( LayoutOptions ), typeof( Control ), LayoutOptions.Center );
+    public static readonly BindableProperty VerticalContentOptionsProperty = BindableProperty.Create( nameof( VerticalContentOptions ), typeof( LayoutOptions ), typeof( Control ), LayoutOptions.Center );
 
-    public LayoutOptions VerticalContentAlignment
+    public LayoutOptions VerticalContentOptions
     {
-      get => ( LayoutOptions )GetValue( VerticalContentAlignmentProperty );
-      set => SetValue( VerticalContentAlignmentProperty, value );
+      get => (LayoutOptions)GetValue( VerticalContentOptionsProperty );
+      set => SetValue( VerticalContentOptionsProperty, value );
     }
 
     #endregion
+
+    #endregion
+
+    #region Overrides Methods
+
+    protected override void OnPropertyChanged( [CallerMemberName] string propertyName = null )
+    {
+      base.OnPropertyChanged( propertyName );
+
+      if( propertyName == "Style" )
+      {
+        Control.UpdateFontProperties( this, this.Style );
+      }
+    }
 
     #endregion
 
@@ -270,7 +290,37 @@ namespace Xceed.Maui.Toolkit
         Control.UpdateFontFamily( newValue, parentControl.m_oldFontFamily, parentControl.FontFamily );
         Control.UpdateFontAttributes( newValue, parentControl.m_oldFontAttributes, parentControl.FontAttributes );
       }
-    }    
+    }
+
+    internal static void UpdateFontProperties( Control control, Style newStyle )
+    {
+      if( newStyle == null )
+        return;
+
+      var textColorSetter = newStyle.Setters.FirstOrDefault( setter => setter.Property.PropertyName == "TextColor" );
+      if( (textColorSetter != null) && (textColorSetter.Value is Color))
+      {
+        Control.UpdateFontTextColor( control, control.TextColor, (Color)textColorSetter.Value );
+      }
+
+      var fontSizeSetter = newStyle.Setters.FirstOrDefault( setter => setter.Property.PropertyName == "FontSize" );
+      if( ( fontSizeSetter != null ) && ( fontSizeSetter.Value is double ) )
+      {
+        Control.UpdateFontSize( control, control.FontSize, (double)fontSizeSetter.Value );
+      }
+
+      var fontAttributesSetter = newStyle.Setters.FirstOrDefault( setter => setter.Property.PropertyName == "FontAttributes" );
+      if( ( fontAttributesSetter != null ) && ( fontAttributesSetter.Value is FontAttributes ) )
+      {
+        Control.UpdateFontAttributes( control, control.FontAttributes, (FontAttributes)fontAttributesSetter.Value );
+      }
+
+      var fontFamilySetter = newStyle.Setters.FirstOrDefault( setter => setter.Property.PropertyName == "FontFamily" );
+      if( ( fontFamilySetter != null ) && ( fontFamilySetter.Value is string ) )
+      {
+        Control.UpdateFontFamily( control, control.FontFamily, (string)fontFamilySetter.Value );
+      }
+    }
 
     internal static void UpdateFontTextColor( View view, Color oldColor, Color newColor )
     {
@@ -282,7 +332,7 @@ namespace Xceed.Maui.Toolkit
           var label = element as Label;
           if( label != null )
           {
-            if( Control.CanSetFontProperty<Color>( label, Label.TextColorProperty, Control.GetDefaultTextColor(), oldColor ) )
+            if( Control.CanSetFontProperty<Color>( label, Label.TextColorProperty, null, oldColor ) )
             {
               label.TextColor = newColor;
             }
@@ -292,7 +342,7 @@ namespace Xceed.Maui.Toolkit
             var entry = element as Entry;
             if( entry != null )
             {
-              if( Control.CanSetFontProperty<Color>( entry, Entry.TextColorProperty, Control.GetDefaultTextColor(), oldColor ) )
+              if( Control.CanSetFontProperty<Color>( entry, Entry.TextColorProperty, null, oldColor ) )
               {
                 entry.TextColor = newColor;
               }
@@ -302,7 +352,7 @@ namespace Xceed.Maui.Toolkit
               var control = element as Control;
               if( control != null )
               {
-                if( Control.CanSetFontProperty<Color>( control, Control.TextColorProperty, Control.GetDefaultTextColor(), oldColor ) )
+                if( Control.CanSetFontProperty<Color>( control, Control.TextColorProperty, null, oldColor ) )
                 {
                   control.TextColor = newColor;
                 }
@@ -450,16 +500,6 @@ namespace Xceed.Maui.Toolkit
       var fontPropertyValue = BindableObjectExtensions.GetPropertyIfSet( view, property, defaultValue );
 
       return ( fontPropertyValue == null ) || fontPropertyValue.Equals( oldValue ) || fontPropertyValue.Equals( defaultValue );
-    }
-
-    private static Color GetDefaultTextColor()
-    {
-      if( Application.Current == null )
-        return Control.DefaultLightTextColor;
-
-      return ( Application.Current.UserAppTheme == AppTheme.Light )
-             ? Control.DefaultLightTextColor
-             : Control.DefaultDarkTextColor;
     }
 
     #endregion

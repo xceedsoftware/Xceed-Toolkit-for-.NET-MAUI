@@ -16,6 +16,8 @@
   *************************************************************************************/
 
 
+using System.Reflection;
+
 namespace Xceed.Maui.Toolkit.LiveExplorer
 {
   public partial class AppShell : Shell
@@ -23,6 +25,9 @@ namespace Xceed.Maui.Toolkit.LiveExplorer
     public AppShell()
     {
       InitializeComponent();
+
+      var version = Assembly.GetExecutingAssembly().GetName().Version;
+      VersionLabel.Text = "v" + version.Major + "." + version.Minor;  
     }
   }
 }

@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+/***************************************************************************************
+ 
+  Xceed Toolkit for MAUI is a multiplatform toolkit offered by Xceed Software Inc., 
+  makers of the popular WPF Toolkit.
+
+  COPYRIGHT (C) 2023 Xceed Software Inc. ALL RIGHTS RESERVED.
+
+  This program is provided to you under the terms of a Xceed Community License 
+  For more details about the Xceed Community License please visit the products GitHub or NuGet page .
+
+  DISCLAIMER: This code is provided as-is and without warranty of any kind, express or implied. The 
+  author(s) and owner(s) of this code shall not be liable for any damages or losses resulting from 
+  the use or inability to use the code. 
+
+ 
+  *************************************************************************************/
+  -->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit"
+                    xmlns:conv="clr-namespace:Xceed.Maui.Toolkit.Converters;assembly=Xceed.Maui.Toolkit">
+
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="../../Themes/Glyphs.xaml;assembly=Xceed.Maui.Toolkit" />
+    <ResourceDictionary Source="../../Themes/Brushes/Common.xaml;assembly=Xceed.Maui.Toolkit" />
+  </ResourceDictionary.MergedDictionaries>
+
+  <local:AlignmentToTextAlignmentConverter x:Key="AlignmentToTextAlignmentConverter" />
+  <conv:HasContentToBoolConverter x:Key="HasContentToBoolConverter" />
+  <conv:IsStringToBoolConverter x:Key="IsStringToBoolConverter" />
+  <conv:FocusUnderlineCornerRadiusConverter x:Key="FocusUnderlineCornerRadiusConverter" />
+
+  <Style x:Key="DefaultClearButtonStyle"
+         TargetType="{x:Type local:Button}">
+    <Setter Property="BorderThickness"
+            Value="0" />
+    <Setter Property="ContentTemplate"
+            Value="{StaticResource XGlyph}" />
+    <Setter Property="Padding"
+            Value="0" />
+    <Setter Property="CornerRadius"
+            Value="0" />
+    <Setter Property="WidthRequest"
+            Value="20" />
+    <Setter Property="Margin"
+            Value="2" />
+    <Setter Property="OverrideDefaultVisualStates"
+            Value="True" />
+    <Setter Property="VisualStateManager.VisualStateGroups">
+      <VisualStateGroupList>
+        <VisualStateGroup>
+          <VisualState x:Name="Normal">
+            <VisualState.Setters>
+              <Setter Property="Background"
+                      Value="Transparent" />
+            </VisualState.Setters>
+          </VisualState>
+          <VisualState x:Name="Pressed">
+            <VisualState.Setters>
+              <Setter Property="Background"
+                      Value="{AppThemeBinding Dark={StaticResource LightBase5}, Light={StaticResource LightBase1}}" />
+            </VisualState.Setters>
+          </VisualState>
+          <VisualState x:Name="PointerOver">
+            <VisualState.Setters>
+              <Setter Property="Background"
+                      Value="{AppThemeBinding Dark={StaticResource LightBase5}, Light={StaticResource LightBase1}}" />
+            </VisualState.Setters>
+          </VisualState>
+        </VisualStateGroup>
+      </VisualStateGroupList>
+    </Setter>
+  </Style>
+
+  <Style x:Key="FluentDesignTextBox"
+         TargetType="{x:Type local:TextBox}">
+    <Setter Property="HorizontalContentOptions"
+            Value="Start" />
+    <Setter Property="VerticalContentOptions"
+            Value="Start" />
+    <Setter Property="Background"
+            Value="{AppThemeBinding Dark={StaticResource DarkBase6}, Light={StaticResource LightBase0}}" />
+    <Setter Property="BorderBrush"
+            Value="{AppThemeBinding Dark={StaticResource DarkBase1}, Light={StaticResource LightColorSecondary}}" />
+    <Setter Property="BorderThickness"
+            Value="0" />
+    <Setter Property="CornerRadius"
+            Value="4" />
+    <Setter Property="Padding"
+            Value="8,5,5,5" />
+    <Setter Property="TextColor"
+            Value="{AppThemeBinding Dark={StaticResource DarkTextPrimary}, Light={StaticResource LightTextPrimary}}" />
+    <Setter Property="FontSize"
+            Value="14" />
+    <Setter Property="MinimumHeightRequest"
+            Value="15" />
+    <Setter Property="MinimumWidthRequest"
+            Value="15" />
+    <Setter Property="IsFocusUnderlineVisible"
+            Value="True"/>
+    <Setter Property="ClearButtonStyle"
+            Value="{StaticResource DefaultClearButtonStyle}" />
+    <Setter Property="ControlTemplate">
+      <Setter.Value>
+        <ControlTemplate>
+          <!-- Android needs the HeightRequest for VerticalTextAlignment-->
+          <local:Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        HeightRequest="{TemplateBinding HeightRequest}"
+                        MinimumHeightRequest="{TemplateBinding MinimumHeightRequest}"
+                        MinimumWidthRequest="{TemplateBinding MinimumWidthRequest}"
+                        Padding="0">
+            <Grid>
+              <local:Border x:Name="FocusUnderline"
+                            BorderBrush="{AppThemeBinding Dark={StaticResource DarkTextSecondary},Light={StaticResource LightTextSecondary}}"
+                            BorderThickness="0,0,0,1"
+                            InputTransparent="True"
+                            IsVisible="{TemplateBinding IsFocusUnderlineVisible}">
+                <local:Border.CornerRadius>
+                  <MultiBinding Converter="{StaticResource FocusUnderlineCornerRadiusConverter}">
+                    <Binding Path="CornerRadius"
+                             Source="{RelativeSource TemplatedParent}" />
+                    <Binding Path="BorderThickness"
+                             Source="{RelativeSource TemplatedParent}" />
+                  </MultiBinding>
+                </local:Border.CornerRadius>
+                <local:Border.Triggers>
+                  <MultiTrigger TargetType="{x:Type local:Border}">
+                    <MultiTrigger.Conditions>
+                      <BindingCondition Binding="{Binding IsFocused, Source={x:Reference PART_Entry}}"
+                                        Value="True" />
+                      <BindingCondition Binding="{Binding IsReadOnly, Source={x:Reference PART_Entry}}"
+                                        Value="False" />
+                    </MultiTrigger.Conditions>
+                    <Setter Property="BorderThickness"
+                            Value="0,0,0,3" />
+                    <Setter Property="BorderBrush">
+                      <Setter.Value>
+                        <SolidColorBrush Color="{DynamicResource SystemAccentColor}" />
+                      </Setter.Value>
+                    </Setter>
+                  </MultiTrigger>
+                </local:Border.Triggers>
+              </local:Border>
+
+              <Grid ColumnDefinitions="*,Auto"
+                    Margin="{TemplateBinding Padding}">
+
+                <local:ContentControl x:Name="PART_Watermark"
+                                      Padding="2"
+                                      Content="{TemplateBinding Watermark}"                                      
+                                      HorizontalOptions="{TemplateBinding HorizontalContentOptions}"
+                                      VerticalOptions="{TemplateBinding VerticalContentOptions}"
+                                      HeightRequest="{Binding Height, Source={x:Reference PART_Entry}}">
+                  <local:ContentControl.Triggers>
+                    <DataTrigger TargetType="{x:Type local:ContentControl}"
+                                 Binding="{Binding Text, Source={x:Reference PART_Entry}, Converter={StaticResource HasContentToBoolConverter}}"
+                                 Value="True">
+                      <Setter Property="IsVisible"
+                              Value="False" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="{x:Type local:ContentControl}"
+                                 Binding="{Binding Watermark, Source={RelativeSource TemplatedParent}, Converter={StaticResource IsStringToBoolConverter}}"
+                                 Value="True">
+                      <Setter Property="TextColor"
+                              Value="{AppThemeBinding Light={StaticResource LightTextTertiary}, Dark={StaticResource DarkTextTertiary}}" />
+                    </DataTrigger>
+                  </local:ContentControl.Triggers>
+                </local:ContentControl>
+
+                <Entry x:Name="PART_Entry"
+                       Background="Transparent"
+                       MinimumHeightRequest="15"
+                       MinimumWidthRequest="15"
+                       VerticalTextAlignment="{Binding VerticalContentOptions, Source={RelativeSource TemplatedParent}, Converter={StaticResource AlignmentToTextAlignmentConverter}}"
+                       HorizontalTextAlignment="{Binding HorizontalContentOptions, Source={RelativeSource TemplatedParent}, Converter={StaticResource AlignmentToTextAlignmentConverter}}"
+                       FontAttributes="{TemplateBinding FontAttributes}"
+                       FontSize="{TemplateBinding FontSize}"
+                       FontFamily="{TemplateBinding FontFamily}"
+                       TextColor="{TemplateBinding TextColor}"
+                       CursorPosition="{Binding CursorPosition, Source={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                       SelectionLength="{TemplateBinding SelectionLength}"
+                       CharacterSpacing="{TemplateBinding CharacterSpacing}"
+                       MaxLength="{TemplateBinding MaxLength}"
+                       IsReadOnly="{TemplateBinding IsReadOnly}"
+                       ReturnCommand="{TemplateBinding ReturnCommand}"
+                       ReturnCommandParameter="{TemplateBinding ReturnCommandParameter}"
+                       Keyboard="{TemplateBinding Keyboard}"
+                       IsTextPredictionEnabled="{Binding IsTextPredictionEnabled, Source={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                       IsEnabled="{TemplateBinding IsEnabled}"/>
+
+                <local:Button x:Name="PART_ClearButton"
+                              Grid.Column="1"
+                              IsVisible="False"
+                              Style="{TemplateBinding ClearButtonStyle}">
+                  <local:Button.Triggers>
+                    <MultiTrigger TargetType="{x:Type local:Button}">
+                      <MultiTrigger.Conditions>
+                        <BindingCondition Binding="{Binding ClearButtonVisibility, Source={RelativeSource TemplatedParent}}"
+                                          Value="WhileEditing" />
+                        <BindingCondition Binding="{Binding IsFocused, Source={x:Reference PART_Entry}}"
+                                          Value="True" />
+                        <BindingCondition Binding="{Binding IsReadOnly, Source={x:Reference PART_Entry}}"
+                                          Value="False" />
+                        <BindingCondition Binding="{Binding Text, Source={x:Reference PART_Entry}, Converter={StaticResource HasContentToBoolConverter}}"
+                                          Value="True" />
+                      </MultiTrigger.Conditions>
+                      <Setter Property="IsVisible"
+                              Value="True" />
+                    </MultiTrigger>
+                  </local:Button.Triggers>
+                </local:Button>
+
+              </Grid>
+            </Grid>
+          </local:Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    <Style.Triggers>
+      <Trigger Property="OverrideDefaultVisualStates"
+               TargetType="{x:Type local:TextBox}"
+               Value="False">
+        <Setter Property="VisualStateManager.VisualStateGroups">
+          <VisualStateGroupList>
+            <VisualStateGroup>
+              <VisualState x:Name="Normal" />
+              <VisualState x:Name="Pressed" />
+              <VisualState x:Name="PointerOver">
+                <VisualState.Setters>
+                  <Setter Property="Background"
+                          Value="{AppThemeBinding Dark={StaticResource DarkBase7}, Light={StaticResource LightBase5}}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="Focused">
+                <VisualState.Setters>
+                  <Setter Property="Background"
+                          Value="{AppThemeBinding Dark={StaticResource DarkBase2}, Light={StaticResource LightBase2}}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="Disabled">
+                <VisualState.Setters>
+                  <Setter Property="Opacity"
+                          Value="{StaticResource DisabledOpacity}" />
+                </VisualState.Setters>
+              </VisualState>
+            </VisualStateGroup>
+          </VisualStateGroupList>
+        </Setter>
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+
+  <Style TargetType="{x:Type local:TextBox}"
+         BasedOn="{StaticResource FluentDesignTextBox}" />
+</ResourceDictionary>

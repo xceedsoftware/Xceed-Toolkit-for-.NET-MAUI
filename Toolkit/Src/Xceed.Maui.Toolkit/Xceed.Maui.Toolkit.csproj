@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--Do not add ToolVersion attribute to Project to be able to compile in MAC-->
   <PropertyGroup>
     <!-- Disable automatic/default item gathering to help automatic builds -->
     <EnableDefaultItems>false</EnableDefaultItems>
@@ -20,6 +21,7 @@
     <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
     <!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
     <UseMaui>true</UseMaui>
+    <!--EnableWindowsTargeting is necessary to be able to compile in MAC-->
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <SingleProject>true</SingleProject>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -71,17 +73,76 @@
     <Compile Include="AssemblyVersionInfo.cs" />
     <Compile Include="AssemblyVersionInfoCommon.cs" />
     <Compile Include="Border\Implementation\Border.cs" />
-    <Compile Include="Border\Implementation\BorderDrawable.cs" />
-    <Compile Include="Border\Implementation\BorderGraphicsView.cs" />
+    <Compile Include="Border\Implementation\BorderShapeGrid.cs" />
+    <Compile Include="Border\Implementation\BorderShapeGridLayoutManager.cs" />
     <Compile Include="ButtonSpinner\Implementation\ButtonSpinner.cs" />
     <Compile Include="ButtonSpinner\Implementation\SpinEventArgs.cs" />
     <Compile Include="Button\Implementation\Button.cs" />
     <Compile Include="Card\Implementation\Card.cs" />
+    <Compile Include="Chart\Implementation\AreaElementInfos\AreaElementInfos.cs" />
+    <Compile Include="Chart\Implementation\AreaElementInfos\AreaElementInfosBase.cs" />
+    <Compile Include="Chart\Implementation\AreaElementInfos\DataPointLabelElementInfos.cs" />
+    <Compile Include="Chart\Implementation\AreaElementInfos\LabelElementInfos.cs" />
+    <Compile Include="Chart\Implementation\AreaElementInfos\SeriesBarElementInfo.cs" />
+    <Compile Include="Chart\Implementation\AreaElementInfos\SeriesLineElementInfo.cs" />
+    <Compile Include="Chart\Implementation\AxisPanelElements\Axis.cs" />
+    <Compile Include="Chart\Implementation\AxisPanelElements\GridLine.cs" />
+    <Compile Include="Chart\Implementation\AxisPanelElements\LineBase.cs" />
+    <Compile Include="Chart\Implementation\AxisPanelElements\Tick.cs" />
+    <Compile Include="Chart\Implementation\Chart.cs" />
+    <Compile Include="Chart\Implementation\Converters\LabelPanelOffsetConverter.cs" />
+    <Compile Include="Chart\Implementation\Converters\PositiveValueConverter.cs" />
+    <Compile Include="Chart\Implementation\Core\AreaElement.cs" />
+    <Compile Include="Chart\Implementation\Core\AutomaticEndRange.cs" />
+    <Compile Include="Chart\Implementation\Core\AutomaticStartRange.cs" />
+    <Compile Include="Chart\Implementation\Core\BindingInfos.cs" />
+    <Compile Include="Chart\Implementation\Core\DataPoint.cs" />
+    <Compile Include="Chart\Implementation\Core\DataPointComparer.cs" />
+    <Compile Include="Chart\Implementation\Core\IRange.cs" />
+    <Compile Include="Chart\Implementation\Core\Range.cs" />
+    <Compile Include="Chart\Implementation\LabelPanelElements\TickLabel.cs" />
+    <Compile Include="Chart\Implementation\LabelPanelElements\TitleLabel.cs" />
+    <Compile Include="Chart\Implementation\Legend\Legend.cs" />
+    <Compile Include="Chart\Implementation\Legend\LegendItem.cs" />
+    <Compile Include="Chart\Implementation\Panels\AreaPanel.cs" />
+    <Compile Include="Chart\Implementation\Panels\AxisPanel.cs" />
+    <Compile Include="Chart\Implementation\Panels\LabelPanel.cs" />
+    <Compile Include="Chart\Implementation\Panels\SeriesPanel.cs" />
+    <Compile Include="Chart\Implementation\Renderers\BarRenderer.cs" />
+    <Compile Include="Chart\Implementation\Renderers\LineRenderer.cs" />
+    <Compile Include="Chart\Implementation\Renderers\RendererBase.cs" />
+    <Compile Include="Chart\Implementation\Series.cs" />
+    <Compile Include="Chart\Implementation\SeriesPanelElements\DataPointLabel.cs" />
+    <Compile Include="Chart\Implementation\SeriesPanelElements\DataPointLabelLine.cs" />
+    <Compile Include="Chart\Implementation\SeriesPanelElements\DataPointMarker.cs" />
+    <Compile Include="Chart\Implementation\SeriesPanelElements\SeriesBar.cs" />
+    <Compile Include="Chart\Implementation\SeriesPanelElements\SeriesLine.cs" />
+    <Compile Include="CheckBox\Implementation\CheckBox.cs" />
+    <Compile Include="CheckBox\Implementation\Converters\CheckBoxClipRectConverter.cs" />
+    <Compile Include="CheckBox\Implementation\Converters\CheckBoxSymbolConverter.cs" />
+    <Compile Include="ColorCanvas\Implementation\ColorCanvas.cs" />
+    <Compile Include="ColorCanvas\Implementation\ColorSpectrumSlider.cs" />
+    <Compile Include="ColorCanvas\Implementation\ColorUtilities.cs" />
+    <Compile Include="ColorCanvas\Implementation\HsvColor.cs" />
     <Compile Include="ContentControl\Implementation\ContentControl.cs" />
     <Compile Include="Control\Implementation\Control.cs" />
     <Compile Include="Core\Converters\AddThicknessConverter.cs" />
-    <Compile Include="Core\Converters\CornerRadiusToSideCornerRadius.cs" />
+    <Compile Include="Core\Converters\BorderThicknessToDoubleConverter.cs" />
+    <Compile Include="Core\Converters\CornerRadiusToSideCornerRadiusConverter.cs" />
+    <Compile Include="Core\Converters\HasContentToBoolConverter.cs" />
+    <Compile Include="Core\Converters\IsStringToBoolConverter.cs" />
+    <Compile Include="Core\Converters\NullToVisibilityConverter.cs" />
+    <Compile Include="Core\Converters\ColorToSolidColorBrushConverter.cs" />
+    <Compile Include="Core\Converters\ThicknessDirectionConverter.cs" />
+    <Compile Include="Core\Extensions\IElementExtensions.cs" />
     <Compile Include="Core\IBrushesResourceDictionary.cs" />
+    <Compile Include="Expander\Implementation\DoubleAnimation.cs" />
+    <Compile Include="Expander\Implementation\ExpandDirectionEnum.cs" />
+    <Compile Include="Expander\Implementation\ExpanderCornerRadiusConverter.cs" />
+    <Compile Include="Expander\Implementation\ExpandedEventArgs.cs" />
+    <Compile Include="Expander\Implementation\Expander.cs" />
+    <Compile Include="Expander\Implementation\ExpanderSizeConverter.cs" />
+    <Compile Include="Themes\FluentColors.cs" />
     <Compile Include="NumericUpDowns\Implementation\AlowedSpecialValues.cs" />
     <Compile Include="NumericUpDowns\Implementation\ByteUpDown.cs" />
     <Compile Include="NumericUpDowns\Implementation\DecimalUpDown.cs" />
@@ -102,6 +163,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepeatButton\Implementation\RepeatButton.cs" />
     <Compile Include="StaticResource.cs" />
+    <Compile Include="TextBox\Implementation\Converters\AlignmentToTextAlignmentConverter.cs" />
+    <Compile Include="TextBox\Implementation\Converters\FocusUnderlineCornerRadiusConverter.cs" />
+    <Compile Include="TextBox\Implementation\TextBox.cs" />
     <Compile Include="Themes\Brushes\Blue.xaml.cs">
       <DependentUpon>Blue.xaml</DependentUpon>
     </Compile>
@@ -250,6 +314,13 @@
       <DependentUpon>FluentDesign.xaml</DependentUpon>
     </Compile>
     <Compile Include="ToggleButton\Implementation\ToggleButton.cs" />
+    <Compile Include="ToggleSwitch\Implementation\Converters\ToggleSwitchBorderClipConverter.cs" />
+    <Compile Include="ToggleSwitch\Implementation\Converters\ToggleSwitchMaximumHeightConverter.cs" />
+    <Compile Include="ToggleSwitch\Implementation\Converters\ToggleSwitchSizeConverter.cs" />
+    <Compile Include="ToggleSwitch\Implementation\Converters\ToggleSwitchThumbHeightConverter.cs" />
+    <Compile Include="ToggleSwitch\Implementation\Converters\ToggleSwitchThumbMarginConverter.cs" />
+    <Compile Include="ToggleSwitch\Implementation\ToggleSwitch.cs" />
+    <Compile Include="ToggleSwitch\Implementation\ToggleSwitch.Windows.cs" />
     <Compile Include="UnitTestDetector.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -265,13 +336,22 @@
     <MauiXaml Include="Card\Themes\Card.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Include="Chart\Themes\Chart.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Include="ContentControl\Themes\ContentControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Include="Expander\Themes\Expander.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Include="NumericUpDowns\Themes\NumericUpDown.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Include="RepeatButton\Themes\RepeatButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Include="CheckBox\Themes\CheckBox.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Include="Themes\Brushes\Blue.xaml">
@@ -427,36 +507,52 @@
     <MauiXaml Include="Themes\Glyphs.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Include="TextBox\Themes\TextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Include="ToggleButton\Themes\ToggleButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Include="ToggleSwitch\Themes\ToggleSwitch.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Include="ColorCanvas\Themes\ColorCanvas.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
   </ItemGroup>
   <!-- Android-specifc items -->
   <ItemGroup>
-    <Compile Include="Border\Implementation\Border.Android.cs" />
-    <Compile Include="Border\Implementation\BorderGraphicsView.Android.cs" />
+    <Compile Include="Border\Implementation\BorderShapeGrid.Android.cs" />
     <Compile Include="ContentControl\Implementation\ContentControl.Android.cs" />
+    <Compile Include="TextBox\Implementation\TextBox.Android.cs" />
   </ItemGroup>
   <!-- iOS-specifc items -->
   <ItemGroup>
     <Compile Include="Border\Implementation\Border.iOS.cs" />
+    <Compile Include="ColorCanvas\Implementation\ColorCanvas.iOS.cs" />
+    <Compile Include="ColorCanvas\Implementation\ColorSpectrumSlider.iOS.cs" />
+    <Compile Include="TextBox\Implementation\TextBox.iOS.cs" />
   </ItemGroup>
   <!-- Mac-Catalyst-specifc items -->
   <ItemGroup>
     <Compile Include="Border\Implementation\Border.MacCatalyst.cs" />
     <Compile Include="Button\Implementation\Button.MacCatalyst.cs" />
     <Compile Include="ButtonSpinner\Implementation\ButtonSpinner.MacCatalyst.cs" />
+    <Compile Include="CheckBox\Implementation\CheckBox.MacCatalyst.cs" />
+    <Compile Include="ColorCanvas\Implementation\ColorCanvas.MacCatalyst.cs" />
+    <Compile Include="TextBox\Implementation\TextBox.MacCatalyst.cs" />
     <Compile Include="ToggleButton\Implementation\ToggleButton.MacCatalyst.cs" />
   </ItemGroup>
   <!-- Tizen-specifc items -->
-  <ItemGroup>
-  </ItemGroup>
   <!-- Windows-specifc items -->
   <ItemGroup>
     <Compile Include="Border\Implementation\Border.Windows.cs" />
     <Compile Include="Button\Implementation\Button.Windows.cs" />
     <Compile Include="ButtonSpinner\Implementation\ButtonSpinner.Windows.cs" />
+    <Compile Include="CheckBox\Implementation\CheckBox.Windows.cs" />
+    <Compile Include="TextBox\Implementation\TextBox.Windows.cs" />
     <Compile Include="ToggleButton\Implementation\ToggleButton.Windows.cs" />
+    <Compile Include="ToggleSwitch\Implementation\ToggleSwitch.Windows.cs" />
   </ItemGroup>
   <!--
   There is a bug in Visual Studio where files do not appear in the Solution Explorer if, in the csproj, they are in a Condition that is false for the
@@ -497,5 +593,11 @@
     <Compile Remove="**\*.Windows.*" />
     <MauiXaml Remove="**\*.Windows.*" />
     <None Include="**\*.Windows.*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+  </ItemGroup>
+  <!-- Not .NET 7 (Unit tests) -->
+  <ItemGroup Condition="$(TargetFramework) != 'net7.0'">
+    <Compile Remove="**\*.Net.*" />
+    <MauiXaml Remove="**\*.Net.*" />
+    <None Include="**\*.Net.*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
   </ItemGroup>
 </Project>

@@ -87,12 +87,16 @@ namespace Xceed.Maui.Toolkit
       {
         base.TouchesBegan( touches, uiEvent );
 
+        this.State = UIGestureRecognizerState.Possible;
+
         this.Pressed?.Invoke( this, EventArgs.Empty );
       }
 
       public override void TouchesEnded( NSSet touches, UIEvent uiEvent )
       {
         base.TouchesEnded( touches, uiEvent );
+
+        this.State = UIGestureRecognizerState.Ended;
 
         this.Released?.Invoke( this, EventArgs.Empty );
       }

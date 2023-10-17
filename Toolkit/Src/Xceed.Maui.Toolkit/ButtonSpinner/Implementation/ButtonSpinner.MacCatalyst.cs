@@ -29,35 +29,6 @@ namespace Xceed.Maui.Toolkit
 
     #endregion
 
-    #region Public Properties
-
-    #region IsPointerOver
-
-    public static readonly BindableProperty IsPointerOverProperty = BindableProperty.Create( "IsPointerOver", typeof( bool ), typeof( ButtonSpinner ), false, propertyChanged: OnIsPointerOverChanged );
-
-    public bool IsPointerOver
-    {
-      get => ( bool )GetValue( IsPointerOverProperty );
-      private set => SetValue( IsPointerOverProperty, value );
-    }
-
-    private static void OnIsPointerOverChanged( BindableObject bindable, object oldValue, object newValue )
-    {
-      var button = bindable as ButtonSpinner;
-      if( button != null )
-      {
-        button.OnIsPointerOverChanged( ( bool )oldValue, ( bool )newValue );
-      }
-    }
-
-    protected virtual void OnIsPointerOverChanged( bool oldValue, bool newValue )
-    {
-    }
-
-    #endregion
-
-    #endregion
-
     #region Partial Methods
 
     partial void InitializeForPlatform( object sender, EventArgs e )

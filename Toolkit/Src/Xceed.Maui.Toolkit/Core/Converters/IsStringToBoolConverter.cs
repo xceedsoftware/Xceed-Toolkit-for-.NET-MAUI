@@ -20,19 +20,11 @@ using System.Globalization;
 
 namespace Xceed.Maui.Toolkit.Converters
 {
-  public class CornerRadiusToSideCornerRadius : IValueConverter
+  public class IsStringToBoolConverter : IValueConverter
   {
     public object Convert( object value, Type targetType, object parameter, CultureInfo culture )
     {
-      var cornerRadius = ( CornerRadius )value;
-      var side = parameter as string;
-
-      if( side == "Right" )
-        return new CornerRadius( 0, cornerRadius.TopRight, 0, cornerRadius.BottomRight );
-      if( side == "Left" )
-        return new CornerRadius( cornerRadius.TopLeft, 0, cornerRadius.BottomLeft, 0 );
-
-      return cornerRadius;
+      return (value is string);
     }
 
     public object ConvertBack( object value, Type targetType, object parameter, CultureInfo culture )

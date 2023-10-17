@@ -47,6 +47,10 @@
             Value="{OnPlatform 0.8, Android=0.4}" />
     <Setter Property="ShadowOffset"
             Value="10,10" />
+    <Setter Property="VerticalContentOptions"
+            Value="Fill" />
+    <Setter Property="HorizontalContentOptions"
+            Value="Fill" />
     <Setter Property="ControlTemplate">
       <Setter.Value>
         <ControlTemplate>
@@ -60,7 +64,11 @@
             <local:Border Background="{TemplateBinding Background}"
                           BorderThickness="{TemplateBinding BorderThickness}"
                           BorderBrush="{TemplateBinding BorderBrush}"
-                          CornerRadius="{TemplateBinding CornerRadius}">
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          MaximumHeightRequest="{TemplateBinding MaximumHeightRequest}"
+                          MaximumWidthRequest="{TemplateBinding MaximumWidthRequest}"
+                          MinimumWidthRequest="{TemplateBinding MinimumWidthRequest}"
+                          MinimumHeightRequest="{TemplateBinding MinimumHeightRequest}">
               <Grid RowDefinitions="Auto,*"
                     Margin="5">
                 <local:ContentControl Content="{TemplateBinding Title}">
@@ -73,8 +81,8 @@
                 </local:ContentControl>
                 <ContentPresenter Margin="{TemplateBinding Padding}"
                                   Content="{TemplateBinding View}"
-                                  VerticalOptions="{TemplateBinding VerticalContentAlignment}"
-                                  HorizontalOptions="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalOptions="{TemplateBinding VerticalContentOptions}"
+                                  HorizontalOptions="{TemplateBinding HorizontalContentOptions}"
                                   Grid.Row="1" />
               </Grid>
             </local:Border>
@@ -82,6 +90,26 @@
         </ControlTemplate>
       </Setter.Value>
     </Setter>
+
+    <Style.Triggers>
+      <Trigger Property="OverrideDefaultVisualStates"
+               TargetType="{x:Type local:Card}"
+               Value="False">
+        <Setter Property="VisualStateManager.VisualStateGroups">
+          <VisualStateGroupList>
+            <VisualStateGroup>
+              <VisualState x:Name="Normal" />
+              <VisualState x:Name="Disabled">
+                <VisualState.Setters>
+                  <Setter Property="Opacity"
+                          Value="{StaticResource DisabledOpacity}" />
+                </VisualState.Setters>
+              </VisualState>
+            </VisualStateGroup>
+          </VisualStateGroupList>
+        </Setter>
+      </Trigger>
+    </Style.Triggers>
   </Style>
   <Style TargetType="{x:Type local:Card}"
          BasedOn="{StaticResource FluentDesignCard}" />

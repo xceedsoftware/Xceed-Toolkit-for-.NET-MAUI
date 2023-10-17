@@ -34,31 +34,28 @@
             Value="{AppThemeBinding Light={StaticResource LightTextPrimary}, Dark={StaticResource DarkTextPrimary}}" />
     <Setter Property="Padding"
             Value="2" />
-    <Setter Property="HorizontalContentAlignment"
+    <Setter Property="HorizontalContentOptions"
             Value="Fill" />
-    <Setter Property="VerticalContentAlignment"
+    <Setter Property="VerticalContentOptions"
             Value="Fill" />
     <Setter Property="ControlTemplate">
       <Setter.Value>
         <ControlTemplate>
-          <Grid>
-            <local:BorderGraphicsView Background="{TemplateBinding Background}"
-                                      BorderBrush="{TemplateBinding BorderBrush}"
-                                      BorderThickness="{TemplateBinding BorderThickness}"
-                                      CornerRadius="{TemplateBinding CornerRadius}" />
-            <ContentPresenter x:Name="PART_Content"
-                              HorizontalOptions="{TemplateBinding HorizontalContentAlignment}"
-                              VerticalOptions="{TemplateBinding VerticalContentAlignment}">
-              <ContentPresenter.Margin>
-                <MultiBinding Converter="{StaticResource AddThicknessConverter}">
-                  <Binding Path="BorderThickness"
-                           Source="{RelativeSource TemplatedParent}" />
-                  <Binding Path="Padding"
-                           Source="{RelativeSource TemplatedParent}" />
-                </MultiBinding>
-              </ContentPresenter.Margin>
-            </ContentPresenter>
-          </Grid>
+          <!--BorderShapeGrid is a Layout, containing a Background RoundRectangle, an outline Path(or roundRectangle) and the ContentPresenter.
+              The Path is useful to fill with a Gradient Brush and use real CornerRadius of 0. -->
+          <local:BorderShapeGrid BorderBrush="{TemplateBinding BorderBrush}"
+                                 BorderThickness="{TemplateBinding BorderThickness}"
+                                 CornerRadius="{TemplateBinding CornerRadius}"
+                                 Background="{TemplateBinding Background}"
+                                 Padding="{TemplateBinding Padding}"
+                                 MinimumHeightRequest="{TemplateBinding MinimumHeightRequest}"
+                                 MinimumWidthRequest="{TemplateBinding MinimumWidthRequest}"
+                                 MaximumHeightRequest="{TemplateBinding MaximumHeightRequest}"
+                                 MaximumWidthRequest="{TemplateBinding MaximumWidthRequest}">
+            <ContentPresenter HorizontalOptions="{TemplateBinding HorizontalContentOptions}"
+                              IsEnabled="{TemplateBinding IsEnabled}"
+                              VerticalOptions="{TemplateBinding VerticalContentOptions}" />
+          </local:BorderShapeGrid>
         </ControlTemplate>
       </Setter.Value>
     </Setter>

@@ -37,4 +37,18 @@
              Fill="{TemplateBinding TextColor}" />
   </DataTemplate>
 
+  <DataTemplate x:Key="XGlyph">
+    <Grid>
+      <Line X1="0"
+            Y1="0"
+            X2="8"
+            Y2="8"
+            Stroke="Gray" />
+      <Line X1="0"
+            Y1="8"
+            X2="8"
+            Y2="0"
+            Stroke="Gray" />
+    </Grid>
+  </DataTemplate>
 </ResourceDictionary>

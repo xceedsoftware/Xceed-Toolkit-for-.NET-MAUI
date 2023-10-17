@@ -29,8 +29,14 @@ namespace Xceed.Maui.Toolkit
       var viewShape = view as Shape;
       if( viewShape != null )
       {
-        viewShape.HeightRequest = 0;
-        viewShape.WidthRequest = 0;
+        if( viewShape.HorizontalOptions.Alignment != LayoutAlignment.Fill )
+        {
+          viewShape.WidthRequest = 0;
+        }
+        if( viewShape.VerticalOptions.Alignment != LayoutAlignment.Fill )
+        {
+          viewShape.HeightRequest = 0;
+        }
       }
     }
 

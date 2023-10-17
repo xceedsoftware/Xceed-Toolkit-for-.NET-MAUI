@@ -117,28 +117,28 @@ namespace Xceed.Maui.Toolkit
     {
       base.OnTextColorChanged( oldValue, newValue );
 
-      Control.UpdateFontTextColor( this.View, oldValue, newValue );
+      Control.UpdateFontTextColor( this.View ?? this, oldValue, newValue );
     }
 
     protected override void OnFontAttributesChanged( FontAttributes oldValue, FontAttributes newValue )
     {
       base.OnFontAttributesChanged( oldValue, newValue );
 
-      Control.UpdateFontAttributes( this.View, oldValue, newValue );
+      Control.UpdateFontAttributes( this.View ?? this, oldValue, newValue );
     }
 
     protected override void OnFontFamilyChanged( string oldValue, string newValue )
     {
       base.OnFontFamilyChanged( oldValue, newValue );
 
-      Control.UpdateFontFamily( this.View, oldValue, newValue );
+      Control.UpdateFontFamily( this.View ?? this, oldValue, newValue );
     }
 
     protected override void OnFontSizeChanged( double oldValue, double newValue )
     {
       base.OnFontSizeChanged( oldValue, newValue );
 
-      Control.UpdateFontSize( this.View, oldValue, newValue );
+      Control.UpdateFontSize( this.View ?? this, oldValue, newValue );
     }
 
     protected override void OnApplyTemplate()

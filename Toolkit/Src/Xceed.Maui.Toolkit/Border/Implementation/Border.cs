@@ -38,6 +38,7 @@ namespace Xceed.Maui.Toolkit
     #region Partial Methods
 
     partial void InitializeForPlatform( object sender, EventArgs e );
+
     partial void UninitializeForPlatform( object sender, HandlerChangingEventArgs e );
 
     #endregion    
@@ -133,19 +134,45 @@ namespace Xceed.Maui.Toolkit
 
     #region Events
 
-    public event EventHandler PointerDown;
+    public event EventHandler PointerEnter;   //Windows and Mac only
+
+    internal void RaisePointerEnterEvent( object sender, EventArgs e )
+    {
+      if( this.IsEnabled )
+      {
+        this.PointerEnter?.Invoke( sender, e );
+      }
+    }
+
+    public event EventHandler PointerLeave;
+
+    internal void RaisePointerLeaveEvent( object sender, EventArgs e )
+    {
+      if( this.IsEnabled )
+      {
+        this.PointerLeave?.Invoke( sender, e );
+      }
+    }
+
+    public event EventHandler PointerDown;   //Windows and Mac only
 
     internal void RaisePointerDownEvent( object sender, EventArgs e )
     {
-      this.PointerDown?.Invoke( sender, e );
+      if( this.IsEnabled )
+      {
+        this.PointerDown?.Invoke( sender, e );
+      }
     }
 
     public event EventHandler PointerUp;
 
     internal void RaisePointerUpEvent( object sender, EventArgs e )
     {
-      this.PointerUp?.Invoke( sender, e );
-    }  
+      if( this.IsEnabled )
+      {
+        this.PointerUp?.Invoke( sender, e );
+      }
+    }
 
     #endregion
   }

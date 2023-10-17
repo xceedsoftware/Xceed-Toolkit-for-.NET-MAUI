@@ -26,7 +26,7 @@ namespace Xceed.Maui.Toolkit
 
     #region CultureInfo
 
-    public static readonly BindableProperty CultureInfoProperty = BindableProperty.Create( "CultureInfo", typeof( CultureInfo ), typeof( InputBase ), CultureInfo.CurrentCulture, propertyChanged: OnCultureInfoChanged );
+    public static readonly BindableProperty CultureInfoProperty = BindableProperty.Create( nameof(CultureInfo), typeof( CultureInfo ), typeof( InputBase ), CultureInfo.CurrentCulture, propertyChanged: OnCultureInfoChanged );
 
     public CultureInfo CultureInfo
     {
@@ -51,7 +51,7 @@ namespace Xceed.Maui.Toolkit
 
     #region Text
 
-    public static readonly BindableProperty TextProperty = BindableProperty.Create( "Text", typeof( string ), typeof( InputBase ), null, propertyChanged: OnTextChanged );
+    public static readonly BindableProperty TextProperty = BindableProperty.Create( nameof(Text), typeof( string ), typeof( InputBase ), null, propertyChanged: OnTextChanged );
 
     public string Text
     {
@@ -77,24 +77,12 @@ namespace Xceed.Maui.Toolkit
 
     #region Watermark
 
-    public static readonly BindableProperty WatermarkProperty = BindableProperty.Create( "Watermark", typeof( string ), typeof( InputBase ), null );
+    public static readonly BindableProperty WatermarkProperty = BindableProperty.Create( nameof(Watermark), typeof( object ), typeof( InputBase ), null );
 
-    public string Watermark
+    public object Watermark
     {
-      get => ( string )GetValue( WatermarkProperty );
+      get => ( object )GetValue( WatermarkProperty );
       set => SetValue( WatermarkProperty, value );
-    }
-
-    #endregion
-
-    #region WatermarkColor
-
-    public static readonly BindableProperty WatermarkColorProperty = BindableProperty.Create( "WatermarkColor", typeof( Color ), typeof( InputBase ) );
-
-    public Color WatermarkColor
-    {
-      get => ( Color )GetValue( WatermarkColorProperty );
-      set => SetValue( WatermarkColorProperty, value );
     }
 
     #endregion

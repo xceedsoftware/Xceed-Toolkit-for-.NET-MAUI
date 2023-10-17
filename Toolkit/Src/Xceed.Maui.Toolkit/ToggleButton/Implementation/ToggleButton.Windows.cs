@@ -23,10 +23,22 @@ namespace Xceed.Maui.Toolkit
     #region Private Members
 
     private const string VisualState_PointerOver = "PointerOver";
+    private const string VisualState_PointerOverChecked = "PointerOverChecked";
+    private const string VisualState_PointerOverIndeterminate = "PointerOverIndeterminate";
+    private const string VisualState_FocusedChecked = "FocusedChecked";
+    private const string VisualState_FocusedIndeterminate = "FocusedIndeterminate";
 
     #endregion
 
     #region Partial Methods
+
+    partial void FocusAction()
+    {
+      if( this.IsEnabled )
+      {
+        this.SetVisualStateAfterUnPressed();
+      }
+    }
 
     partial void SetVisualStateAfterUnPressed()
     {
@@ -34,9 +46,31 @@ namespace Xceed.Maui.Toolkit
       {
         if( this.IsPointerOver )
         {
-          VisualStateManager.GoToState( this, ToggleButton.VisualState_PointerOver );
+          if( this.IsChecked.HasValue )
+          {
+            VisualStateManager.GoToState( this, this.IsChecked.Value ? ToggleButton.VisualState_PointerOverChecked : ToggleButton.VisualState_PointerOver );
+          }
+          else
+          {
+            VisualStateManager.GoToState( this, this.IsThreeState ? ToggleButton.VisualState_PointerOverIndeterminate : ToggleButton.VisualState_PointerOver );
+          }
         }
-        else if( this.IsChecked )
+        else if( this.IsFocused )
+        {
+          if( !this.IsChecked.HasValue )
+          {
+            VisualStateManager.GoToState( this, ToggleButton.VisualState_FocusedIndeterminate );
+          }
+          else
+          {
+            VisualStateManager.GoToState( this, this.IsChecked.Value ? ToggleButton.VisualState_FocusedChecked : VisualStateManager.CommonStates.Focused );
+          }
+        }
+        else if( !this.IsChecked.HasValue )
+        {
+          VisualStateManager.GoToState( this, this.IsThreeState ? ToggleButton.VisualState_Indeterminate : VisualStateManager.CommonStates.Normal );
+        }
+        else if( this.IsChecked.Value )
         {
           VisualStateManager.GoToState( this, ToggleButton.VisualState_Checked );
         }
@@ -49,11 +83,12 @@ namespace Xceed.Maui.Toolkit
 
     #endregion
 
-    #region Event Handlers
+    #region Override Methods
 
     protected override void OnIsPointerOverChanged( bool oldValue, bool newValue )
     {
       base.OnIsPointerOverChanged( oldValue, newValue );
+
       if( this.IsEnabled )
       {
         this.SetVisualStateAfterUnPressed();

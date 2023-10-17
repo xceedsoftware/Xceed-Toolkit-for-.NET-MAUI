@@ -20,30 +20,32 @@ using Microsoft.Maui.Platform;
 
 namespace Xceed.Maui.Toolkit
 {
-  public partial class BorderGraphicsView
+  public partial class BorderShapeGrid
   {
     #region Partial Methods
+
     partial void InitializeForPlatform( object sender, EventArgs e )
     {
-      var borderGraphicsView = sender as BorderGraphicsView;
-      if( borderGraphicsView != null )
+      var borderShapeGrid = sender as BorderShapeGrid;
+      if( borderShapeGrid != null )
       {
-        var platformTouchGraphicsView = borderGraphicsView.Handler?.PlatformView as PlatformTouchGraphicsView;
-        if( platformTouchGraphicsView != null )
+        var layoutViewGroup = borderShapeGrid.Handler?.PlatformView as LayoutViewGroup;
+        if( layoutViewGroup != null )
         {
-          platformTouchGraphicsView.Touch += this.PlatformTouchGraphicsView_Touch;
+          layoutViewGroup.Touch += this.LayoutViewGroup_Touch;
         }
       }
     }
+
     partial void UninitializeForPlatform( object sender, HandlerChangingEventArgs e )
     {
-      var borderGraphicsView = sender as BorderGraphicsView;
-      if( borderGraphicsView != null )
+      var borderShapeGrid = sender as BorderShapeGrid;
+      if( borderShapeGrid != null )
       {
-        var platformTouchGraphicsView = borderGraphicsView.Handler?.PlatformView as PlatformTouchGraphicsView;
-        if( platformTouchGraphicsView != null )
+        var layoutViewGroup = borderShapeGrid.Handler?.PlatformView as LayoutViewGroup;
+        if( layoutViewGroup != null )
         {
-          platformTouchGraphicsView.Touch -= this.PlatformTouchGraphicsView_Touch;
+          layoutViewGroup.Touch -= this.LayoutViewGroup_Touch;
         }
       }
     }
@@ -52,12 +54,12 @@ namespace Xceed.Maui.Toolkit
 
     #region Event Handlers
 
-    private void PlatformTouchGraphicsView_Touch( object sender, Android.Views.View.TouchEventArgs e )
+    private void LayoutViewGroup_Touch( object sender, Android.Views.View.TouchEventArgs e )
     {
       var actionMask = e.Event?.ActionMasked;
       if( actionMask != null )
       {
-        var border = BorderGraphicsView.GetParentBorder( this );
+        var border = BorderShapeGrid.GetParentBorder( this );
         if( border != null )
         {
           if( actionMask == Android.Views.MotionEventActions.Down )
@@ -75,7 +77,8 @@ namespace Xceed.Maui.Toolkit
     #endregion
 
     #region Private Methods
-    private static Border GetParentBorder( BorderGraphicsView view )
+
+    private static Border GetParentBorder( BorderShapeGrid view )
     {
       if( view == null )
         return null;

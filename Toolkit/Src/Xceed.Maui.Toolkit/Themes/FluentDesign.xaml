@@ -40,10 +40,23 @@
 
     <ResourceDictionary Source="../NumericUpDowns/Themes/NumericUpDown.xaml" />
 
+    <ResourceDictionary Source="../Chart/Themes/Chart.xaml" />
 
     <ResourceDictionary Source="../Card/Themes/Card.xaml" />
 
     <ResourceDictionary Source="../ToggleButton/Themes/ToggleButton.xaml" />
+
+    <ResourceDictionary Source="../Expander/Themes/Expander.xaml" />
+
+    <ResourceDictionary Source="../ToggleSwitch/Themes/ToggleSwitch.xaml" />
+
+    <ResourceDictionary Source="../ColorCanvas/Themes/ColorCanvas.xaml" />
+
+
+    <ResourceDictionary Source="../TextBox/Themes/TextBox.xaml" />
+
+    <ResourceDictionary Source="../CheckBox/Themes/CheckBox.xaml" />
+
   </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

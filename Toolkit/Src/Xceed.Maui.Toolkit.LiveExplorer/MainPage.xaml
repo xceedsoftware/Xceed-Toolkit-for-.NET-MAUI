@@ -21,8 +21,21 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xctk="http://schemas.xceed.com/maui/xaml/toolkit"
+             xmlns:local="clr-namespace:Xceed.Maui.Toolkit.LiveExplorer"
              x:Class="Xceed.Maui.Toolkit.LiveExplorer.MainPage"
              Background="{AppThemeBinding Dark=#202020, Light=#F3F3F3}">
+  <ContentPage.Resources>
+    <DataTemplate x:Key="ColorItemTemplate">
+      <xctk:Button Background="{Binding Color}"
+                   ToolTipProperties.Text="{Binding Name}"
+                   WidthRequest="20"
+                   HeightRequest="20"
+                   Margin="1"
+                   Command="{Binding SelectedColorCommand}"
+                   CommandParameter="{Binding Name}">
+      </xctk:Button>
+    </DataTemplate>
+  </ContentPage.Resources>
 
   <ScrollView Margin="16">
     <FlexLayout AlignContent="Start"
@@ -33,12 +46,12 @@
                  HeightRequest="300"
                  WidthRequest="300"
                  ShadowBrush="Black"
-                 HorizontalContentAlignment="Start"
-                 VerticalContentAlignment="Start">
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
         <xctk:Card.Title>
           <Label Text="Buttons" />
         </xctk:Card.Title>
-        <VerticalStackLayout>          
+        <VerticalStackLayout>
           <Label Margin="6,18,6,6"
                  Text="Xceed Button exposes a Content property which allows you to layout content any way you wish." />
           <StackLayout Margin="6,18,6,6">
@@ -84,8 +97,8 @@
                  HeightRequest="300"
                  WidthRequest="300"
                  ShadowBrush="Black"
-                 HorizontalContentAlignment="Start"
-                 VerticalContentAlignment="Start">
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
         <xctk:Card.Title>
           <Label Text="Repeat Button" />
         </xctk:Card.Title>
@@ -118,8 +131,8 @@
                  HeightRequest="300"
                  WidthRequest="300"
                  ShadowBrush="Black"
-                 HorizontalContentAlignment="Start"
-                 VerticalContentAlignment="Start">
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
         <xctk:Card.Title>
           <Label Text="Toggle Button" />
         </xctk:Card.Title>
@@ -168,8 +181,8 @@
                  HeightRequest="300"
                  WidthRequest="300"
                  ShadowBrush="Black"
-                 HorizontalContentAlignment="Start"
-                 VerticalContentAlignment="Start">
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
         <xctk:Card.Title>
           <Label Text="Button Spinner" />
         </xctk:Card.Title>
@@ -177,13 +190,13 @@
           <Label Margin="6,18,6,6"
                  Text="The Button Spinner component provides a spinned event for flexible content manipulation as desired." />
           <StackLayout>
-            <xctk:ButtonSpinner HorizontalContentAlignment="FillAndExpand"
+            <xctk:ButtonSpinner HorizontalContentOptions="FillAndExpand"
                                 WidthRequest="120"
                                 MinimumHeightRequest="36"
                                 CornerRadius="2"
                                 Margin="8" />
 
-            <xctk:ButtonSpinner HorizontalContentAlignment="FillAndExpand"
+            <xctk:ButtonSpinner HorizontalContentOptions="FillAndExpand"
                                 WidthRequest="120"
                                 CornerRadius="8"
                                 BorderThickness="2"
@@ -191,7 +204,7 @@
                                 MinimumHeightRequest="36"
                                 BorderBrush="{StaticResource XceedOrange}" />
 
-            <xctk:ButtonSpinner HorizontalContentAlignment="FillAndExpand"
+            <xctk:ButtonSpinner HorizontalContentOptions="FillAndExpand"
                                 WidthRequest="120"
                                 CornerRadius="8,0,7,0"
                                 BorderThickness="2"
@@ -207,8 +220,8 @@
                  HeightRequest="300"
                  WidthRequest="300"
                  ShadowBrush="Black"
-                 HorizontalContentAlignment="Start"
-                 VerticalContentAlignment="Start">
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
         <xctk:Card.Title>
           <Label Text="Border" />
         </xctk:Card.Title>
@@ -228,8 +241,8 @@
                  HeightRequest="300"
                  WidthRequest="300"
                  ShadowBrush="Black"
-                 HorizontalContentAlignment="Start"
-                 VerticalContentAlignment="Start">
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
         <xctk:Card.Title>
           <Label Text="Cards" />
         </xctk:Card.Title>
@@ -248,14 +261,13 @@
           </xctk:Card>
         </VerticalStackLayout>
       </xctk:Card>
-
       <!--Numeric UpDown Card-->
       <xctk:Card Margin="4"
                  HeightRequest="300"
                  WidthRequest="300"
                  ShadowBrush="Black"
-                 HorizontalContentAlignment="Start"
-                 VerticalContentAlignment="Start">
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
         <xctk:Card.Title>
           <Label Text="Numeric Up/Down" />
         </xctk:Card.Title>
@@ -271,101 +283,290 @@
             <Grid.RowDefinitions>
               <RowDefinition />
               <RowDefinition />
-              <RowDefinition />              
+              <RowDefinition />
             </Grid.RowDefinitions>
 
-              <Label Text="Byte Up Down : "
-                     VerticalOptions="Center"
-                     Grid.Column="0"
-                     Grid.Row="0"
-                     WidthRequest="100"
-                     HorizontalTextAlignment="End" />
+            <Label Text="Byte Up Down : "
+                   VerticalOptions="Center"
+                   Grid.Column="0"
+                   Grid.Row="0"
+                   WidthRequest="100"
+                   HorizontalTextAlignment="End" />
 
-              <xctk:ByteUpDown HeightRequest="40"
-                               Grid.Row="0"
-                               Grid.Column="1"
-                               Margin="4,10,4,4"
-                               WidthRequest="120" />
-
-
-
-              <Label Text="Int Up Down : "
-                     Grid.Column="0"
-                     Grid.Row="1"
-                     HorizontalTextAlignment="End"
-                     VerticalOptions="Center"
-                     WidthRequest="100" />
-
-              <xctk:IntegerUpDown HeightRequest="40"
-                                  Grid.Column="1"
-                                  Grid.Row="1"
-                                  Margin="4"
-                                  WidthRequest="120" />
+            <xctk:ByteUpDown HeightRequest="40"
+                             Grid.Row="0"
+                             Grid.Column="1"
+                             Margin="4,10,4,4"
+                             WidthRequest="120" />
 
 
-              <Label Text="Long Up Down : "
-                     Grid.Column="0"
-                     Grid.Row="2"
-                     HorizontalTextAlignment="End"
-                     VerticalOptions="Center"
-                     WidthRequest="100" />
 
-              <xctk:LongUpDown HeightRequest="40"
-                               Grid.Column="1"
-                               Grid.Row="2"
-                               Margin="4"
-                               WidthRequest="120" />
-          </Grid>          
+            <Label Text="Int Up Down : "
+                   Grid.Column="0"
+                   Grid.Row="1"
+                   HorizontalTextAlignment="End"
+                   VerticalOptions="Center"
+                   WidthRequest="100" />
+
+            <xctk:IntegerUpDown HeightRequest="40"
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                Margin="4"
+                                WidthRequest="120" />
+
+
+            <Label Text="Long Up Down : "
+                   Grid.Column="0"
+                   Grid.Row="2"
+                   HorizontalTextAlignment="End"
+                   VerticalOptions="Center"
+                   WidthRequest="100" />
+
+            <xctk:LongUpDown HeightRequest="40"
+                             Grid.Column="1"
+                             Grid.Row="2"
+                             Margin="4"
+                             WidthRequest="120" />
+          </Grid>
         </VerticalStackLayout>
 
       </xctk:Card>
-
       <!--Theme Card-->
       <xctk:Card Margin="4"
                  HeightRequest="300"
                  WidthRequest="300"
                  ShadowBrush="Black"
-                 HorizontalContentAlignment="Start"
-                 VerticalContentAlignment="Start">
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
         <xctk:Card.Title>
           <Label Text="Fluent Brushes" />
         </xctk:Card.Title>
         <VerticalStackLayout Margin="6,18,6,6">
           <Label Text="Our controls embrace Fluent Design patterns, offering an extensive range of brushes to effortlessly align your application with the theme." />
-          <HorizontalStackLayout Margin="6,18,6,6">
-            <xctk:Border WidthRequest="20"
-                         HeightRequest="20"
-                         Background="#BF0077" />
-            <xctk:Border WidthRequest="20"
-                         Background="#E60094" />
-            <xctk:Border WidthRequest="20"
-                         Background="#FF43C8" />
-            <xctk:Border WidthRequest="20"
-                         Background="#FF97EE" />
-            <xctk:Border WidthRequest="20"
-                         Background="#AD0069" />
-            <xctk:Border WidthRequest="20"
-                         Background="#830048" />
-            <xctk:Border WidthRequest="20"
-                         Background="#5C0029" />
-
-          </HorizontalStackLayout>
+          <Grid HeightRequest="20"
+                HorizontalOptions="Fill"
+                Margin="6"
+                ColumnDefinitions="*,*,*,*,*,*,*">
+            <Grid Background="{DynamicResource SystemAccentColor}"
+                  ToolTipProperties.Text="Accent Color">
+            </Grid>
+            <Grid Grid.Column="1"
+                  Background="{DynamicResource SystemAccentColorLight1}"
+                  ToolTipProperties.Text="Accent Light Color 1">
+            </Grid>
+            <Grid Grid.Column="2"
+                  Background="{DynamicResource SystemAccentColorLight2}"
+                  ToolTipProperties.Text="Accent Light Color 2">
+            </Grid>
+            <Grid Grid.Column="3"
+                  Background="{DynamicResource SystemAccentColorLight3}"
+                  ToolTipProperties.Text="Accent Light Color 3">
+            </Grid>
+            <Grid Grid.Column="4"
+                  Background="{DynamicResource SystemAccentColorDark1}"
+                  ToolTipProperties.Text="Accent Dark Color 1">
+            </Grid>
+            <Grid Grid.Column="5"
+                  Background="{DynamicResource SystemAccentColorDark2}"
+                  ToolTipProperties.Text="Accent Dark Color 2">
+            </Grid>
+            <Grid Grid.Column="6"
+                  Background="{DynamicResource SystemAccentColorDark3}"
+                  ToolTipProperties.Text="Accent Dark Color 3">
+            </Grid>
+          </Grid>
 
           <FlexLayout x:Name="borderContainer"
-                      AlignContent="Center"
-                      HorizontalOptions="Center"
-                      Wrap="Wrap">
+                      Wrap="Wrap"
+                      JustifyContent="Start"
+                      BindableLayout.ItemsSource="{Binding Source={x:Static local:FluentColorHelper.AvailableFluentColors}}"
+                      BindableLayout.ItemTemplate="{StaticResource ColorItemTemplate}">
           </FlexLayout>
         </VerticalStackLayout>
       </xctk:Card>
+      <!--ToggleSwitch Card-->
+      <xctk:Card Margin="4"
+                 IsVisible="True"
+                 HeightRequest="300"
+                 WidthRequest="300"
+                 ShadowBrush="Black"
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
+        <xctk:Card.Title>
+          <Label Text="Toggle Switch" />
+        </xctk:Card.Title>
+        <VerticalStackLayout>
 
+          <Label Margin="6,18,6,6"
+                 Text="Fully customizable ToggleSwitch that exposes content for both checked and unchecked states." />
+          <VerticalStackLayout>
+            <xctk:ToggleSwitch HeightRequest="42"
+                               WidthRequest="120"
+                               Margin="8"
+                               CheckedContent="On"
+                               UncheckedContent="Off" />
+            <xctk:ToggleSwitch HeightRequest="42"
+                               WidthRequest="120"
+                               Margin="8">
+              <xctk:ToggleSwitch.CheckedContent>
+                <Grid>
+                  <Image Source="{OnPlatform Resources/Images/sun_w.png, Android=Resources/Images/sun.png, iOS=Resources/Images/sun.png }"
+                         HeightRequest="28"
+                         VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                         Margin="2" />
+                </Grid>
+              </xctk:ToggleSwitch.CheckedContent>
+              <xctk:ToggleSwitch.UncheckedContent>
+                <Grid>
+                  <Image Source="{OnPlatform Resources/Images/moon_w.png, Android=Resources/Images/moon.png, iOS=Resources/Images/moon.png }"
+                         HeightRequest="28"
+                         VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                         Margin="2" />
+                </Grid>
+              </xctk:ToggleSwitch.UncheckedContent>
+            </xctk:ToggleSwitch>
+
+            <xctk:ToggleSwitch Margin="8" />
+          </VerticalStackLayout>
+        </VerticalStackLayout>
+      </xctk:Card>
+      <!--ExpanderSwitch Card-->
+      <xctk:Card Margin="4"
+                 HeightRequest="300"
+                 WidthRequest="300"
+                 ShadowBrush="Black"
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
+        <xctk:Card.Title>
+          <Label Text="Expander" />
+        </xctk:Card.Title>
+        <VerticalStackLayout>
+
+          <Label Margin="6,18,6,6"
+                 Text="Easily show or hide contents/controls with our Expander" />
+          <xctk:Expander Header="More Controls!"
+                         Direction="Down">
+            <VerticalStackLayout HorizontalOptions="Fill">
+              <Label Text="Xceed Controls"
+                     Margin="4" />
+              <xctk:CheckBox Content="Check"
+                             IsChecked="True"
+                             Margin="4" />
+              <xctk:Button Content="Click"
+                           Margin="4" />
+              <xctk:ToggleButton Content="Toggle"
+                                 Margin="4" />
+
+            </VerticalStackLayout>
+          </xctk:Expander>
+        </VerticalStackLayout>
+      </xctk:Card>
+      <!--Entry Card-->
+      <xctk:Card Margin="4"
+                 HeightRequest="300"
+                 WidthRequest="300"
+                 ShadowBrush="Black"
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
+        <xctk:Card.Title>
+          <Label Text="TextBox (Entry)" />
+        </xctk:Card.Title>
+        <VerticalStackLayout>
+
+          <Label Margin="6,18,6,6"
+                 Text="Enhanced TextBox (entry) with full control flexibility: CornerRadius, BorderThickness, and more!" />
+
+          <xctk:TextBox Margin="0,8,0,0"
+                        ClearButtonVisibility="WhileEditing" />
+
+          <xctk:TextBox Margin="0,8,0,0"
+                        CornerRadius="0"
+                        BorderThickness="2"
+                        BorderBrush="{StaticResource XceedOrange}"
+                        Watermark="FirstName"
+                        IsFocusUnderlineVisible="False"
+                        ClearButtonVisibility="WhileEditing" />
+
+          <xctk:TextBox Margin="0,8,0,0"
+                        CornerRadius="5,5,0,0"
+                        BorderThickness="2"
+                        BorderBrush="{StaticResource XceedOrange}"
+                        Watermark="LastName"
+                        ClearButtonVisibility="WhileEditing" />
+
+        </VerticalStackLayout>
+      </xctk:Card>
+      <!--CheckBox Card-->
+      <xctk:Card Margin="4"
+                 HeightRequest="300"
+                 WidthRequest="300"
+                 ShadowBrush="Black"
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
+        <xctk:Card.Title>
+          <Label Text="CheckBox" />
+        </xctk:Card.Title>
+        <VerticalStackLayout>
+          <Label Margin="6,18,6,6"
+                 Text="Our CheckBox allows for tri-state functionality, size and appearance customization, content support, and custom symbols for checked, indeterminate, and unchecked states." />
+          <xctk:CheckBox Content="CheckBox 1"
+                         IsChecked="True"
+                         Margin="4" />
+          <xctk:CheckBox Content="CheckBox 2"
+                         IsChecked="{x:Null}"
+                         IsThreeState="True"
+                         Margin="4" />
+          <xctk:CheckBox Content="CheckBox 3"
+                         Margin="4" />
+          <xctk:CheckBox Content="CheckBox 4"
+                         Margin="4" />
+        </VerticalStackLayout>
+      </xctk:Card>
+
+
+      <!--Chart Card-->
+      <xctk:Card Margin="4"
+                 HeightRequest="300"
+                 WidthRequest="300"
+                 ShadowBrush="Black"
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
+        <xctk:Card.Title>
+          <Label Text="Chart" />
+        </xctk:Card.Title>
+        <VerticalStackLayout>
+          <Label Margin="6,18,6,6"
+                 Text="The chart control current offers both Line and Bar charts, the control is easy to use and light way." />
+          <xctk:Button x:Name="ChartPageButton"
+                       Content="Visit Our Chart Page!"
+                       Clicked="ChartPageButton_Clicked" />
+        </VerticalStackLayout>
+      </xctk:Card>
+      <!--ColorCanvas Card-->
+      <xctk:Card Margin="4"
+                 HeightRequest="400"
+                 WidthRequest="300"
+                 ShadowBrush="Black"
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
+        <xctk:Card.Title>
+          <Label Text="Color Canvas" />
+        </xctk:Card.Title>
+        <VerticalStackLayout>
+          <Label Margin="6,18,6,6"
+                 Text="This control allows you to do advance color selection." />
+          <xctk:ColorCanvas />
+        </VerticalStackLayout>
+      </xctk:Card>
       <!--Much More Card-->
       <xctk:Card Margin="4"
                  HeightRequest="300"
                  WidthRequest="300"
                  ShadowBrush="Black"
-                 HorizontalContentAlignment="Start"
-                 VerticalContentAlignment="Start">
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
         <xctk:Card.Title>
           <Label Text="So much more soon!" />
         </xctk:Card.Title>
@@ -374,9 +575,7 @@
                  Text="Xceed continuously expands its toolkit with new controls. Stay updated by regularly checking our NuGet or GitHub page for the latest additions." />
         </VerticalStackLayout>
       </xctk:Card>
-
     </FlexLayout>
-
   </ScrollView>
 
 </ContentPage>

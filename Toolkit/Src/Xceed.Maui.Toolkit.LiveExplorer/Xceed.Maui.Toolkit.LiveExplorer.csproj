@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--Do not add ToolVersion attribute to Project to be able to compile in MAC-->
   <PropertyGroup>
     <!-- Disable automatic/default item gathering to help automatic builds -->
     <EnableDefaultItems>false</EnableDefaultItems>
@@ -12,6 +13,7 @@
          as opposed to other platforms where the SupportedOSPlatformVersion property is sufficent -->
     <!-- Package Microsoft.Maui.Graphics.Win2D.WinUI.Desktop 7.0.49 forces the minimum Windows version to be 10.0.19041.0 as opposed to 10.0.17763.0 -->
     <MinWindowsVersion>10.0.19041.0</MinWindowsVersion>
+    <!--TargetFrameworks must be a condition for Windows to be able to compile in MAC-->
     <TargetFrameworks>net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
     <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">net7.0-windows$(MinWindowsVersion);$(TargetFrameworks)</TargetFrameworks>
     <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
@@ -19,6 +21,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Xceed.Maui.Toolkit.LiveExplorer</RootNamespace>
     <UseMaui>true</UseMaui>
+    <!--EnableWindowsTargeting is necessary to be able to compile in MAC-->
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <SingleProject>true</SingleProject>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -29,7 +32,7 @@
     <ApplicationId>com.companyname.Xceed.Maui.Toolkit.LiveExplorer</ApplicationId>
     <ApplicationIdGuid>dac11efa-5487-46e8-8d1f-697b48cb8bb5</ApplicationIdGuid>
     <!-- Versions -->
-    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationDisplayVersion>1.5</ApplicationDisplayVersion>
     <ApplicationVersion>1</ApplicationVersion>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
@@ -72,8 +75,11 @@
     <Compile Include="AboutXceedPage.xaml.cs" />
     <Compile Include="App.xaml.cs" />
     <Compile Include="AppShell.xaml.cs" />
+    <Compile Include="ChartPage.xaml.cs" />
+    <Compile Include="ColorItem.cs" />
     <Compile Include="MainPage.xaml.cs" />
     <Compile Include="MauiProgram.cs" />
+    <Compile Include="FluentColorHelper.cs" />
     <MauiXaml Include="App.xaml" />
     <MauiXaml Include="AppShell.xaml" />
     <MauiXaml Include="MainPage.xaml" />
@@ -127,6 +133,18 @@
     <Content Include="Resources\Images\logo_w.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <MauiImage Include="Resources\Images\moon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </MauiImage>
+    <Content Include="Resources\Images\moon_w.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <MauiImage Include="Resources\Images\sun.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </MauiImage>
+    <Content Include="Resources\Images\sun_w.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <MauiImage Include="Resources\Images\logo.png">
@@ -160,6 +178,12 @@
   <ItemGroup>
     <MauiXaml Include="AboutXceedPage.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+  </ItemGroup>
+  <ItemGroup>
+    <MauiXaml Include="ChartPage.xaml">
+      <Generator>
+      </Generator>
     </MauiXaml>
   </ItemGroup>
   <ItemGroup>

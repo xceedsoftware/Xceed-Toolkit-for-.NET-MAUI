@@ -68,24 +68,6 @@ namespace Xceed.Maui.Toolkit
 
     #endregion
 
-    #region Events
-
-    public event EventHandler PointerEnter;
-
-    public void RaisePointerEnterEvent( object sender, EventArgs e )
-    {
-      this.PointerEnter?.Invoke( sender, e );
-    }
-
-    public event EventHandler PointerLeave;
-
-    public void RaisePointerLeaveEvent( object sender, EventArgs e )
-    {
-      this.PointerLeave?.Invoke( sender, e );
-    }
-
-    #endregion
-
     #region Event Handlers
 
     private void OnPressed( object sender, EventArgs args )
@@ -126,7 +108,7 @@ namespace Xceed.Maui.Toolkit
       {
         base.TouchesBegan( touches, uiEvent );
 
-        this.State = UIGestureRecognizerState.Began;
+        this.State = UIGestureRecognizerState.Possible;
 
         this.Pressed?.Invoke( this, EventArgs.Empty );
       }

@@ -20,7 +20,7 @@
 
 internal class _XceedVersionInfo
 {
-  public const string BaseVersion = "1.0";
+  public const string BaseVersion = "1.5";
 
   public const string Version = BaseVersion + ".0.0";
 }

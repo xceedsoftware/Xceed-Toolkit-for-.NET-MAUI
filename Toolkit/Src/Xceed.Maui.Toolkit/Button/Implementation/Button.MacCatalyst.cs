@@ -21,46 +21,9 @@ namespace Xceed.Maui.Toolkit
   // All the code in this file is only included on Mac.
   public partial class Button
   {
-    #region Public Properties
-
-    #region IsPointerOver
-
-    public static readonly BindableProperty IsPointerOverProperty = BindableProperty.Create( nameof( IsPointerOver ), typeof( bool ), typeof( Button ), false, propertyChanged: OnIsPointerOverChanged );
-
-    public bool IsPointerOver
-    {
-      get => ( bool )GetValue( IsPointerOverProperty );
-      private set => SetValue( IsPointerOverProperty, value );
-    }
-
-    private static void OnIsPointerOverChanged( BindableObject bindable, object oldValue, object newValue )
-    {
-      var button = bindable as Button;
-      if( button != null )
-      {
-        button.OnIsPointerOverChanged( ( bool )oldValue, ( bool )newValue );
-      }
-    }
-
-    protected virtual void OnIsPointerOverChanged( bool oldValue, bool newValue )
-    {
-      if( newValue )
-      {
-        this.RaisePointerEnterEvent( this, EventArgs.Empty );
-      }
-      else
-      {
-        this.RaisePointerLeaveEvent( this, EventArgs.Empty );
-      }
-    }
-
-    #endregion
-
-    #endregion
-
     #region Partial Methods
 
-    partial void InitializeForPlatform( Border oldBorder, Border newBorder )
+    partial void ApplyTemplateForPlatform( Border oldBorder, Border newBorder )
     {
       if( oldBorder != null )
       {
@@ -93,24 +56,6 @@ namespace Xceed.Maui.Toolkit
     {
       this.IsPressed = false;
       this.IsPointerOver = false;
-    }
-
-    #endregion
-
-    #region Events
-
-    public event EventHandler PointerEnter;
-
-    public void RaisePointerEnterEvent( object sender, EventArgs e )
-    {
-      this.PointerEnter?.Invoke( sender, e );
-    }
-
-    public event EventHandler PointerLeave;
-
-    public void RaisePointerLeaveEvent( object sender, EventArgs e )
-    {
-      this.PointerLeave?.Invoke( sender, e );
     }
 
     #endregion

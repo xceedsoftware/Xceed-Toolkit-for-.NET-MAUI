@@ -35,29 +35,28 @@
             Value="{AppThemeBinding Dark={StaticResource DarkControlBorderBrush},Light={StaticResource LightControlBorderBrush}}" />
     <Setter Property="TextColor"
             Value="{AppThemeBinding Dark={StaticResource DarkTextPrimary}, Light={StaticResource LightTextPrimary}}" />
-    <Setter Property="WatermarkColor"
-            Value="{AppThemeBinding Light={StaticResource LightTextTertiary}, Dark={StaticResource DarkTextTertiary}}" />
     <Setter Property="BorderThickness"
             Value="1" />
     <Setter Property="CornerRadius"
             Value="4" />
-    <Setter Property="HorizontalContentAlignment"
+    <Setter Property="HorizontalContentOptions"
             Value="Fill" />
-    <Setter Property="VerticalContentAlignment"
+    <Setter Property="VerticalContentOptions"
             Value="Fill" />
     <Setter Property="ControlTemplate">
       <Setter.Value>
         <ControlTemplate>
           <local:Border BorderBrush="{TemplateBinding BorderBrush}"
-                        HorizontalOptions="{TemplateBinding HorizontalOptions}"
-                        VerticalOptions="{TemplateBinding VerticalOptions}"
                         CornerRadius="{TemplateBinding CornerRadius}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         Background="{TemplateBinding Background}"
-                        HorizontalContentAlignment="Fill"
-                        WidthRequest="{TemplateBinding WidthRequest}"
-                        HeightRequest="{TemplateBinding HeightRequest}"
-                        Padding="0">
+                        MaximumWidthRequest="{TemplateBinding MaximumWidthRequest}"
+                        MaximumHeightRequest="{TemplateBinding MaximumHeightRequest}"
+                        MinimumHeightRequest="{TemplateBinding MinimumHeightRequest}"
+                        MinimumWidthRequest="{TemplateBinding MinimumWidthRequest}"
+                        HorizontalContentOptions="Fill"
+                        Padding="0"
+                        IsEnabled="{TemplateBinding IsEnabled}">
             <local:ButtonSpinner x:Name="PART_Spinner"
                                  Background="Transparent"
                                  Padding="{TemplateBinding Padding}"
@@ -67,20 +66,33 @@
                                  SpinnerUpContentTemplate="{Binding SpinnerUpContentTemplate, Source={RelativeSource TemplatedParent}, TargetNullValue={StaticResource IncreaseGlyph}}"
                                  IsEnabled="{TemplateBinding IsEnabled}"
                                  CornerRadius="{TemplateBinding CornerRadius}"
-                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" >
-              <!--For some reason, on Android, the TextColor will only work with Binding on TemplatedParent. A TemplateBinding won't work.-->
-              <Entry x:Name="PART_Entry"
-                     MinimumWidthRequest="40"
-                     HorizontalTextAlignment="End"
-                     Background="Transparent"
-                     Placeholder="{TemplateBinding Watermark}"
-                     PlaceholderColor="{TemplateBinding WatermarkColor}"
-                     TextColor="{Binding TextColor, Source={RelativeSource TemplatedParent}}"
-                     FontFamily="{TemplateBinding FontFamily}"
-                     FontSize="{TemplateBinding FontSize}"
-                     FontAttributes="{TemplateBinding FontAttributes}">
-              </Entry>
+                                 HorizontalContentOptions="{TemplateBinding HorizontalContentOptions}"
+                                 VerticalContentOptions="{TemplateBinding VerticalContentOptions}"
+                                 OverrideDefaultVisualStates="True">
+              <local:TextBox x:Name="PART_TextBox"
+                             Background="Transparent"
+                             IsFocusUnderlineVisible="False"
+                             BorderThickness="0"
+                             CornerRadius="{Binding CornerRadius, Source={RelativeSource TemplatedParent}, Converter={StaticResource CornerRadiusToSideCornerRadiusConverter}, ConverterParameter=Left}"
+                             HorizontalContentOptions="End"
+                             VerticalContentOptions="Center"
+                             Padding="0"
+                             MinimumWidthRequest="40"
+                             Watermark="{TemplateBinding Watermark}"
+                             TextColor="{Binding TextColor, Source={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                             FontFamily="{Binding FontFamily, Source={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                             FontSize="{Binding FontSize, Source={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                             FontAttributes="{Binding FontAttributes, Source={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                             IsEnabled="{TemplateBinding IsEnabled}">
+                <local:TextBox.Triggers>
+                  <DataTrigger TargetType="{x:Type local:TextBox}"
+                               Binding="{Binding SpinnerLocation, Source={x:Reference PART_Spinner}}"
+                               Value="Left">
+                    <Setter Property="CornerRadius"
+                            Value="{Binding CornerRadius, Source={RelativeSource TemplatedParent}, Converter={StaticResource CornerRadiusToSideCornerRadiusConverter}, ConverterParameter=Right}" />
+                  </DataTrigger>
+                </local:TextBox.Triggers>                
+              </local:TextBox>
             </local:ButtonSpinner>
           </local:Border>
         </ControlTemplate>

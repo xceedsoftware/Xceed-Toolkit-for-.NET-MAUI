@@ -36,9 +36,9 @@
             Value="{AppThemeBinding Dark={StaticResource DarkControlBorderBrush},Light={StaticResource LightControlBorderBrush}}" />
     <Setter Property="TextColor"
             Value="{AppThemeBinding Light={StaticResource LightTextPrimary}, Dark={StaticResource DarkTextPrimary}}" />
-    <Setter Property="HorizontalContentAlignment"
+    <Setter Property="HorizontalContentOptions"
             Value="Center" />
-    <Setter Property="VerticalContentAlignment"
+    <Setter Property="VerticalContentOptions"
             Value="Center" />
     <Setter Property="Padding"
             Value="8,5,8,6" />
@@ -54,14 +54,15 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}"
-                        HorizontalOptions="{TemplateBinding HorizontalOptions}"
-                        VerticalOptions="{TemplateBinding VerticalOptions}"
-                        HeightRequest="{TemplateBinding HeightRequest}"
-                        WidthRequest="{TemplateBinding WidthRequest}"
-                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
-            <ContentPresenter Content="{TemplateBinding View}"
-                              Padding="{TemplateBinding Padding}" />
+                        Padding="{TemplateBinding Padding}"
+                        HorizontalContentOptions="{TemplateBinding HorizontalContentOptions}"
+                        VerticalContentOptions="{TemplateBinding VerticalContentOptions}"
+                        MaximumWidthRequest="{TemplateBinding MaximumWidthRequest}"
+                        MaximumHeightRequest="{TemplateBinding MaximumHeightRequest}"
+                        MinimumWidthRequest="{TemplateBinding MinimumWidthRequest}"
+                        MinimumHeightRequest="{TemplateBinding MinimumHeightRequest}"
+                        IsEnabled="{TemplateBinding IsEnabled}">
+            <ContentPresenter Content="{TemplateBinding View}"/>
           </local:Border>
         </ControlTemplate>
       </Setter.Value>
@@ -73,14 +74,7 @@
         <Setter Property="VisualStateManager.VisualStateGroups">
           <VisualStateGroupList>
             <VisualStateGroup>
-              <VisualState x:Name="Normal">
-                <VisualState.Setters>
-                  <Setter Property="Background"
-                          Value="{AppThemeBinding Light={StaticResource LightBase0}, Dark={StaticResource DarkBase2}}" />
-                  <Setter Property="TextColor"
-                          Value="{AppThemeBinding Light={StaticResource LightTextPrimary}, Dark={StaticResource DarkTextPrimary}}" />
-                </VisualState.Setters>
-              </VisualState>
+              <VisualState x:Name="Normal" />
               <VisualState x:Name="Pressed">
                 <VisualState.Setters>
                   <Setter Property="Background"
@@ -97,10 +91,16 @@
                           Value="{DynamicResource SystemAccentColorDark1Foreground}" />
                 </VisualState.Setters>
               </VisualState>
+              <VisualState x:Name="Focused">
+                <VisualState.Setters>
+                  <Setter Property="BorderBrush"
+                          Value="{AppThemeBinding Light={StaticResource DarkBase0}, Dark={StaticResource LightBase0}}" />
+                </VisualState.Setters>
+              </VisualState>
               <VisualState x:Name="Disabled">
                 <VisualState.Setters>
                   <Setter Property="Opacity"
-                          Value="0.4" />
+                          Value="{StaticResource DisabledOpacity}" />
                 </VisualState.Setters>
               </VisualState>
             </VisualStateGroup>

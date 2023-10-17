@@ -24,24 +24,29 @@
   <Color x:Key="LightBase0">#FFFFFF</Color>
   <Color x:Key="LightBase1">#F0F0F0</Color>
   <Color x:Key="LightBase2">#E9E9E9</Color>
+  <Color x:Key="LightUncheckedBase">#EDEDED</Color>
   <Color x:Key="LightBase3">#D8D8D8</Color>
   <Color x:Key="LightBase4">#CFCFCF</Color>
-  <Color x:Key="LightBase5">#C0C0C0</Color>
-
+  <Color x:Key="LightBase5">#C0C0C0</Color>  
   <Color x:Key="LightColorDefault">#FFE6E6E6</Color>
   <Color x:Key="LightColorSecondary">#CFCFCF</Color>
   <Color x:Key="LightColorTertiary">#BFBFBF</Color>
   <Color x:Key="LightColorDisabled">#ADADAD</Color>
   <Color x:Key="LightColorTransparent">#00FFFFFF</Color>
-  <Color x:Key="LightInputActive">#FFF2F2F2</Color>  
+  <Color x:Key="LightInputActive">#FFF2F2F2</Color>
+
+  <Color x:Key="LightUncheckedControl">#5A5A5A</Color>
 
   <!--DARK - BACKGROUND BASE COLORS-->
   <Color x:Key="DarkBase0">#000000</Color>
   <Color x:Key="DarkBase1">#101010</Color>
+  <Color x:Key="DarkUncheckedBase">#1D1D1D</Color>
   <Color x:Key="DarkBase2">#202020</Color>
   <Color x:Key="DarkBase3">#252525</Color>
   <Color x:Key="DarkBase4">#FF2B2B2B</Color>
   <Color x:Key="DarkBase5">#333333</Color>
+  <Color x:Key="DarkBase6">#373737</Color>
+  <Color x:Key="DarkBase7">#3C3C3C</Color>
 
   <Color x:Key="DarkColorDefault">#1F1F1F</Color>
   <Color x:Key="DarkColorSecondary">#FF2B2B2B</Color>
@@ -49,6 +54,8 @@
   <Color x:Key="DarkColorDisabled">#333333</Color>
   <Color x:Key="DarkColorTransparent">#00FFFFFF</Color>
   <Color x:Key="DarkColorInputActive">#171717</Color>
+
+  <Color x:Key="DarkUncheckedControl">#CCCCCC</Color>
 
   <!--LIGHT - TEXT BASE COLORS-->
   <Color x:Key="LightTextPrimary">#E4000000</Color>
@@ -67,5 +74,7 @@
 <!--BORDERS-->
   <Color x:Key="DarkControlBorderBrush">#12FFFFFF</Color>
   <Color x:Key="LightControlBorderBrush">#0F000000</Color>
+
+  <x:Double x:Key="DisabledOpacity">0.4</x:Double>
 
 </ResourceDictionary>

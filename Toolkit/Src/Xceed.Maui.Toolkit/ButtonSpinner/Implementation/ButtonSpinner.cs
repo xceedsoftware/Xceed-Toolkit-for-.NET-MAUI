@@ -87,6 +87,31 @@ namespace Xceed.Maui.Toolkit
 
     #endregion
 
+    #region IsPointerOver (Windows and Mac only)
+
+    public static readonly BindableProperty IsPointerOverProperty = BindableProperty.Create( "IsPointerOver", typeof( bool ), typeof( ButtonSpinner ), false, propertyChanged: OnIsPointerOverChanged );
+
+    public bool IsPointerOver
+    {
+      get => (bool)GetValue( IsPointerOverProperty );
+      private set => SetValue( IsPointerOverProperty, value );
+    }
+
+    private static void OnIsPointerOverChanged( BindableObject bindable, object oldValue, object newValue )
+    {
+      var button = bindable as ButtonSpinner;
+      if( button != null )
+      {
+        button.OnIsPointerOverChanged( (bool)oldValue, (bool)newValue );
+      }
+    }
+
+    protected virtual void OnIsPointerOverChanged( bool oldValue, bool newValue )
+    {
+    }
+
+    #endregion
+
     #region SpinnerDownContentTemplate
 
     public static readonly BindableProperty SpinnerDownContentTemplateProperty = BindableProperty.Create( nameof( SpinnerDownContentTemplate ), typeof( DataTemplate ), typeof( ButtonSpinner ), null );
@@ -222,7 +247,7 @@ namespace Xceed.Maui.Toolkit
 
     internal void IncreaseClicked()
     {
-      if( this.AllowSpin )
+      if( this.IsEnabled && this.AllowSpin )
       {
         this.RaiseSpinnedEvent( this, new SpinEventArgs( SpinDirection.Increase ) );
       }
@@ -230,7 +255,7 @@ namespace Xceed.Maui.Toolkit
 
     internal void DecreaseClicked()
     {
-      if( this.AllowSpin )
+      if( this.IsEnabled && this.AllowSpin )
       {
         this.RaiseSpinnedEvent( this, new SpinEventArgs( SpinDirection.Decrease ) );
       }
@@ -244,7 +269,10 @@ namespace Xceed.Maui.Toolkit
 
     public void RaiseSpinnedEvent( object sender, SpinEventArgs e )
     {
-      this.Spinned?.Invoke( sender, e );
+      if( this.IsEnabled )
+      {
+        this.Spinned?.Invoke( sender, e );
+      }
     }
 
     #endregion

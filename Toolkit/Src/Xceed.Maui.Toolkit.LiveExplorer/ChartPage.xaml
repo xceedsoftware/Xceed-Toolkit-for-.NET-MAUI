@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+/***************************************************************************************
+ 
+  Xceed Toolkit for MAUI is a multiplatform toolkit offered by Xceed Software Inc., 
+  makers of the popular WPF Toolkit.
+
+  COPYRIGHT (C) 2023 Xceed Software Inc. ALL RIGHTS RESERVED.
+
+  This program is provided to you under the terms of a Xceed Community License 
+  For more details about the Xceed Community License please visit the products GitHub or NuGet page .
+
+  DISCLAIMER: This code is provided as-is and without warranty of any kind, express or implied. The 
+  author(s) and owner(s) of this code shall not be liable for any damages or losses resulting from 
+  the use or inability to use the code. 
+
+ 
+  *************************************************************************************/
+  -->
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Xceed.Maui.Toolkit.LiveExplorer.ChartPage"
+             xmlns:xctk="http://schemas.xceed.com/maui/xaml/toolkit"
+             Title="ChartPage">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <StackLayout Orientation="Horizontal">
+      <xctk:Button x:Name="AddPointButton"
+                   Content="Add Data Point"
+                   Clicked="AddPointButton_Clicked"
+                   Margin="8" />
+
+      <xctk:Button x:Name="ChangeChartButton"
+                   Content="Add Bar Chart"
+                   Clicked="ChangeChartButton_Clicked"
+                   Margin="8"/>
+    </StackLayout>
+
+    <xctk:Chart x:Name="MyChart"
+                Grid.Row="1">
+      <xctk:Chart.HorizontalAxis>
+        <xctk:Axis TickLabelType="Text" />
+      </xctk:Chart.HorizontalAxis>
+      <xctk:Chart.Series>
+        <xctk:Series x:Name="FirstSeries">
+          <xctk:Series.DataPoints>
+            <xctk:DataPoint Text="0"
+                            Y="44" />
+            <xctk:DataPoint Text="1"
+                            Y="64" />
+            <xctk:DataPoint Text="2"
+                            Y="60" />
+            <xctk:DataPoint Text="3"
+                            Y="32" />
+            <xctk:DataPoint Text="4"
+                            Y="52" />
+            <xctk:DataPoint Text="5"
+                            Y="72" />
+            <xctk:DataPoint Text="6"
+                            Y="32" />
+          </xctk:Series.DataPoints>
+        </xctk:Series>
+        <xctk:Series>
+          <xctk:Series.DataPoints>
+            <xctk:DataPoint Text="0"
+                            Y="56" />
+            <xctk:DataPoint Text="1"
+                            Y="32" />
+            <xctk:DataPoint Text="2"
+                            Y="42" />
+            <xctk:DataPoint Text="3"
+                            Y="58" />
+            <xctk:DataPoint Text="4"
+                            Y="41" />
+            <xctk:DataPoint Text="5"
+                            Y="68" />
+            <xctk:DataPoint Text="6"
+                            Y="39" />
+          </xctk:Series.DataPoints>
+        </xctk:Series>
+        <xctk:Series>
+          <xctk:Series.DataPoints>
+            <xctk:DataPoint Text="0"
+                            Y="36" />
+            <xctk:DataPoint Text="1"
+                            Y="42" />
+            <xctk:DataPoint Text="2"
+                            Y="52" />
+            <xctk:DataPoint Text="3"
+                            Y="28" />
+            <xctk:DataPoint Text="4"
+                            Y="31" />
+            <xctk:DataPoint Text="5"
+                            Y="78" />
+            <xctk:DataPoint Text="6"
+                            Y="29" />
+          </xctk:Series.DataPoints>
+        </xctk:Series>       
+      </xctk:Chart.Series>
+    </xctk:Chart>
+  </Grid>
+</ContentPage>

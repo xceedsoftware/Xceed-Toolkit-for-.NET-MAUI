@@ -29,11 +29,15 @@ namespace Xceed.Maui.Toolkit
 
   public partial class Button : ContentControl
   {
+    #region Internal Members
+
+    internal const string VisualState_Pressed = "Pressed";
+
+    #endregion
+
     #region Private Members
 
     private Border m_border;
-
-    private const string VisualState_Pressed = "Pressed";
 
     #endregion
 
@@ -42,16 +46,21 @@ namespace Xceed.Maui.Toolkit
     public Button()
     {
       this.Loaded += this.Button_Loaded;
+      this.HandlerChanged += this.Button_HandlerChanged;
+      this.HandlerChanging += this.Button_HandlerChanging;
     }
 
     #endregion
 
     #region Partial Methods
 
-    partial void InitializeForPlatform( Border oldBorder, Border newBorder );
+    partial void ApplyTemplateForPlatform( Border oldBorder, Border newBorder );
+
+    partial void InitializeForPlatform( object sender, EventArgs e );
+
+    partial void UninitializeForPlatform( object sender, HandlerChangingEventArgs e );
 
     partial void SetVisualStateAfterUnPressed();
-
 
     #endregion
 
@@ -112,7 +121,40 @@ namespace Xceed.Maui.Toolkit
       set => SetValue( ClickModeProperty, value );
     }
 
-    #endregion   
+    #endregion
+
+    #region IsPointerOver (Windows and Mac only)
+
+    public static readonly BindableProperty IsPointerOverProperty = BindableProperty.Create( nameof( IsPointerOver ), typeof( bool ), typeof( Button ), false, propertyChanged: OnIsPointerOverChanged );
+
+    public bool IsPointerOver
+    {
+      get => (bool)GetValue( IsPointerOverProperty );
+      internal set => SetValue( IsPointerOverProperty, value );
+    }
+
+    private static void OnIsPointerOverChanged( BindableObject bindable, object oldValue, object newValue )
+    {
+      var button = bindable as Button;
+      if( button != null )
+      {
+        button.OnIsPointerOverChanged( (bool)oldValue, (bool)newValue );
+      }
+    }
+
+    protected virtual void OnIsPointerOverChanged( bool oldValue, bool newValue )
+    {
+      if( newValue )
+      {
+        this.RaisePointerEnterEvent( this, EventArgs.Empty );
+      }
+      else
+      {
+        this.RaisePointerLeaveEvent( this, EventArgs.Empty );
+      }
+    }
+
+    #endregion
 
     #region IsPressed
 
@@ -175,7 +217,7 @@ namespace Xceed.Maui.Toolkit
         m_border.PointerUp += this.Border_PointerUp;
       }
 
-      this.InitializeForPlatform( oldBorder, m_border );
+      this.ApplyTemplateForPlatform( oldBorder, m_border );
     }
 
     protected override void OnPropertyChanging( [CallerMemberName] string propertyName = null )
@@ -237,23 +279,52 @@ namespace Xceed.Maui.Toolkit
 
     public event EventHandler<EventArgs> Clicked;
 
-    public void RaiseClickedEvent( object sender, EventArgs e )
+    internal void RaiseClickedEvent( object sender, EventArgs e )
     {
-      this.Clicked?.Invoke( sender, e );
+      if( this.IsEnabled )
+      {
+        this.Clicked?.Invoke( sender, e );
+      }
     }
 
     public event EventHandler<EventArgs> PointerDown;
 
-    public void RaisePointerDownEvent( object sender, EventArgs e )
+    internal void RaisePointerDownEvent( object sender, EventArgs e )
     {
-      this.PointerDown?.Invoke( sender, e );
+      if( this.IsEnabled )
+      {
+        this.PointerDown?.Invoke( sender, e );
+      }
     }
 
     public event EventHandler<EventArgs> PointerUp;
 
-    public void RaisePointerUpEvent( object sender, EventArgs e )
+    internal void RaisePointerUpEvent( object sender, EventArgs e )
     {
-      this.PointerUp?.Invoke( sender, e );
+      if( this.IsEnabled )
+      {
+        this.PointerUp?.Invoke( sender, e );
+      }
+    }
+
+    public event EventHandler PointerEnter;  //Windows and Mac only
+
+    internal void RaisePointerEnterEvent( object sender, EventArgs e )
+    {
+      if( this.IsEnabled )
+      {
+        this.PointerEnter?.Invoke( sender, e );
+      }
+    }
+
+    public event EventHandler PointerLeave;   //Windows and Mac only
+
+    internal void RaisePointerLeaveEvent( object sender, EventArgs e )
+    {
+      if( this.IsEnabled )
+      {
+        this.PointerLeave?.Invoke( sender, e );
+      }
     }
 
     #endregion
@@ -268,6 +339,16 @@ namespace Xceed.Maui.Toolkit
       {
         VisualStateManager.GoToState( this, VisualStateManager.CommonStates.Normal );
       }
+    }
+
+    private void Button_HandlerChanged( object sender, EventArgs e )
+    {
+      this.InitializeForPlatform( sender, e );
+    }
+
+    private void Button_HandlerChanging( object sender, HandlerChangingEventArgs e )
+    {
+      this.UninitializeForPlatform( sender, e );
     }
 
     private void Border_PointerDown( object sender, EventArgs e )

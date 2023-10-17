@@ -1,0 +1,238 @@
+﻿<!--
+/***************************************************************************************
+ 
+  Xceed Toolkit for MAUI is a multiplatform toolkit offered by Xceed Software Inc., 
+  makers of the popular WPF Toolkit.
+
+  COPYRIGHT (C) 2023 Xceed Software Inc. ALL RIGHTS RESERVED.
+
+  This program is provided to you under the terms of a Xceed Community License 
+  For more details about the Xceed Community License please visit the products GitHub or NuGet page .
+
+  DISCLAIMER: This code is provided as-is and without warranty of any kind, express or implied. The 
+  author(s) and owner(s) of this code shall not be liable for any damages or losses resulting from 
+  the use or inability to use the code. 
+
+ 
+  *************************************************************************************/
+  -->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit">
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="../../Themes/Brushes/Common.xaml;assembly=Xceed.Maui.Toolkit" />
+  </ResourceDictionary.MergedDictionaries>
+  <local:ToggleSwitchBorderClipConverter x:Key="ContentClipConverter" />
+  <local:ToggleSwitchSizeConverter x:Key="SizeConverter" />
+  <local:ToggleSwitchThumbMarginConverter x:Key="ThumbMarginConverter" />
+  <local:ToggleSwitchThumbHeightConverter x:Key="ThumbHeightConverter" />
+  <local:ToggleSwitchMaximumHeightConverter x:Key="MaximumHeightConverter" />
+  <!-- ********************** -->
+  <!-- Template               -->
+  <!-- ********************** -->
+  <ControlTemplate x:Key="toggleSwitchTemplate">
+    <local:Border x:Name="PART_MainBorder"
+                  Background="{TemplateBinding Background}"
+                  Padding="1,0"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  MaximumWidthRequest="{TemplateBinding MaximumWidthRequest}"
+                  MaximumHeightRequest="{TemplateBinding MaximumHeightRequest}"
+                  MinimumWidthRequest="{TemplateBinding MinimumWidthRequest}"
+                  MinimumHeightRequest="{TemplateBinding MinimumHeightRequest}">
+      <local:Border.Triggers>
+        <DataTrigger Binding="{Binding IsChecked, Source={RelativeSource TemplatedParent}}"
+                     Value="True"
+                     TargetType="{x:Type local:Border}">
+          <Setter Property="Background"
+                  Value="{TemplateBinding CheckedBackground}" />
+        </DataTrigger>
+      </local:Border.Triggers>
+      <Grid x:Name="ContainerGrid">
+        <local:Border Padding="0"
+                      CornerRadius="{TemplateBinding CornerRadius}"
+                      BorderThickness="0">
+          <local:Border.Clip>
+            <MultiBinding Converter="{StaticResource ContentClipConverter}">
+              <Binding Path="Width"
+                       Source="{RelativeSource Self}" />
+              <Binding Path="Height"
+                       Source="{RelativeSource Self}" />
+              <Binding Path="CornerRadius"
+                       Source="{RelativeSource Self}" />
+            </MultiBinding>
+          </local:Border.Clip>
+          <Grid x:Name="PART_InnerContent"
+                ColumnDefinitions="*,*"
+                HorizontalOptions="Start"
+                Background="transparent">
+            <Grid.WidthRequest>
+              <MultiBinding Converter="{StaticResource SizeConverter}">
+                <Binding Path="Width"
+                         Source="{RelativeSource AncestorType={x:Type local:ToggleSwitch}}" />
+                <Binding Path="BorderThickness"
+                         Source="{RelativeSource AncestorType={x:Type local:ToggleSwitch}}" />
+                <Binding Path="Height"
+                         Source="{Reference PART_Thumb}" />
+                <Binding Path="Margin"
+                         Source="{Reference PART_Thumb}" />
+              </MultiBinding>
+            </Grid.WidthRequest>
+            <local:Border Background="Transparent"
+                          BorderThickness="0"
+                          Padding="{TemplateBinding Padding}">
+              <StackLayout Margin="5,0,0,0"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center">
+                <local:ContentControl Content="{TemplateBinding CheckedContent}"
+                                      TextColor="{TemplateBinding TextColor}">
+                  <local:ContentControl.Triggers>
+                    <DataTrigger Binding="{Binding IsCheckedLeft, Source={RelativeSource TemplatedParent}}"
+                                 Value="True"
+                                 TargetType="{x:Type local:ContentControl}">
+                      <Setter Property="Content"
+                              Value="{Binding UncheckedContent, Source={RelativeSource TemplatedParent}}" />
+                    </DataTrigger>
+                  </local:ContentControl.Triggers>
+                </local:ContentControl>
+              </StackLayout>
+            </local:Border>
+            <local:Border Grid.Column="1"
+                          BorderThickness="0"
+                          Background="Transparent"
+                          Padding="{TemplateBinding Padding}">
+              <StackLayout Margin="0,0,5,0"
+                           HorizontalOptions="End"
+                           VerticalOptions="Center">
+                <local:ContentControl Content="{TemplateBinding UncheckedContent}"
+                                      TextColor="{TemplateBinding TextColor}">
+                  <local:ContentControl.Triggers>
+                    <DataTrigger Binding="{Binding IsCheckedLeft, Source={RelativeSource TemplatedParent}}"
+                                 Value="True"
+                                 TargetType="{x:Type local:ContentControl}">
+                      <Setter Property="Content"
+                              Value="{Binding CheckedContent, Source={RelativeSource TemplatedParent}}" />
+                    </DataTrigger>
+                  </local:ContentControl.Triggers>
+                </local:ContentControl>
+              </StackLayout>
+            </local:Border>           
+          </Grid>
+        </local:Border>
+        <local:Border x:Name="PART_Thumb"
+                      HorizontalOptions="Start"
+                      Background="{TemplateBinding ThumbBackground}"
+                      VerticalContentOptions="Center"
+                      HorizontalContentOptions="Center"
+                      VerticalOptions="Center"
+                      CornerRadius="{TemplateBinding CornerRadius}"
+                      BorderThickness="{TemplateBinding ThumbBorderThickness}"
+                      BorderBrush="{TemplateBinding ThumbBorderBrush}"
+                      TextColor="{TemplateBinding TextColor}"
+                      Margin="{Binding Height, Source={Reference PART_MainBorder}, Converter={StaticResource ThumbMarginConverter}}"
+                      HeightRequest="{Binding Height, Source={Reference PART_MainBorder}, Converter={StaticResource ThumbHeightConverter}}">
+          <local:ContentControl Content="{Binding ThumbUncheckedContent, Source={RelativeSource TemplatedParent}}">
+            <local:ContentControl.Triggers>
+              <DataTrigger Binding="{Binding IsChecked, Source={RelativeSource TemplatedParent}}"
+                           Value="True"
+                           TargetType="{x:Type local:ContentControl}">
+                <Setter Property="Content"
+                        Value="{Binding ThumbCheckedContent, Source={RelativeSource TemplatedParent}}" />
+              </DataTrigger>
+            </local:ContentControl.Triggers>
+          </local:ContentControl>
+          <local:Border.Triggers>
+            <DataTrigger Binding="{Binding IsChecked, Source={RelativeSource TemplatedParent}}"
+                         Value="True"
+                         TargetType="{x:Type local:Border}">
+              <Setter Property="Background"
+                      Value="{Binding ThumbCheckedBackground, Source={RelativeSource TemplatedParent}}" />
+            </DataTrigger>
+          </local:Border.Triggers>
+        </local:Border>
+        <Slider x:Name="PART_Slider"
+                Minimum="0"
+                VerticalOptions="Fill"
+                HorizontalOptions="Fill"
+                ThumbColor="Transparent"
+                MinimumTrackColor="Transparent"
+                MaximumTrackColor="Transparent"
+                Opacity="{x:OnPlatform WinUI=0, Android=0, Default=1}"
+                Maximum="{Binding Width, Source={Reference ContainerGrid}}"
+                IsEnabled="{TemplateBinding IsEnabled}"/>
+      </Grid>
+    </local:Border>
+  </ControlTemplate>
+
+  <!-- ********************** -->
+  <!-- Style (generic)        -->
+  <!-- ********************** -->
+  <Style x:Key="FluentDesignToggleSwitch"
+         TargetType="{x:Type local:ToggleSwitch}">
+    <Setter Property="MinimumHeightRequest"
+            Value="20" />
+    <Setter Property="MinimumWidthRequest"
+            Value="40" />
+    <Setter Property="WidthRequest"
+            Value="40" />
+    <Setter Property="HeightRequest"
+            Value="20" />
+    <Setter Property="VerticalOptions"
+            Value="Start" />
+    <Setter Property="HorizontalOptions"
+            Value="Start" />
+    <Setter Property="MaximumHeightRequest"
+            Value="{Binding Width, Source={RelativeSource Self},Converter={StaticResource MaximumHeightConverter}}" />
+    <Setter Property="CornerRadius"
+            Value="{Binding Width, Source={RelativeSource Self}}" />
+    <Setter Property="BorderThickness"
+            Value="1" />
+    <Setter Property="BorderBrush"
+            Value="{AppThemeBinding Dark={StaticResource DarkUncheckedControl},Light={StaticResource LightUncheckedControl}}" />
+    <Setter Property="CheckedBackground"
+            Value="{DynamicResource SystemAccentColor}" />
+    <Setter Property="Background"
+            Value="{AppThemeBinding Dark={StaticResource DarkUncheckedBase},Light={StaticResource LightUncheckedBase}}" />
+    <Setter Property="ThumbBorderThickness"
+            Value="0" />
+    <Setter Property="ThumbBackground"
+            Value="{AppThemeBinding Dark={StaticResource DarkUncheckedControl},Light={StaticResource LightUncheckedControl}}" />
+    <Setter Property="ThumbCheckedBackground"
+            Value="{DynamicResource SystemAccentColorForeground}" />
+    <Setter Property="ThumbBorderBrush"
+            Value="{AppThemeBinding Dark={StaticResource DarkUncheckedControl},Light={StaticResource LightUncheckedControl}}" />
+    <Setter Property="ControlTemplate"
+            Value="{StaticResource toggleSwitchTemplate}" />
+
+    <Style.Triggers>
+      <Trigger Property="OverrideDefaultVisualStates"
+               TargetType="{x:Type local:ToggleSwitch}"
+               Value="False">
+        <Setter Property="VisualStateManager.VisualStateGroups">
+          <VisualStateGroupList>
+            <VisualStateGroup>
+              <VisualState x:Name="Normal" />
+              <VisualState x:Name="Focused">
+                <VisualState.Setters>
+                  <Setter Property="BorderBrush"
+                          Value="{AppThemeBinding Light={StaticResource DarkBase0}, Dark={StaticResource LightBase0}}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="Disabled">
+                <VisualState.Setters>
+                  <Setter Property="Opacity"
+                          Value="{StaticResource DisabledOpacity}" />
+                </VisualState.Setters>
+              </VisualState>
+            </VisualStateGroup>
+          </VisualStateGroupList>
+        </Setter>
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+
+  <Style TargetType="{x:Type local:ToggleSwitch}"
+         BasedOn="{StaticResource FluentDesignToggleSwitch}" />
+</ResourceDictionary>

@@ -24,7 +24,6 @@ namespace Xceed.Maui.Toolkit
   {
     #region Private Members
 
-    private readonly WeakEventManager weakEventManager = new WeakEventManager();
     private bool m_isSyncingTextAndValue;
     private bool m_internalValueSet;
     internal bool m_isTextChangedFromUI;
@@ -285,8 +284,7 @@ namespace Xceed.Maui.Toolkit
 
       this.SetValidSpinDirection();
 
-      // Raise ValueChanged event.
-      weakEventManager.HandleEvent( this, new ValueChangedEventArgs<T>( oldValue, newValue ), nameof( this.ValueChanged ) );
+      this.RaiseValueChangedEvent( this, new ValueChangedEventArgs<T>( oldValue, newValue ) );
     }
 
 
@@ -301,7 +299,7 @@ namespace Xceed.Maui.Toolkit
       private set;
     }
 
-    protected Entry Entry
+    protected TextBox TextBox
     {
       get;
       private set;
@@ -327,17 +325,17 @@ namespace Xceed.Maui.Toolkit
     {
       base.OnApplyTemplate();
 
-      if( this.Entry != null )
+      if( this.TextBox != null )
       {
-        this.Entry.TextChanged -= this.EntryTextChanged;
-        this.Entry.Completed -= this.Entry_Completed;
+        this.TextBox.TextChanged -= this.TextBoxTextChanged;
+        this.TextBox.Completed -= this.TextBox_Completed;
       }
-      this.Entry = this.GetTemplateChild( "PART_Entry" ) as Entry;
-      if( this.Entry != null )
+      this.TextBox = this.GetTemplateChild( "PART_TextBox" ) as TextBox;
+      if( this.TextBox != null )
       {
-        this.Entry.TextChanged += this.EntryTextChanged;
+        this.TextBox.TextChanged += this.TextBoxTextChanged;
         // When Enter key is pressed in windows and Check is pressed in Android.
-        this.Entry.Completed += this.Entry_Completed;
+        this.TextBox.Completed += this.TextBox_Completed;
       }
 
       if( this.Spinner != null )
@@ -351,7 +349,7 @@ namespace Xceed.Maui.Toolkit
         this.Spinner.SetSpinnerDirections();
       }
 
-      // This is necessary in MacOS to set the Entry.Text value at startup.
+      // This is necessary in MacOS to set the TextBox.Text value at startup.
       this.CommitInput();
     }
 
@@ -464,8 +462,10 @@ namespace Xceed.Maui.Toolkit
           }
 
           // Sync Text and textBox
-          if( this.Entry != null )
-            this.Entry.Text = Text;
+          if( this.TextBox != null )
+          {
+            this.TextBox.Text = this.Text;
+          }
         }
 
         if( m_isTextChangedFromUI && !parsedTextIsValid )
@@ -488,22 +488,30 @@ namespace Xceed.Maui.Toolkit
         m_isSyncingTextAndValue = false;
       }
       return parsedTextIsValid;
-    }    
+    }
 
     #endregion
 
     #region Events
 
-    public event EventHandler<SpinEventArgs> Spinned
+    public event EventHandler<SpinEventArgs> Spinned;
+
+    public void RaiseSpinnedEvent( object sender, SpinEventArgs e )
     {
-      add => weakEventManager.AddEventHandler( value );
-      remove => weakEventManager.RemoveEventHandler( value );
+      if( this.IsEnabled )
+      {
+        this.Spinned?.Invoke( sender, e );
+      }
     }
 
-    public event EventHandler<ValueChangedEventArgs<T>> ValueChanged
+    public event EventHandler<ValueChangedEventArgs<T>> ValueChanged;
+
+    public void RaiseValueChangedEvent( object sender, ValueChangedEventArgs<T> e )
     {
-      add => weakEventManager.AddEventHandler( value );
-      remove => weakEventManager.RemoveEventHandler( value );
+      if( this.IsEnabled )
+      {
+        this.ValueChanged?.Invoke( sender, e );
+      }
     }
 
     #endregion
@@ -514,8 +522,7 @@ namespace Xceed.Maui.Toolkit
     {
       if( this.AllowSpin )
       {
-        // Raise Spinned event.
-        weakEventManager.HandleEvent( this, e, nameof( this.Spinned ) );
+        this.RaiseSpinnedEvent( this, e );
 
         if( e.Direction == SpinDirection.Increase )
         {
@@ -528,15 +535,15 @@ namespace Xceed.Maui.Toolkit
       }
     }
 
-    private void EntryTextChanged( object sender, TextChangedEventArgs e )
+    private void TextBoxTextChanged( object sender, TextChangedEventArgs e )
     {
       try
       {
         m_isTextChangedFromUI = true;
-        var entry = sender as Entry;
-        if( entry != null )
+        var textBox = sender as TextBox;
+        if( textBox != null )
         {
-          this.Text = entry.Text;
+          this.Text = textBox.Text;
         }
       }
       finally
@@ -546,7 +553,7 @@ namespace Xceed.Maui.Toolkit
 
     }
 
-    private void Entry_Completed( object sender, EventArgs e )
+    private void TextBox_Completed( object sender, EventArgs e )
     {
       this.CommitInput();
     }

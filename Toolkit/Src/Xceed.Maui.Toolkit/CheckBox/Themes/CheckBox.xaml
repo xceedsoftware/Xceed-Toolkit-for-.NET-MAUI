@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+/***************************************************************************************
+ 
+  Xceed Toolkit for MAUI is a multiplatform toolkit offered by Xceed Software Inc., 
+  makers of the popular WPF Toolkit.
+
+  COPYRIGHT (C) 2023 Xceed Software Inc. ALL RIGHTS RESERVED.
+
+  This program is provided to you under the terms of a Xceed Community License 
+  For more details about the Xceed Community License please visit the products GitHub or NuGet page .
+
+  DISCLAIMER: This code is provided as-is and without warranty of any kind, express or implied. The 
+  author(s) and owner(s) of this code shall not be liable for any damages or losses resulting from 
+  the use or inability to use the code. 
+
+ 
+  *************************************************************************************/
+  -->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit"
+                    xmlns:conv="clr-namespace:Xceed.Maui.Toolkit.Converters;assembly=Xceed.Maui.Toolkit">
+
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="../../Themes/Brushes/Common.xaml;assembly=Xceed.Maui.Toolkit" />
+  </ResourceDictionary.MergedDictionaries>
+
+  <local:CheckBoxClipRectConverter x:Key="CheckBoxClipRectConverter" />
+  <local:CheckBoxSymbolConverter x:Key="CheckBoxSymbolConverter" />
+  <conv:ThicknessDirectionConverter x:Key="ThicknessDirectionConverter" />
+
+  <DataTemplate x:Key="checkmark">
+    <Path Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z"
+          Fill="{DynamicResource SystemAccentColorForeground}"
+          Aspect="Fill" />
+  </DataTemplate>
+
+  <DataTemplate x:Key="indeterminateMark">
+    <Line X1="0"
+          Y1="0"
+          X2="5"
+          Y2="0"
+          Aspect="Uniform"
+          StrokeThickness="3"
+          Stroke="{DynamicResource SystemAccentColorForeground}" />
+  </DataTemplate>
+
+  <Style x:Key="FluentDesignCheckBox"
+         TargetType="{x:Type local:CheckBox}">
+    <Setter Property="Background"
+            Value="Transparent" />
+    <Setter Property="BorderBrush"
+            Value="{AppThemeBinding Light={StaticResource DarkBase3}, Dark={StaticResource LightBase3}}" />
+    <Setter Property="BorderThickness"
+            Value="1" />
+    <Setter Property="CornerRadius"
+            Value="4" />
+    <Setter Property="BoxSizeRequest"
+            Value="22" />
+    <Setter Property="HorizontalOptions"
+            Value="Start" />
+    <Setter Property="VerticalOptions"
+            Value="Start" />
+    <Setter Property="HorizontalContentOptions"
+            Value="Start" />
+    <Setter Property="VerticalContentOptions"
+            Value="Center" />
+    <Setter Property="Padding"
+            Value="3" />
+    <Setter Property="FontSize"
+            Value="14" />
+    <Setter Property="TextColor"
+            Value="{AppThemeBinding Light={StaticResource LightTextPrimary}, Dark={StaticResource DarkTextPrimary}}" />
+    <Setter Property="CheckedSymbol"
+            Value="{StaticResource checkmark}" />
+    <Setter Property="IndeterminateSymbol"
+            Value="{StaticResource indeterminateMark}" />
+    <Setter Property="ControlTemplate">
+      <Setter.Value>
+        <ControlTemplate>
+          <Grid>
+            <local:Border x:Name="PART_MainBorder"
+                          BorderThickness="0"
+                          Background="Transparent"
+                          Padding="{Binding Padding, Source={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessDirectionConverter}, ConverterParameter=vertical}"
+                          HorizontalContentOptions="Start"
+                          VerticalContentOptions="Center"
+                          IsEnabled="{TemplateBinding IsEnabled}">
+              <Grid ColumnDefinitions="Auto,*"
+                    InputTransparent="True">
+                <Grid x:Name="checkBox"
+                      WidthRequest="{TemplateBinding BoxSizeRequest}"
+                      HeightRequest="{TemplateBinding BoxSizeRequest}"
+                      MinimumWidthRequest="20"
+                      MinimumHeightRequest="20">
+                  <local:Border x:Name="checkBoxBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                Padding="4">
+                    <local:ContentControl>
+                      <local:ContentControl.ContentTemplate>
+                        <MultiBinding Converter="{StaticResource CheckBoxSymbolConverter}">
+                          <Binding Path="IsChecked"
+                                   Source="{RelativeSource TemplatedParent}" />
+                          <Binding Path="IsThreeState"
+                                   Source="{RelativeSource TemplatedParent}" />
+                          <Binding Path="UncheckedSymbol"
+                                   Source="{RelativeSource TemplatedParent}" />
+                          <Binding Path="CheckedSymbol"
+                                   Source="{RelativeSource TemplatedParent}" />
+                          <Binding Path="IndeterminateSymbol"
+                                   Source="{RelativeSource TemplatedParent}" />
+                        </MultiBinding>
+                      </local:ContentControl.ContentTemplate>
+                    </local:ContentControl>
+                  </local:Border>
+
+                  <!--Clipping is currently not working in Mac/iOS : it prevent mouse click, so we disable animation for those platforms.-->
+                  <Grid x:Name="checkAnimationGrid"
+                        IsVisible="{OnPlatform iOS=False, MacCatalyst=False, Default={TemplateBinding IsAnimated}}">
+                    <Grid.Clip>
+                      <RoundRectangleGeometry CornerRadius="{Binding CornerRadius, Source={x:Reference checkBoxBorder}}">
+                        <RoundRectangleGeometry.Rect>
+                          <MultiBinding Converter="{StaticResource CheckBoxClipRectConverter}">
+                            <Binding Path="BorderThickness"
+                                     Source="{x:Reference checkBoxBorder}" />
+                            <Binding Path="WidthRequest"
+                                     Source="{x:Reference checkBox}" />
+                            <Binding Path="HeightRequest"
+                                     Source="{x:Reference checkBox}" />
+                          </MultiBinding>
+                        </RoundRectangleGeometry.Rect>
+                      </RoundRectangleGeometry>
+                    </Grid.Clip>
+
+
+                    <!--Must be transparent instead of "Visible=False" to work in Android!-->
+
+                    <local:Border x:Name="PART_AnimateBorder"
+                                  Background="Transparent">
+                      <local:Border.Triggers>
+                        <MultiTrigger TargetType="{x:Type local:Border}">
+                          <MultiTrigger.Conditions>
+                            <BindingCondition Binding="{Binding IsAnimated, Source={RelativeSource TemplatedParent}}"
+                                              Value="True" />
+                            <BindingCondition Binding="{Binding IsChecked, Source={RelativeSource TemplatedParent}}"
+                                              Value="True" />
+                          </MultiTrigger.Conditions>
+                          <Setter Property="Background"
+                                  Value="{Binding Background, Source={RelativeSource TemplatedParent}}" />
+                        </MultiTrigger>
+                      </local:Border.Triggers>
+                    </local:Border>
+                  </Grid>
+                </Grid>
+
+                <local:ContentControl Grid.Column="1"
+                                      Margin="2,0,0,0"
+                                      Content="{TemplateBinding Content}"
+                                      Padding="{Binding Padding, Source={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessDirectionConverter}, ConverterParameter=horizontal}"
+                                      HorizontalOptions="{TemplateBinding HorizontalContentOptions}"
+                                      VerticalOptions="{TemplateBinding VerticalContentOptions}"
+                                      TextColor="{TemplateBinding TextColor}"
+                                      FontSize="{TemplateBinding FontSize}"
+                                      FontAttributes="{TemplateBinding FontAttributes}"
+                                      FontFamily="{TemplateBinding FontFamily}"
+                                      InputTransparent="True" />
+              </Grid>
+            </local:Border>
+          </Grid>
+
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    <Style.Triggers>
+      <Trigger Property="OverrideDefaultVisualStates"
+               TargetType="{x:Type local:CheckBox}"
+               Value="False">
+        <Setter Property="VisualStateManager.VisualStateGroups">
+          <VisualStateGroupList>
+            <VisualStateGroup>
+              <VisualState x:Name="Normal" />
+              <VisualState x:Name="Pressed">
+                <VisualState.Setters>
+                  <Setter Property="Background"
+                          Value="{AppThemeBinding Light={StaticResource LightBase3}}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="PointerOver">
+                <VisualState.Setters>
+                  <Setter Property="Background"
+                          Value="{AppThemeBinding Light={StaticResource LightBase2}}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="PointerOverChecked">
+                <VisualState.Setters>
+                  <Setter Property="Background"
+                          Value="{DynamicResource SystemAccentColorDark1}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="PointerOverIndeterminate">
+                <VisualState.Setters>
+                  <Setter Property="Background"
+                          Value="{DynamicResource SystemAccentColorDark1}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="Checked">
+                <VisualState.Setters>
+                  <Setter Property="Background"
+                          Value="{DynamicResource SystemAccentColor}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="Indeterminate">
+                <VisualState.Setters>
+                  <Setter Property="Background"
+                          Value="{DynamicResource SystemAccentColor}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="Focused">
+                <VisualState.Setters>
+                  <Setter Property="BorderBrush"
+                          Value="{AppThemeBinding Light={StaticResource DarkBase0}, Dark={StaticResource LightBase0}}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="FocusedChecked">
+                <VisualState.Setters>
+                  <Setter Property="BorderBrush"
+                          Value="{AppThemeBinding Light={StaticResource DarkBase0}, Dark={StaticResource LightBase0}}" />
+                  <Setter Property="Background"
+                          Value="{DynamicResource SystemAccentColor}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="FocusedIndeterminate">
+                <VisualState.Setters>
+                  <Setter Property="BorderBrush"
+                          Value="{AppThemeBinding Light={StaticResource DarkBase0}, Dark={StaticResource LightBase0}}" />
+                  <Setter Property="Background"
+                          Value="{DynamicResource SystemAccentColor}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="Disabled">
+                <VisualState.Setters>
+                  <Setter Property="Opacity"
+                          Value="{StaticResource DisabledOpacity}" />
+                </VisualState.Setters>
+              </VisualState>
+            </VisualStateGroup>
+          </VisualStateGroupList>
+        </Setter>
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+
+  <Style TargetType="{x:Type local:CheckBox}"
+         BasedOn="{StaticResource FluentDesignCheckBox}" />
+</ResourceDictionary>

@@ -82,23 +82,5 @@ namespace Xceed.Maui.Toolkit
     }
 
     #endregion
-
-    #region Events
-
-    public event EventHandler PointerEnter;
-
-    public void RaisePointerEnterEvent( object sender, EventArgs e )
-    {
-      this.PointerEnter?.Invoke( sender, e );
-    }
-
-    public event EventHandler PointerLeave;
-
-    public void RaisePointerLeaveEvent( object sender, EventArgs e )
-    {
-      this.PointerLeave?.Invoke( sender, e );
-    }
-
-    #endregion
   }
 }
