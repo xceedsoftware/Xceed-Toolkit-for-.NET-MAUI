@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+/***************************************************************************************
+ 
+  Xceed Toolkit for MAUI is a multiplatform toolkit offered by Xceed Software Inc., 
+  makers of the popular WPF Toolkit.
+
+  COPYRIGHT (C) 2023 Xceed Software Inc. ALL RIGHTS RESERVED.
+
+  This program is provided to you under the terms of a Xceed Community License 
+  For more details about the Xceed Community License please visit the products GitHub or NuGet page .
+
+  DISCLAIMER: This code is provided as-is and without warranty of any kind, express or implied. The 
+  author(s) and owner(s) of this code shall not be liable for any damages or losses resulting from 
+  the use or inability to use the code. 
+
+ 
+  *************************************************************************************/
+  -->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit"
+                    xmlns:conv="clr-namespace:Xceed.Maui.Toolkit.Converters;assembly=Xceed.Maui.Toolkit">
+
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="../../Themes/Brushes/Common.xaml;assembly=Xceed.Maui.Toolkit" />
+  </ResourceDictionary.MergedDictionaries>
+
+  <conv:BorderThicknessToDoubleConverter x:Key="BorderThicknessToDoubleConverter" />
+  <conv:ThicknessDirectionConverter x:Key="ThicknessDirectionConverter" />
+
+  <Style x:Key="FluentDesignRadioButton"
+         TargetType="{x:Type local:RadioButton}">
+    <Setter Property="Background"
+            Value="Transparent" />
+    <Setter Property="BorderBrush"
+            Value="{AppThemeBinding Light={StaticResource DarkBase3}, Dark={StaticResource LightBase3}}" />
+    <Setter Property="BorderThickness"
+            Value="1" />
+    <Setter Property="BoxSizeRequest"
+            Value="20" />
+    <Setter Property="HorizontalOptions"
+            Value="Start" />
+    <Setter Property="VerticalOptions"
+            Value="Start" />
+    <Setter Property="HorizontalContentOptions"
+            Value="Start" />
+    <Setter Property="VerticalContentOptions"
+            Value="Center" />
+    <Setter Property="Padding"
+            Value="3" />
+    <Setter Property="FontSize"
+            Value="14" />
+    <Setter Property="Margin"
+            Value="2" />
+    <Setter Property="TextColor"
+            Value="{AppThemeBinding Light={StaticResource LightTextPrimary}, Dark={StaticResource DarkTextPrimary}}" />
+    <Setter Property="ControlTemplate">
+      <Setter.Value>
+        <ControlTemplate>
+          <local:Border x:Name="PART_MainBorder"
+                        BorderThickness="0"
+                        Background="Transparent"
+                        Padding="{Binding Padding, Source={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessDirectionConverter}, ConverterParameter=vertical}"
+                        HorizontalContentOptions="Start"
+                        VerticalContentOptions="Center"
+                        IsEnabled="{TemplateBinding IsEnabled}">
+            <Grid ColumnDefinitions="Auto,*">
+              <Grid x:Name="boxSize"
+                    WidthRequest="{TemplateBinding BoxSizeRequest}"
+                    HeightRequest="{TemplateBinding BoxSizeRequest}"
+                    MinimumWidthRequest="20"
+                    MinimumHeightRequest="20">
+                <Ellipse StrokeThickness="{Binding BorderThickness, Source={RelativeSource TemplatedParent}, Converter={StaticResource BorderThicknessToDoubleConverter}}"
+                         Stroke="{TemplateBinding BorderBrush}"
+                         Fill="{TemplateBinding Background}" />
+
+                <Ellipse x:Name="MouseOverEllipse"
+                         Fill="White"
+                         IsVisible="False"
+                         Opacity="0.05">
+                  <Ellipse.Triggers>
+                    <DataTrigger Binding="{Binding IsPointerOver, Source={RelativeSource TemplatedParent}}"
+                                 TargetType="Ellipse"
+                                 Value="True">
+                      <Setter Property="IsVisible"
+                              Value="True" />
+                    </DataTrigger>
+                  </Ellipse.Triggers>
+                </Ellipse>
+
+                <Ellipse x:Name="PART_AnimatedEllipse"
+                         IsVisible="False"
+                         Fill="White"
+                         StrokeThickness="0"
+                         Stroke="{TemplateBinding Background}" />
+              </Grid>
+
+              <local:ContentControl Grid.Column="1"
+                                    Margin="2,0,0,1"
+                                    Content="{TemplateBinding Content}"
+                                    Padding="{Binding Padding, Source={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessDirectionConverter}, ConverterParameter=horizontal}"
+                                    HorizontalOptions="{TemplateBinding HorizontalContentOptions}"
+                                    VerticalOptions="{TemplateBinding VerticalContentOptions}"
+                                    TextColor="{TemplateBinding TextColor}"
+                                    FontSize="{TemplateBinding FontSize}"
+                                    FontAttributes="{TemplateBinding FontAttributes}"
+                                    FontFamily="{TemplateBinding FontFamily}"
+                                    InputTransparent="True" />
+            </Grid>
+          </local:Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    <Style.Triggers>
+      <Trigger Property="OverrideDefaultVisualStates"
+               TargetType="{x:Type local:RadioButton}"
+               Value="False">
+        <Setter Property="VisualStateManager.VisualStateGroups">
+          <VisualStateGroupList>
+            <VisualStateGroup>
+              <VisualState x:Name="Normal" />
+              <VisualState x:Name="Pressed">
+                <VisualState.Setters>
+                  <Setter Property="Background"
+                          Value="{AppThemeBinding Light={StaticResource LightBase3}}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="PressedChecked">
+                <VisualState.Setters>
+                  <Setter Property="Background"
+                          Value="{DynamicResource SystemAccentColor}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="PointerOver">
+                <VisualState.Setters>                  
+                  <Setter Property="Background"
+                          Value="{AppThemeBinding Light={StaticResource LightBase2}}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="PointerOverChecked">
+                <VisualState.Setters>
+                  <Setter Property="BorderBrush"
+                          Value="Transparent" />
+
+                  <Setter Property="Background"
+                          Value="{DynamicResource SystemAccentColorDark1}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="Checked">
+                <VisualState.Setters>
+                  <Setter Property="BorderBrush"
+                          Value="Transparent" />
+
+                  <Setter Property="Background"
+                          Value="{DynamicResource SystemAccentColor}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="Focused">
+                <VisualState.Setters>
+                  <Setter Property="BorderBrush"
+                          Value="{AppThemeBinding Light={StaticResource DarkBase0}, Dark={StaticResource LightBase0}}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="FocusedChecked">
+                <VisualState.Setters>
+                  <Setter Property="BorderBrush"
+                          Value="{AppThemeBinding Light={StaticResource DarkBase0}, Dark={StaticResource LightBase0}}" />
+                  <Setter Property="Background"
+                          Value="{DynamicResource SystemAccentColor}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="Disabled">
+                <VisualState.Setters>
+                  <Setter Property="Opacity"
+                          Value="{StaticResource DisabledOpacity}" />
+                </VisualState.Setters>
+              </VisualState>
+            </VisualStateGroup>
+          </VisualStateGroupList>
+        </Setter>
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+
+  <Style TargetType="{x:Type local:RadioButton}"
+         BasedOn="{StaticResource FluentDesignRadioButton}" />
+</ResourceDictionary>

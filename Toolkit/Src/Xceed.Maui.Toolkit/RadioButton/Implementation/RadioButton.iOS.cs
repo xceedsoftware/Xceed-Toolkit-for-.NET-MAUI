@@ -16,11 +16,30 @@
   *************************************************************************************/
 
 
-[assembly: System.Reflection.AssemblyVersion( _XceedVersionInfo.Version )]
-
-internal class _XceedVersionInfo
+namespace Xceed.Maui.Toolkit
 {
-  public const string BaseVersion = "1.6";
+  public partial class RadioButton
+  {
+    #region Partial Methods
 
-  public const string Version = BaseVersion + ".0.0";
+    partial void SetPlatformSpecificVisualState()
+    {
+      if( !this.IsChecked.HasValue )
+      {
+        VisualStateManager.GoToState( this, VisualStateManager.CommonStates.Normal );
+      }
+      else if( this.IsChecked.Value )
+      {
+        this.AnimateEllipseStrokeThickness( "ToChecked", RadioButton.AnimatedEllipse_CheckedPercent );
+
+        VisualStateManager.GoToState( this, RadioButton.VisualState_Checked );
+      }
+      else
+      {
+        VisualStateManager.GoToState( this, VisualStateManager.CommonStates.Normal );
+      }
+    }
+
+    #endregion
+  }
 }

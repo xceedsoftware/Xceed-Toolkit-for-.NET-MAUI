@@ -31,7 +31,7 @@
   <local:AlignmentToTextAlignmentConverter x:Key="AlignmentToTextAlignmentConverter" />
   <conv:HasContentToBoolConverter x:Key="HasContentToBoolConverter" />
   <conv:IsStringToBoolConverter x:Key="IsStringToBoolConverter" />
-  <conv:FocusUnderlineCornerRadiusConverter x:Key="FocusUnderlineCornerRadiusConverter" />
+  <conv:BorderClipConverter x:Key="BorderClipConverter" />
 
   <Style x:Key="DefaultClearButtonStyle"
          TargetType="{x:Type local:Button}">
@@ -96,128 +96,131 @@
     <Setter Property="FontSize"
             Value="14" />
     <Setter Property="MinimumHeightRequest"
-            Value="15" />
+            Value="30" />
     <Setter Property="MinimumWidthRequest"
             Value="15" />
     <Setter Property="IsFocusUnderlineVisible"
-            Value="True"/>
+            Value="True" />
     <Setter Property="ClearButtonStyle"
             Value="{StaticResource DefaultClearButtonStyle}" />
     <Setter Property="ControlTemplate">
       <Setter.Value>
         <ControlTemplate>
-          <!-- Android needs the HeightRequest for VerticalTextAlignment-->
           <local:Border Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}"
+                        WidthRequest="{TemplateBinding WidthRequest}"
                         HeightRequest="{TemplateBinding HeightRequest}"
                         MinimumHeightRequest="{TemplateBinding MinimumHeightRequest}"
                         MinimumWidthRequest="{TemplateBinding MinimumWidthRequest}"
                         Padding="0">
-            <Grid>
-              <local:Border x:Name="FocusUnderline"
-                            BorderBrush="{AppThemeBinding Dark={StaticResource DarkTextSecondary},Light={StaticResource LightTextSecondary}}"
-                            BorderThickness="0,0,0,1"
-                            InputTransparent="True"
-                            IsVisible="{TemplateBinding IsFocusUnderlineVisible}">
-                <local:Border.CornerRadius>
-                  <MultiBinding Converter="{StaticResource FocusUnderlineCornerRadiusConverter}">
-                    <Binding Path="CornerRadius"
-                             Source="{RelativeSource TemplatedParent}" />
-                    <Binding Path="BorderThickness"
-                             Source="{RelativeSource TemplatedParent}" />
-                  </MultiBinding>
-                </local:Border.CornerRadius>
-                <local:Border.Triggers>
-                  <MultiTrigger TargetType="{x:Type local:Border}">
-                    <MultiTrigger.Conditions>
-                      <BindingCondition Binding="{Binding IsFocused, Source={x:Reference PART_Entry}}"
-                                        Value="True" />
-                      <BindingCondition Binding="{Binding IsReadOnly, Source={x:Reference PART_Entry}}"
-                                        Value="False" />
-                    </MultiTrigger.Conditions>
-                    <Setter Property="BorderThickness"
-                            Value="0,0,0,3" />
-                    <Setter Property="BorderBrush">
-                      <Setter.Value>
-                        <SolidColorBrush Color="{DynamicResource SystemAccentColor}" />
-                      </Setter.Value>
-                    </Setter>
-                  </MultiTrigger>
-                </local:Border.Triggers>
-              </local:Border>
-
-              <Grid ColumnDefinitions="*,Auto"
-                    Margin="{TemplateBinding Padding}">
-
-                <local:ContentControl x:Name="PART_Watermark"
-                                      Padding="2"
-                                      Content="{TemplateBinding Watermark}"                                      
-                                      HorizontalOptions="{TemplateBinding HorizontalContentOptions}"
-                                      VerticalOptions="{TemplateBinding VerticalContentOptions}"
-                                      HeightRequest="{Binding Height, Source={x:Reference PART_Entry}}">
-                  <local:ContentControl.Triggers>
-                    <DataTrigger TargetType="{x:Type local:ContentControl}"
-                                 Binding="{Binding Text, Source={x:Reference PART_Entry}, Converter={StaticResource HasContentToBoolConverter}}"
-                                 Value="True">
-                      <Setter Property="IsVisible"
-                              Value="False" />
-                    </DataTrigger>
-                    <DataTrigger TargetType="{x:Type local:ContentControl}"
-                                 Binding="{Binding Watermark, Source={RelativeSource TemplatedParent}, Converter={StaticResource IsStringToBoolConverter}}"
-                                 Value="True">
-                      <Setter Property="TextColor"
-                              Value="{AppThemeBinding Light={StaticResource LightTextTertiary}, Dark={StaticResource DarkTextTertiary}}" />
-                    </DataTrigger>
-                  </local:ContentControl.Triggers>
-                </local:ContentControl>
-
-                <Entry x:Name="PART_Entry"
-                       Background="Transparent"
-                       MinimumHeightRequest="15"
-                       MinimumWidthRequest="15"
-                       VerticalTextAlignment="{Binding VerticalContentOptions, Source={RelativeSource TemplatedParent}, Converter={StaticResource AlignmentToTextAlignmentConverter}}"
-                       HorizontalTextAlignment="{Binding HorizontalContentOptions, Source={RelativeSource TemplatedParent}, Converter={StaticResource AlignmentToTextAlignmentConverter}}"
-                       FontAttributes="{TemplateBinding FontAttributes}"
-                       FontSize="{TemplateBinding FontSize}"
-                       FontFamily="{TemplateBinding FontFamily}"
-                       TextColor="{TemplateBinding TextColor}"
-                       CursorPosition="{Binding CursorPosition, Source={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                       SelectionLength="{TemplateBinding SelectionLength}"
-                       CharacterSpacing="{TemplateBinding CharacterSpacing}"
-                       MaxLength="{TemplateBinding MaxLength}"
-                       IsReadOnly="{TemplateBinding IsReadOnly}"
-                       ReturnCommand="{TemplateBinding ReturnCommand}"
-                       ReturnCommandParameter="{TemplateBinding ReturnCommandParameter}"
-                       Keyboard="{TemplateBinding Keyboard}"
-                       IsTextPredictionEnabled="{Binding IsTextPredictionEnabled, Source={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                       IsEnabled="{TemplateBinding IsEnabled}"/>
-
-                <local:Button x:Name="PART_ClearButton"
-                              Grid.Column="1"
-                              IsVisible="False"
-                              Style="{TemplateBinding ClearButtonStyle}">
-                  <local:Button.Triggers>
-                    <MultiTrigger TargetType="{x:Type local:Button}">
+            <local:Border CornerRadius="{TemplateBinding CornerRadius}"
+                          BorderThickness="0"
+                          Padding="0">
+              <local:Border.Clip>
+                <MultiBinding Converter="{StaticResource BorderClipConverter}">
+                  <Binding Path="Width"
+                           Source="{RelativeSource Self}" />
+                  <Binding Path="Height"
+                           Source="{RelativeSource Self}" />
+                  <Binding Path="CornerRadius"
+                           Source="{RelativeSource Self}" />
+                </MultiBinding>
+              </local:Border.Clip>
+              <Grid>
+                <local:Border x:Name="FocusUnderline"
+                              BorderBrush="{AppThemeBinding Dark={StaticResource DarkTextSecondary},Light={StaticResource LightTextSecondary}}"
+                              BorderThickness="0,0,0,1"
+                              InputTransparent="True"
+                              IsVisible="{TemplateBinding IsFocusUnderlineVisible}">
+                  <local:Border.Triggers>
+                    <MultiTrigger TargetType="{x:Type local:Border}">
                       <MultiTrigger.Conditions>
-                        <BindingCondition Binding="{Binding ClearButtonVisibility, Source={RelativeSource TemplatedParent}}"
-                                          Value="WhileEditing" />
                         <BindingCondition Binding="{Binding IsFocused, Source={x:Reference PART_Entry}}"
                                           Value="True" />
                         <BindingCondition Binding="{Binding IsReadOnly, Source={x:Reference PART_Entry}}"
                                           Value="False" />
-                        <BindingCondition Binding="{Binding Text, Source={x:Reference PART_Entry}, Converter={StaticResource HasContentToBoolConverter}}"
-                                          Value="True" />
                       </MultiTrigger.Conditions>
-                      <Setter Property="IsVisible"
-                              Value="True" />
+                      <Setter Property="BorderThickness"
+                              Value="0,0,0,3" />
+                      <Setter Property="BorderBrush">
+                        <Setter.Value>
+                          <SolidColorBrush Color="{DynamicResource SystemAccentColor}" />
+                        </Setter.Value>
+                      </Setter>
                     </MultiTrigger>
-                  </local:Button.Triggers>
-                </local:Button>
+                  </local:Border.Triggers>
+                </local:Border>
 
+                <Grid ColumnDefinitions="*,Auto"
+                      Margin="{TemplateBinding Padding}">
+                  <local:ContentControl x:Name="PART_Watermark"
+                                        Padding="2"
+                                        Content="{TemplateBinding Watermark}"
+                                        HorizontalOptions="{TemplateBinding HorizontalContentOptions}"
+                                        VerticalOptions="{TemplateBinding VerticalContentOptions}"
+                                        HeightRequest="{Binding Height, Source={x:Reference PART_Entry}}">
+                    <local:ContentControl.Triggers>
+                      <DataTrigger TargetType="{x:Type local:ContentControl}"
+                                   Binding="{Binding Text, Source={x:Reference PART_Entry}, Converter={StaticResource HasContentToBoolConverter}}"
+                                   Value="True">
+                        <Setter Property="IsVisible"
+                                Value="False" />
+                      </DataTrigger>
+                      <DataTrigger TargetType="{x:Type local:ContentControl}"
+                                   Binding="{Binding Watermark, Source={RelativeSource TemplatedParent}, Converter={StaticResource IsStringToBoolConverter}}"
+                                   Value="True">
+                        <Setter Property="TextColor"
+                                Value="{AppThemeBinding Light={StaticResource LightTextTertiary}, Dark={StaticResource DarkTextTertiary}}" />
+                      </DataTrigger>
+                    </local:ContentControl.Triggers>
+                  </local:ContentControl>
+                  <Entry x:Name="PART_Entry"
+                         Background="Transparent"
+                         MinimumHeightRequest="30"
+                         MinimumWidthRequest="15"
+                         VerticalTextAlignment="{Binding VerticalContentOptions, Source={RelativeSource TemplatedParent}, Converter={StaticResource AlignmentToTextAlignmentConverter}}"
+                         HorizontalTextAlignment="{Binding HorizontalContentOptions, Source={RelativeSource TemplatedParent}, Converter={StaticResource AlignmentToTextAlignmentConverter}}"
+                         FontAttributes="{TemplateBinding FontAttributes}"
+                         FontSize="{TemplateBinding FontSize}"
+                         FontFamily="{TemplateBinding FontFamily}"
+                         TextColor="{TemplateBinding TextColor}"
+                         CursorPosition="{Binding CursorPosition, Source={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                         SelectionLength="{TemplateBinding SelectionLength}"
+                         CharacterSpacing="{TemplateBinding CharacterSpacing}"
+                         MaxLength="{TemplateBinding MaxLength}"
+                         IsReadOnly="{TemplateBinding IsReadOnly}"
+                         ReturnCommand="{TemplateBinding ReturnCommand}"
+                         ReturnCommandParameter="{TemplateBinding ReturnCommandParameter}"
+                         Keyboard="{TemplateBinding Keyboard}"
+                         IsTextPredictionEnabled="{Binding IsTextPredictionEnabled, Source={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                         IsEnabled="{TemplateBinding IsEnabled}" />
+                  <local:Button x:Name="PART_ClearButton"
+                                Grid.Column="1"
+                                IsVisible="False"
+                                Style="{TemplateBinding ClearButtonStyle}">
+                    <local:Button.Triggers>
+                      <MultiTrigger TargetType="{x:Type local:Button}">
+                        <MultiTrigger.Conditions>
+                          <BindingCondition Binding="{Binding ClearButtonVisibility, Source={RelativeSource TemplatedParent}}"
+                                            Value="WhileEditing" />
+                          <BindingCondition Binding="{Binding IsFocused, Source={x:Reference PART_Entry}}"
+                                            Value="True" />
+                          <BindingCondition Binding="{Binding IsReadOnly, Source={x:Reference PART_Entry}}"
+                                            Value="False" />
+                          <BindingCondition Binding="{Binding Text, Source={x:Reference PART_Entry}, Converter={StaticResource HasContentToBoolConverter}}"
+                                            Value="True" />
+                        </MultiTrigger.Conditions>
+                        <Setter Property="IsVisible"
+                                Value="True" />
+                      </MultiTrigger>
+                    </local:Button.Triggers>
+                  </local:Button>
+                </Grid>
               </Grid>
-            </Grid>
+
+            </local:Border>
           </local:Border>
         </ControlTemplate>
       </Setter.Value>

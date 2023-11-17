@@ -16,7 +16,6 @@
   *************************************************************************************/
 
 
-using System;
 using UIKit;
 
 namespace Xceed.Maui.Toolkit
@@ -41,11 +40,48 @@ namespace Xceed.Maui.Toolkit
           if( iosTextBox != null )
           {
             iosTextBox.BorderStyle = UITextBorderStyle.None;
+            iosTextBox.EditingDidBegin += this.IosTextBox_EditingDidBegin;
+            iosTextBox.EditingDidEnd += this.IosTextBox_EditingDidEnd;
           }
         }
       }
     }
 
+    partial void UninitializeForPlatform( object sender, HandlerChangingEventArgs e )
+    {
+      var textBox = sender as TextBox;
+      if( textBox != null )
+      {
+        if( m_entry == null )
+        {
+          m_entry = textBox.GetTemplateChild( "PART_Entry" ) as Entry;
+        }
+
+        if( m_entry != null )
+        {
+          var iosTextBox = m_entry.Handler?.PlatformView as UITextField;
+          if( iosTextBox != null )
+          {
+            iosTextBox.EditingDidBegin -= this.IosTextBox_EditingDidBegin;
+            iosTextBox.EditingDidEnd -= this.IosTextBox_EditingDidEnd;
+          }
+        }
+      }
+    }
+
+    #endregion
+
+    #region Event Handlers
+
+    private void IosTextBox_EditingDidEnd( object sender, EventArgs e )
+    {
+      this.SetFocus( false );
+    }
+
+    private void IosTextBox_EditingDidBegin( object sender, EventArgs e )
+    {
+      this.SetFocus( true );
+    }
     #endregion
   }
 }

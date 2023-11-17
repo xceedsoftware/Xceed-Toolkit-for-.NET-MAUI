@@ -189,6 +189,9 @@ namespace Xceed.Maui.Toolkit
 
     public Size Measure( double widthConstraint, double heightConstraint )
     {
+      if( double.IsInfinity( widthConstraint ) || double.IsInfinity( heightConstraint ))
+        return new Size( widthConstraint, heightConstraint );
+
       m_seriesPanel.InitializeSeries( m_seriesPanel.GetSeriesBounds( widthConstraint, heightConstraint ) );
 
       for( int i = 0; i < m_seriesPanel.Count; ++i )

@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+/***************************************************************************************
+ 
+  Xceed Toolkit for MAUI is a multiplatform toolkit offered by Xceed Software Inc., 
+  makers of the popular WPF Toolkit.
+
+  COPYRIGHT (C) 2023 Xceed Software Inc. ALL RIGHTS RESERVED.
+
+  This program is provided to you under the terms of a Xceed Community License 
+  For more details about the Xceed Community License please visit the products GitHub or NuGet page .
+
+  DISCLAIMER: This code is provided as-is and without warranty of any kind, express or implied. The 
+  author(s) and owner(s) of this code shall not be liable for any damages or losses resulting from 
+  the use or inability to use the code. 
+
+ 
+  *************************************************************************************/
+  -->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit"
+                    xmlns:conv="clr-namespace:Xceed.Maui.Toolkit.Converters;assembly=Xceed.Maui.Toolkit">
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="../../Themes/Brushes/Common.xaml;assembly=Xceed.Maui.Toolkit" />
+  </ResourceDictionary.MergedDictionaries>
+
+  <local:AlignmentToTextAlignmentConverter x:Key="AlignmentToTextAlignmentConverter" />
+  <local:FilePickerPaddingConverter x:Key="PaddingConverter" />
+  <conv:HasContentToBoolConverter x:Key="HasContentToBoolConverter" />
+  <conv:IsStringToBoolConverter x:Key="IsStringToBoolConverter" />
+  <conv:BorderClipConverter x:Key="BorderClipConverter" />
+
+  <Style x:Key="DefaultBrowseButtonStyle"
+         TargetType="{x:Type local:ToggleButton}">
+    <Setter Property="BorderThickness"
+            Value="0" />
+    <Setter Property="Padding"
+            Value="0" />
+    <Setter Property="CornerRadius"
+            Value="0" />
+    <Setter Property="OverrideDefaultVisualStates"
+            Value="True" />
+    <Setter Property="VisualStateManager.VisualStateGroups">
+      <VisualStateGroupList>
+        <VisualStateGroup>
+          <VisualState x:Name="Normal">
+            <VisualState.Setters>
+              <Setter Property="Background"
+                      Value="Transparent" />
+            </VisualState.Setters>
+          </VisualState>
+          <VisualState x:Name="Pressed">
+            <VisualState.Setters>
+              <Setter Property="Background"
+                      Value="{AppThemeBinding Dark={StaticResource LightBase5}, Light={StaticResource LightBase1}}" />
+            </VisualState.Setters>
+          </VisualState>
+          <VisualState x:Name="PointerOver">
+            <VisualState.Setters>
+              <Setter Property="Background"
+                      Value="{AppThemeBinding Dark={StaticResource LightBase5}, Light={StaticResource LightBase1}}" />
+            </VisualState.Setters>
+          </VisualState>
+        </VisualStateGroup>
+      </VisualStateGroupList>
+    </Setter>
+
+  </Style>
+
+  <ControlTemplate x:Key="filePickerTemplate">
+    <local:Border Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  WidthRequest="{TemplateBinding WidthRequest}"
+                  HeightRequest="{TemplateBinding HeightRequest}"
+                  MinimumWidthRequest="{Binding MinimumWidthRequest, Source={RelativeSource TemplatedParent}}"
+                  MinimumHeightRequest="{Binding MinimumHeightRequest, Source={RelativeSource TemplatedParent}}"
+                  Padding="0">
+      <local:Border CornerRadius="{TemplateBinding CornerRadius}"
+                    BorderThickness="0"
+                    Padding="0">
+        <local:Border.Clip>
+          <MultiBinding Converter="{StaticResource BorderClipConverter}">
+            <Binding Path="Width"
+                     Source="{RelativeSource Self}" />
+            <Binding Path="Height"
+                     Source="{RelativeSource Self}" />
+            <Binding Path="CornerRadius"
+                     Source="{RelativeSource Self}" />
+          </MultiBinding>
+        </local:Border.Clip>
+        <Grid>
+          <local:TextBox x:Name="PART_TextBox"
+                         CornerRadius="{TemplateBinding CornerRadius}"
+                         Background="Transparent"
+                         ClearButtonVisibility="Never"
+                         FontFamily="{TemplateBinding FontFamily}"
+                         FontAttributes="{TemplateBinding FontAttributes}"
+                         FontSize="{Binding FontSize, Source={RelativeSource TemplatedParent}}"
+                         TextColor="{TemplateBinding TextColor}"
+                         IsFocusUnderlineVisible="{TemplateBinding IsFocusUnderlineVisible}"
+                         Watermark="{TemplateBinding Watermark}"
+                         VerticalContentOptions="{Binding VerticalContentOptions, Source={RelativeSource TemplatedParent}}"
+                         HorizontalContentOptions="{Binding HorizontalContentOptions, Source={RelativeSource TemplatedParent}}"
+                         IsEnabled="{TemplateBinding IsEnabled}">
+            <local:TextBox.Padding>
+              <MultiBinding Converter="{StaticResource PaddingConverter}">
+                <Binding Path="Padding"
+                         Source="{RelativeSource TemplatedParent}" />
+                <Binding Path="Width"
+                         Source="{Reference PART_BrowseButton}" />
+              </MultiBinding>
+            </local:TextBox.Padding>
+          </local:TextBox>
+          <local:ToggleButton x:Name="PART_BrowseButton"
+                              IsChecked="{Binding IsOpen, Source={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                              Style="{TemplateBinding BrowseButtonStyle}"
+                              MinimumWidthRequest="38"
+                              IsEnabled="{TemplateBinding IsEnabled}"
+                              Content="{TemplateBinding BrowseContent}"
+                              HorizontalOptions="End">
+          </local:ToggleButton>
+        </Grid>
+
+      </local:Border>
+
+    </local:Border>
+  </ControlTemplate>
+
+  <Style x:Key="FluentDesignFilePicker"
+         TargetType="{x:Type local:FilePicker}">
+    <Setter Property="VerticalContentOptions"
+            Value="Center" />
+    <Setter Property="HorizontalContentOptions"
+            Value="Start" />
+    <Setter Property="Background"
+            Value="{AppThemeBinding Dark={StaticResource DarkBase6}, Light={StaticResource LightBase0}}" />
+    <Setter Property="BorderBrush"
+            Value="{AppThemeBinding Dark={StaticResource DarkBase1}, Light={StaticResource LightColorSecondary}}" />
+    <Setter Property="BorderThickness"
+            Value="0" />
+    <Setter Property="CornerRadius"
+            Value="4" />
+    <Setter Property="Padding"
+            Value="8,5,5,5" />
+    <Setter Property="TextColor"
+            Value="{AppThemeBinding Dark={StaticResource DarkTextPrimary}, Light={StaticResource LightTextPrimary}}" />
+    <Setter Property="FontSize"
+            Value="14" />
+    <Setter Property="BrowseButtonStyle"
+            Value="{StaticResource DefaultBrowseButtonStyle}" />
+    <Setter Property="ControlTemplate"
+            Value="{StaticResource filePickerTemplate}" />
+    <Style.Triggers>
+      <Trigger Property="OverrideDefaultVisualStates"
+               TargetType="{x:Type local:FilePicker}"
+               Value="False">
+        <Setter Property="VisualStateManager.VisualStateGroups">
+          <VisualStateGroupList>
+            <VisualStateGroup>
+              <VisualState x:Name="Normal" />
+              <VisualState x:Name="Disabled">
+                <VisualState.Setters>
+                  <Setter Property="Opacity"
+                          Value="{StaticResource DisabledOpacity}" />
+                </VisualState.Setters>
+              </VisualState>
+            </VisualStateGroup>
+          </VisualStateGroupList>
+        </Setter>
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+
+  <Style TargetType="{x:Type local:FilePicker}"
+         BasedOn="{StaticResource FluentDesignFilePicker}" />
+</ResourceDictionary>

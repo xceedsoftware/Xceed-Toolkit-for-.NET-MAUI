@@ -127,6 +127,7 @@
     <Compile Include="ContentControl\Implementation\ContentControl.cs" />
     <Compile Include="Control\Implementation\Control.cs" />
     <Compile Include="Core\Converters\AddThicknessConverter.cs" />
+    <Compile Include="Core\Converters\BorderClipConverter.cs" />
     <Compile Include="Core\Converters\BorderThicknessToDoubleConverter.cs" />
     <Compile Include="Core\Converters\CornerRadiusToSideCornerRadiusConverter.cs" />
     <Compile Include="Core\Converters\HasContentToBoolConverter.cs" />
@@ -142,7 +143,11 @@
     <Compile Include="Expander\Implementation\ExpandedEventArgs.cs" />
     <Compile Include="Expander\Implementation\Expander.cs" />
     <Compile Include="Expander\Implementation\ExpanderSizeConverter.cs" />
+    <Compile Include="FilePicker\Implementation\Converters\FilePickerPaddingConverter.cs" />
     <Compile Include="Themes\FluentColors.cs" />
+    <Compile Include="FilePicker\Implementation\FilePicker.cs" />
+    <Compile Include="MaskedTextBox\Implementation\MaskedTextBox.Android.cs" />
+    <Compile Include="MaskedTextBox\Implementation\MaskedTextBox.cs" />
     <Compile Include="NumericUpDowns\Implementation\AlowedSpecialValues.cs" />
     <Compile Include="NumericUpDowns\Implementation\ByteUpDown.cs" />
     <Compile Include="NumericUpDowns\Implementation\DecimalUpDown.cs" />
@@ -161,10 +166,10 @@
     <Compile Include="NumericUpDowns\Implementation\ValueChangedEventArgs.cs" />
     <Compile Include="OnPlatform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RadioButton\Implementation\RadioButton.cs" />
     <Compile Include="RepeatButton\Implementation\RepeatButton.cs" />
     <Compile Include="StaticResource.cs" />
     <Compile Include="TextBox\Implementation\Converters\AlignmentToTextAlignmentConverter.cs" />
-    <Compile Include="TextBox\Implementation\Converters\FocusUnderlineCornerRadiusConverter.cs" />
     <Compile Include="TextBox\Implementation\TextBox.cs" />
     <Compile Include="Themes\Brushes\Blue.xaml.cs">
       <DependentUpon>Blue.xaml</DependentUpon>
@@ -314,7 +319,6 @@
       <DependentUpon>FluentDesign.xaml</DependentUpon>
     </Compile>
     <Compile Include="ToggleButton\Implementation\ToggleButton.cs" />
-    <Compile Include="ToggleSwitch\Implementation\Converters\ToggleSwitchBorderClipConverter.cs" />
     <Compile Include="ToggleSwitch\Implementation\Converters\ToggleSwitchMaximumHeightConverter.cs" />
     <Compile Include="ToggleSwitch\Implementation\Converters\ToggleSwitchSizeConverter.cs" />
     <Compile Include="ToggleSwitch\Implementation\Converters\ToggleSwitchThumbHeightConverter.cs" />
@@ -346,6 +350,9 @@
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Include="NumericUpDowns\Themes\NumericUpDown.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Include="RadioButton\Themes\RadioButton.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Include="RepeatButton\Themes\RepeatButton.xaml">
@@ -519,11 +526,19 @@
     <MauiXaml Include="ColorCanvas\Themes\ColorCanvas.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Include="MaskedTextBox\Themes\MaskedTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Include="FilePicker\Themes\FilePicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
   </ItemGroup>
   <!-- Android-specifc items -->
   <ItemGroup>
     <Compile Include="Border\Implementation\BorderShapeGrid.Android.cs" />
     <Compile Include="ContentControl\Implementation\ContentControl.Android.cs" />
+    <Compile Include="MaskedTextBox\Implementation\MaskedTextBox.Android.cs" />
+    <Compile Include="RadioButton\Implementation\RadioButton.Android.cs" />
     <Compile Include="TextBox\Implementation\TextBox.Android.cs" />
   </ItemGroup>
   <!-- iOS-specifc items -->
@@ -531,6 +546,8 @@
     <Compile Include="Border\Implementation\Border.iOS.cs" />
     <Compile Include="ColorCanvas\Implementation\ColorCanvas.iOS.cs" />
     <Compile Include="ColorCanvas\Implementation\ColorSpectrumSlider.iOS.cs" />
+    <Compile Include="MaskedTextBox\Implementation\MaskedTextBox.iOS.cs" />
+    <Compile Include="RadioButton\Implementation\RadioButton.iOS.cs" />
     <Compile Include="TextBox\Implementation\TextBox.iOS.cs" />
   </ItemGroup>
   <!-- Mac-Catalyst-specifc items -->
@@ -540,6 +557,8 @@
     <Compile Include="ButtonSpinner\Implementation\ButtonSpinner.MacCatalyst.cs" />
     <Compile Include="CheckBox\Implementation\CheckBox.MacCatalyst.cs" />
     <Compile Include="ColorCanvas\Implementation\ColorCanvas.MacCatalyst.cs" />
+    <Compile Include="MaskedTextBox\Implementation\MaskedTextBox.MacCatalyst.cs" />
+    <Compile Include="RadioButton\Implementation\RadioButton.MacCatalyst.cs" />
     <Compile Include="TextBox\Implementation\TextBox.MacCatalyst.cs" />
     <Compile Include="ToggleButton\Implementation\ToggleButton.MacCatalyst.cs" />
   </ItemGroup>
@@ -550,6 +569,8 @@
     <Compile Include="Button\Implementation\Button.Windows.cs" />
     <Compile Include="ButtonSpinner\Implementation\ButtonSpinner.Windows.cs" />
     <Compile Include="CheckBox\Implementation\CheckBox.Windows.cs" />
+    <Compile Include="MaskedTextBox\Implementation\MaskedTextBox.Windows.cs" />
+    <Compile Include="RadioButton\Implementation\RadioButton.Windows.cs" />
     <Compile Include="TextBox\Implementation\TextBox.Windows.cs" />
     <Compile Include="ToggleButton\Implementation\ToggleButton.Windows.cs" />
     <Compile Include="ToggleSwitch\Implementation\ToggleSwitch.Windows.cs" />

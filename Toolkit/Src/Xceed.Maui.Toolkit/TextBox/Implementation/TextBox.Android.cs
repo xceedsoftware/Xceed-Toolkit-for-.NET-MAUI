@@ -34,12 +34,41 @@ namespace Xceed.Maui.Toolkit
 
         if( m_entry != null )
         {
+          //  Android needs the HeightRequest for VerticalTextAlignment.
+          if( ( this.VerticalContentOptions.Alignment != LayoutAlignment.Fill )
+            && ( this.HeightRequest != -1 ) )
+          {
+            m_entry.HeightRequest = this.HeightRequest;
+          }
+
           var androidTextBox = m_entry.Handler?.PlatformView as AndroidX.AppCompat.Widget.AppCompatEditText;
           if( androidTextBox != null )
           {
             androidTextBox.SetPadding( 1, 1, 1, 1 );
             // Remove Underline.
             androidTextBox.SetBackgroundColor( Android.Graphics.Color.Transparent );
+            androidTextBox.FocusChange += this.AndroidTextBox_FocusChange;
+          }
+        }
+      }
+    }
+
+    partial void UninitializeForPlatform( object sender, HandlerChangingEventArgs e )
+    {
+      var textBox = sender as TextBox;
+      if( textBox != null )
+      {
+        if( m_entry == null )
+        {
+          m_entry = textBox.GetTemplateChild( "PART_Entry" ) as Entry;
+        }
+
+        if( m_entry != null )
+        {
+          var androidTextBox = m_entry.Handler?.PlatformView as AndroidX.AppCompat.Widget.AppCompatEditText;
+          if( androidTextBox != null )
+          {
+            androidTextBox.FocusChange -= this.AndroidTextBox_FocusChange;
           }
         }
       }
@@ -77,7 +106,7 @@ namespace Xceed.Maui.Toolkit
         return null;
 
       var parent = view.Parent;
-      while( parent != null ) 
+      while( parent != null )
       {
         if( parent is Border )
           return parent as Border;
@@ -88,6 +117,21 @@ namespace Xceed.Maui.Toolkit
       return null;
     }
 
+    #endregion
+
+    #region Event Handlers
+
+    private void AndroidTextBox_FocusChange( object sender, Android.Views.View.FocusChangeEventArgs e )
+    {
+      if( e.HasFocus )
+      {
+        this.SetFocus( true );
+      }
+      else
+      {
+        this.SetFocus( false );
+      }
+    }
     #endregion
   }
 }

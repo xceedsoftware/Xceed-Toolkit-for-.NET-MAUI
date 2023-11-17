@@ -19,9 +19,9 @@
 using Microsoft.Maui.Controls.Shapes;
 using System.Globalization;
 
-namespace Xceed.Maui.Toolkit
+namespace Xceed.Maui.Toolkit.Converters
 {
-  public class ToggleSwitchBorderClipConverter : IMultiValueConverter
+  public class BorderClipConverter : IMultiValueConverter
   {
     public object Convert( object[] values, Type targetType, object parameter, CultureInfo culture )
     {

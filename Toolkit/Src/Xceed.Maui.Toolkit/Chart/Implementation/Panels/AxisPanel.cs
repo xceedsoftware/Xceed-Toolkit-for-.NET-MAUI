@@ -403,8 +403,8 @@ namespace Xceed.Maui.Toolkit
 
     public Size Measure( double widthConstraint, double heightConstraint )
     {
-      if( widthConstraint == double.PositiveInfinity || heightConstraint == double.PositiveInfinity )
-        throw new InvalidDataException( "Can't measure AxisPanel with Infinity.");
+      if( double.IsInfinity( widthConstraint ) || double.IsInfinity( heightConstraint ) )
+        return new Size( widthConstraint, heightConstraint );
 
       m_axisPanel.SetupAxisPanel( new Rect( 0, 0, widthConstraint, heightConstraint ) );
 

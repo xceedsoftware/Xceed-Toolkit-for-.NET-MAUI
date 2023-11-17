@@ -40,11 +40,26 @@ namespace Xceed.Maui.Toolkit
           if( macTextBox != null )
           {
             macTextBox.BorderStyle = UITextBorderStyle.None;
+            macTextBox.EditingDidBegin += this.MacTextBox_EditingDidBegin;
+            macTextBox.EditingDidEnd += this.MacTextBox_EditingDidEnd; ;
           }
         }
       }
     }
 
+    #endregion
+
+    #region Event Handlers
+
+    private void MacTextBox_EditingDidEnd( object sender, EventArgs e )
+    {
+      this.SetFocus( false );
+    }
+
+    private void MacTextBox_EditingDidBegin( object sender, EventArgs e )
+    {
+      this.SetFocus( true );
+    }
     #endregion
   }
 }

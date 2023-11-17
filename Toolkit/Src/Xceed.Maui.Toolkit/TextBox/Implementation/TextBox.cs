@@ -122,6 +122,18 @@ namespace Xceed.Maui.Toolkit
 
     #endregion
 
+    #region IsFocused
+
+    public static new readonly BindableProperty IsFocusedProperty = BindableProperty.Create( nameof( IsFocused ), typeof( bool ), typeof( TextBox ) );
+
+    public new bool IsFocused
+    {
+      get => (bool)GetValue( IsFocusedProperty );
+      private set => SetValue( IsFocusedProperty, value );
+    }
+
+    #endregion
+
     #region IsTextPredictionEnabled
 
     public static readonly BindableProperty IsTextPredictionEnabledProperty = BindableProperty.Create( nameof( IsTextPredictionEnabled ), typeof( bool ), typeof( TextBox ), true );
@@ -364,6 +376,22 @@ namespace Xceed.Maui.Toolkit
       return m_entry;
     }
 
+    internal void SetFocus( bool isFocused )
+    {
+      if( isFocused )
+      {
+        this.Focus();
+        this.IsFocused = true;
+        this.RaiseFocusedEvent( this, EventArgs.Empty );
+      }
+      else
+      {
+        this.Unfocus();
+        this.IsFocused = false;
+        this.RaiseUnFocusedEvent( this, EventArgs.Empty );
+      }
+    }
+
     #endregion
 
     #region Events
@@ -385,6 +413,26 @@ namespace Xceed.Maui.Toolkit
       if( this.IsEnabled )
       {
         this.TextChanged?.Invoke( sender, e );
+      }
+    }
+
+    public new event EventHandler Focused;
+
+    internal void RaiseFocusedEvent( object sender, EventArgs e )
+    {
+      if( this.IsEnabled )
+      {
+        this.Focused?.Invoke( sender, e );
+      }
+    }
+
+    public new event EventHandler Unfocused;
+
+    internal void RaiseUnFocusedEvent( object sender, EventArgs e )
+    {
+      if( this.IsEnabled )
+      {
+        this.Unfocused?.Invoke( sender, e );
       }
     }
     #endregion

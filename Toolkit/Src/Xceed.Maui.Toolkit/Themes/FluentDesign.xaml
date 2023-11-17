@@ -25,37 +25,27 @@
 
   <ResourceDictionary.MergedDictionaries>
 
-    <ResourceDictionary Source="../ContentControl/Themes/ContentControl.xaml" />
-
+    <ResourceDictionary Source="../ContentControl/Themes/ContentControl.xaml" />    
     <ResourceDictionary Source="../Border/Themes/Border.xaml" />
-
     <!--Wanted way not working per platform(https://github.com/dotnet/maui/issues/5583). 
         So we use local:OnPlatform markup to insert the correct ResourceDictionary. -->
     <!--<ResourceDictionary Source="{OnPlatform Default='../Button/Themes/Button.xaml', WinUI='../Button/Themes/Button.Windows.xaml'}" />-->
     <ResourceDictionary Source="../Button/Themes/Button.xaml" />
-
     <ResourceDictionary Source="../RepeatButton/Themes/RepeatButton.xaml" />
-
     <ResourceDictionary Source="../ButtonSpinner/Themes/ButtonSpinner.xaml" />
-
     <ResourceDictionary Source="../NumericUpDowns/Themes/NumericUpDown.xaml" />
-
     <ResourceDictionary Source="../Chart/Themes/Chart.xaml" />
-
     <ResourceDictionary Source="../Card/Themes/Card.xaml" />
-
     <ResourceDictionary Source="../ToggleButton/Themes/ToggleButton.xaml" />
-
     <ResourceDictionary Source="../Expander/Themes/Expander.xaml" />
-
     <ResourceDictionary Source="../ToggleSwitch/Themes/ToggleSwitch.xaml" />
-
     <ResourceDictionary Source="../ColorCanvas/Themes/ColorCanvas.xaml" />
-
-
+    <ResourceDictionary Source="../RadioButton/Themes/RadioButton.xaml" />
+    <ResourceDictionary Source="../MaskedTextBox/Themes/MaskedTextBox.xaml" />
+    <ResourceDictionary Source="../FilePicker/Themes/FilePicker.xaml" />
     <ResourceDictionary Source="../TextBox/Themes/TextBox.xaml" />
-
     <ResourceDictionary Source="../CheckBox/Themes/CheckBox.xaml" />
+
 
   </ResourceDictionary.MergedDictionaries>
 

@@ -32,7 +32,7 @@
     <ApplicationId>com.companyname.Xceed.Maui.Toolkit.LiveExplorer</ApplicationId>
     <ApplicationIdGuid>dac11efa-5487-46e8-8d1f-697b48cb8bb5</ApplicationIdGuid>
     <!-- Versions -->
-    <ApplicationDisplayVersion>1.5</ApplicationDisplayVersion>
+    <ApplicationDisplayVersion>1.6</ApplicationDisplayVersion>
     <ApplicationVersion>1</ApplicationVersion>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>

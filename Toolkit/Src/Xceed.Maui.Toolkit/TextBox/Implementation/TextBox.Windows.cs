@@ -43,11 +43,48 @@ namespace Xceed.Maui.Toolkit
             windowsTextBox.Padding = new Microsoft.UI.Xaml.Thickness( 2 );
             // remove Underline
             windowsTextBox.Resources.Add( "TextControlBorderThemeThicknessFocused", new Microsoft.UI.Xaml.Thickness( 0 ) );
+            windowsTextBox.GotFocus += this.WindowsTextBox_GotFocus;
+            windowsTextBox.LostFocus += this.WindowsTextBox_LostFocus;
           }
         }
       }
     }
 
+    partial void UninitializeForPlatform( object sender, HandlerChangingEventArgs e )
+    {
+      var textBox = sender as TextBox;
+      if( textBox != null )
+      {
+        if( m_entry == null )
+        {
+          m_entry = textBox.GetTemplateChild( "PART_Entry" ) as Entry;
+        }
+
+        if( m_entry != null )
+        {
+          var windowsTextBox = m_entry.Handler?.PlatformView as MauiPasswordTextBox;
+          if( windowsTextBox != null )
+          {
+            windowsTextBox.GotFocus -= this.WindowsTextBox_GotFocus;
+            windowsTextBox.LostFocus -= this.WindowsTextBox_LostFocus;
+          }
+        }
+      }
+    }
+
+    #endregion
+
+    #region Event Handlers
+
+    private void WindowsTextBox_GotFocus( object sender, Microsoft.UI.Xaml.RoutedEventArgs e )
+    {
+      this.SetFocus( true );
+    }
+
+    private void WindowsTextBox_LostFocus( object sender, Microsoft.UI.Xaml.RoutedEventArgs e )
+    {
+      this.SetFocus( false );
+    }
     #endregion
   }
 }

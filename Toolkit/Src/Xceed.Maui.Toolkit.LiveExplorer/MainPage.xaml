@@ -478,7 +478,7 @@
           <Label Margin="6,18,6,6"
                  Text="Enhanced TextBox (entry) with full control flexibility: CornerRadius, BorderThickness, and more!" />
 
-          <xctk:TextBox Margin="0,8,0,0"
+          <xctk:TextBox Margin="0,8,0,0"                        
                         ClearButtonVisibility="WhileEditing" />
 
           <xctk:TextBox Margin="0,8,0,0"
@@ -495,6 +495,69 @@
                         BorderBrush="{StaticResource XceedOrange}"
                         Watermark="LastName"
                         ClearButtonVisibility="WhileEditing" />
+
+        </VerticalStackLayout>
+      </xctk:Card>
+      <!--Masked Entry Card-->
+      <xctk:Card Margin="4"
+                 HeightRequest="300"
+                 WidthRequest="300"
+                 ShadowBrush="Black"
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
+        <xctk:Card.Title>
+          <Label Text="Masked TextBox (Entry)" />
+        </xctk:Card.Title>
+        <VerticalStackLayout>
+
+          <Label Margin="6,18,6,6"
+                 Text="Masked TextBox (entry), support all the features of the TextBox plus mask creation" />
+
+          <HorizontalStackLayout Margin="8,0,0,0">
+
+            <Label Text="Phone : "
+                   VerticalOptions="Center"
+                   WidthRequest="50"/>
+            <xctk:MaskedTextBox Margin="0,8,0,0"
+                                Mask="(000)000-0000"
+                                Watermark="Phone Number"
+                                ClearButtonVisibility="WhileEditing" 
+                                WidthRequest="160"/>
+
+          </HorizontalStackLayout>
+
+          <HorizontalStackLayout Margin="8,0,0,0">
+
+            <Label Text="IP :" 
+                   VerticalOptions="Center"
+                   WidthRequest="50" />
+
+            <xctk:MaskedTextBox Margin="0,8,0,0"
+                                CornerRadius="0"
+                                Mask="000.000.000.000"
+                                BorderThickness="2"
+                                BorderBrush="{StaticResource XceedOrange}"
+                                Watermark="IP Address"
+                                IsFocusUnderlineVisible="False"
+                                ClearButtonVisibility="WhileEditing"
+                                WidthRequest="160" />
+          </HorizontalStackLayout>
+
+
+          <HorizontalStackLayout Margin="8,0,0,0">
+
+            <Label Text="Time : "
+                   VerticalOptions="Center"
+                   WidthRequest="50" />
+
+            <xctk:MaskedTextBox Margin="0,8,0,0"
+                                CornerRadius="5,5,0,0"
+                                BorderThickness="2"
+                                Mask="90:00"
+                                BorderBrush="{StaticResource XceedOrange}"
+                                ClearButtonVisibility="WhileEditing"
+                                WidthRequest="160" />
+          </HorizontalStackLayout>          
 
         </VerticalStackLayout>
       </xctk:Card>
@@ -524,8 +587,41 @@
                          Margin="4" />
         </VerticalStackLayout>
       </xctk:Card>
-
-
+      <!--File Picker Card-->
+      <xctk:Card Margin="4"
+                 HeightRequest="300"
+                 WidthRequest="300"
+                 ShadowBrush="Black"
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
+        <xctk:Card.Title>
+          <Label Text="File Picker" />
+        </xctk:Card.Title>
+        <VerticalStackLayout>
+          <Label Margin="6,18,6,6"
+                 Text="Simple to use File Picker that works on all platforms. Also supports a custom watermark." />
+          <xctk:FilePicker Watermark="File Picker" />
+        </VerticalStackLayout>
+      </xctk:Card>            
+      <!--RadioButton Card-->
+      <xctk:Card Margin="4"
+                 HeightRequest="300"
+                 WidthRequest="300"
+                 ShadowBrush="Black"
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
+        <xctk:Card.Title>
+          <Label Text="RadioButton" />
+        </xctk:Card.Title>
+        <VerticalStackLayout>
+          <Label Margin="6,18,6,6"
+                 Text="A more flexible and complete RadioButton than the one exposed in the framework, similar to our other new controls" />
+          <xctk:RadioButton Content="RadioButton 1"
+                            IsChecked="True" />
+          <xctk:RadioButton Content="RadioButton 2"/>
+          <xctk:RadioButton Content="RadioButton 3" />
+        </VerticalStackLayout>
+      </xctk:Card>
       <!--Chart Card-->
       <xctk:Card Margin="4"
                  HeightRequest="300"

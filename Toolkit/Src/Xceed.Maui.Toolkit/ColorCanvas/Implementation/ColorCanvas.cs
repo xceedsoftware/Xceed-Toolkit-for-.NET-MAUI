@@ -420,7 +420,7 @@ namespace Xceed.Maui.Toolkit
       this.SetHexadecimalStringProperty( ( ( TextBox )sender ).Text, true );
     }
 
-    private void HexadecimalTextBox_Unfocused( object sender, FocusEventArgs e )
+    private void HexadecimalTextBox_Unfocused( object sender, EventArgs e )
     {
       this.SetHexadecimalStringProperty( ( ( TextBox )sender ).Text, true );
     }

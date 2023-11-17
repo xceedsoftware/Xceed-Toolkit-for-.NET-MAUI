@@ -18,30 +18,19 @@
 
 using System.Globalization;
 
-namespace Xceed.Maui.Toolkit.Converters
+namespace Xceed.Maui.Toolkit
 {
-  public class FocusUnderlineCornerRadiusConverter : IMultiValueConverter
+  public class FilePickerPaddingConverter : IMultiValueConverter
   {
     public object Convert( object[] values, Type targetType, object parameter, CultureInfo culture )
     {
       if( values.Count() != 2 || values[ 0 ] == null || values[ 1 ] == null )
         return 0d;
 
-      var cornerRadius = (CornerRadius)values[ 0 ];
-      var borderThickness = (Thickness)values[ 1 ];
+      var padding = ( Thickness )values[ 0 ];
+      var width = ( double )values[ 1 ];
 
-      var bottomLeftDiff = cornerRadius.BottomLeft - borderThickness.Left;
-      var bottomLeft = ( bottomLeftDiff > 0 )
-                       ? ( bottomLeftDiff > borderThickness.Left ) ? cornerRadius.BottomLeft : bottomLeftDiff + ( bottomLeftDiff / 2 )
-                       : ( cornerRadius.BottomLeft / Math.Max( 1, borderThickness.Left ) ) * ( cornerRadius.BottomLeft / 2 );
-
-      var bottomRightDiff = cornerRadius.BottomRight - borderThickness.Right;
-      var bottomRight = ( bottomRightDiff > 0 )
-                       ? ( bottomRightDiff > borderThickness.Right ) ? cornerRadius.BottomRight : bottomRightDiff + ( bottomRightDiff / 2 )
-                       : ( cornerRadius.BottomRight / Math.Max( 1, borderThickness.Right ) ) * ( cornerRadius.BottomRight / 2 );
-
-      return new CornerRadius( 0d, 0d, bottomLeft, bottomRight );
-
+      return new Thickness( padding.Left, padding.Top, width + padding.Right, padding.Bottom );
     }
 
     public object[] ConvertBack( object value, Type[] targetTypes, object parameter, CultureInfo culture )
