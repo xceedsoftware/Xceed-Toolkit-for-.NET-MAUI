@@ -454,12 +454,22 @@ Them, you can create your own style :
 The BasedOn needs to be set to the name of our resource, here's the list of names you can use for other controls:
 
 - FluentDesignBorder
-- FluentDesignRepeatButton
+- FluentDesignButton
 - FluentDesignButtonSpinner
 - FluentDesignCard
+- FluentDesignRepeatButton
+- FluentDesignCheckBox
+- FluentDesignColorCanvas
 - FluentDesignContentControl
+- FluentDesignExpander
+- FluentDesignFilePicker
+- FluentDesignMaskedTextBox
 - FluentDesignNumericUpDown
+- FluentDesignRadioButton
+- FluentDesignRepeatButton
+- FluentDesignTextBox
 - FluentDesignToggleButton
+- FluentDesignToggleSwitch
 
 Note that the OverrideDefaultVisualStates will allow you to change the style of a Control while overriding our VisualStates.
 
