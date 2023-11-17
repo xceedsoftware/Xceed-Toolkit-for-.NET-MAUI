@@ -2,9 +2,15 @@
 
 [![NuGet](https://img.shields.io/nuget/dt/Xceed.Product.Maui.Toolkit.Full?color=blue&label=nuget)](https://www.nuget.org/packages/Xceed.Product.Maui.Toolkit.Full)
 ![Platforms](https://img.shields.io/badge/platforms-Android%20%7C%20Windows%20%7C%20iOS%20%7C%20macOS-brightgreen)
+![Static Badge](https://img.shields.io/badge/.NET-7%2B-blue)
 
+# Update 1.6
+We keep adding more, here's 3 new controls
+- [MaskedTextBox](#masked)
+- [FilePicker](#filepicker)
+- [RadioButton](#radiobutton)
 
-# Update!
+# Update 1.5 
 We have added a series of new controls for the MAUI Toolkit
 - [Chart](#chart)
 - [ColorCanvas](#colorcanvas)
@@ -97,7 +103,7 @@ Here's a quick code sample to get you started:
 ````
 
 <a id="colorcanvas"></a>
-### Color Canvas
+### ColorCanvas
 
 The ColorCanvas control facilitates intuitive color selection in applications. It offers a simple graphical interface with including ColorSpectrum for seamless color picking.
 
@@ -119,8 +125,26 @@ The TextBox control is a versatile input element offering advanced features not 
 
 - ClearButton Styling: Ability to style the ClearButton to match the overall design of the application.
 
+<a id="maskedtextbox"></a>
+### MaskedTextBox
+The MaskedTextBox allows you to use the same functionalities that you find in the textbox while adding support for a mask, here's a few examples of mask you can use and how they look like:
+
+````xaml
+ <!--For a phone number and ip address-->
+ <xctk:MaskedTextBox Margin="0,8,0,0"
+                     Mask="(000)000-0000"                     
+                     ClearButtonVisibility="WhileEditing" 
+                     WidthRequest="160"/>
+
+  <xctk:MaskedTextBox Margin="0,8,0,0"
+                     CornerRadius="0"
+                     Mask="000.000.000.000"                     
+                     ClearButtonVisibility="WhileEditing"
+                     WidthRequest="160" />
+````
+
 <a id="switch"></a>
-### Toggle Switch
+### ToggleSwitch
 
 The ToggleSwitch is an advanced control that enhances the standard Switch from the MAUI framework. Allowing customization of size, borders, content, and thumb appearance based on the Checked or Unchecked state. Here's a quick list of features: 
 
@@ -129,6 +153,18 @@ The ToggleSwitch is an advanced control that enhances the standard Switch from t
 - Configure the Thumb (Background, BorderBrush, BorderThickness, Content)
 - Choose the side when Checked
 - and of course all features that area already available in the MAUI Switch control.
+
+<a id="filepicker"></a>
+### FilePicker
+The FilePicker control offers a seamless and unified file selection functionality across all platforms. Whether you're developing for Windows, iOS, or any other supported platform, this control integrates effortlessly.
+
+To incorporate the FilePicker into your application, simply add it to your XAML:
+
+````xaml
+<xctk:FilePicker Watermark="File Picker" />
+````
+
+And you will then have access to a selectedfile(s) property. The control supports both single or multiple files selection.
 
 <a id="expander"></a>
 ### Expander
@@ -150,6 +186,17 @@ The CheckBox is an enhanced version of the standard CheckBox control, providing 
 
 These features enhance the usability and visual customization of the Xceed CheckBox, making it a valuable component for building interactive UIs.
 
+<a id="radiobutton"></a>
+Just like the CheckBox control, the RadioButton is an enhanced version of the standard RadioButton control, providing additional features and flexibility. 
+
+````xaml
+ <xctk:RadioButton Content="RadioButton 1"
+                   IsChecked="True" />
+ <xctk:RadioButton Content="RadioButton 2"
+                   IsChecked="False"/>
+ <xctk:RadioButton Content="RadioButton 3" 
+                   IsChecked="False"/>
+````
 
 <a id="border"></a>
 ### Border
