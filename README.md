@@ -6,7 +6,7 @@
 
 # Update 1.6
 We keep adding more, here's 3 new controls
-- [MaskedTextBox](#masked)
+- [MaskedTextBox](#maskedtextbox)
 - [FilePicker](#filepicker)
 - [RadioButton](#radiobutton)
 
@@ -187,6 +187,7 @@ The CheckBox is an enhanced version of the standard CheckBox control, providing 
 These features enhance the usability and visual customization of the Xceed CheckBox, making it a valuable component for building interactive UIs.
 
 <a id="radiobutton"></a>
+### RadioButton
 Just like the CheckBox control, the RadioButton is an enhanced version of the standard RadioButton control, providing additional features and flexibility. 
 
 ````xaml
