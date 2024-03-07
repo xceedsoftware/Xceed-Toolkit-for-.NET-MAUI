@@ -119,9 +119,8 @@
                     </local:ContentControl>
                   </local:Border>
 
-                  <!--Clipping is currently not working in Mac/iOS : it prevent mouse click, so we disable animation for those platforms.-->
                   <Grid x:Name="checkAnimationGrid"
-                        IsVisible="{OnPlatform iOS=False, MacCatalyst=False, Default={TemplateBinding IsAnimated}}">
+                        IsVisible="{TemplateBinding IsAnimated}">
                     <Grid.Clip>
                       <RoundRectangleGeometry CornerRadius="{Binding CornerRadius, Source={x:Reference checkBoxBorder}}">
                         <RoundRectangleGeometry.Rect>

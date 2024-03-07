@@ -17,9 +17,9 @@
          as opposed to other platforms where the SupportedOSPlatformVersion property is sufficent -->
     <!-- Package Microsoft.Maui.Graphics.Win2D.WinUI.Desktop 7.0.49 forces the minimum Windows version to be 10.0.19041.0 as opposed to 10.0.17763.0 -->
     <MinWindowsVersion>10.0.19041.0</MinWindowsVersion>
-    <TargetFrameworks>net7.0;net7.0-windows$(MinWindowsVersion);net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
+    <TargetFrameworks>net8.0;net8.0-windows$(MinWindowsVersion);net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
     <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-    <!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
+    <!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
     <UseMaui>true</UseMaui>
     <!--EnableWindowsTargeting is necessary to be able to compile in MAC-->
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
@@ -38,46 +38,69 @@
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <DebugType>none</DebugType>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|AnyCPU'">
     <DefineConstants>$(DefineConstants)TRACE;WINDOWS</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0|AnyCPU'">
     <DefineConstants>$(DefineConstants)TRACE;WINDOWS</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
     <DefineConstants>$(DefineConstants);ANDROID</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
     <DefineConstants>$(DefineConstants);ANDROID</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
     <DefineConstants>$(DefineConstants);IOS</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
     <DefineConstants>$(DefineConstants);IOS</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-maccatalyst|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|AnyCPU'">
     <DefineConstants>$(DefineConstants);MACCATALYST</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-maccatalyst|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|AnyCPU'">
     <DefineConstants>$(DefineConstants);MACCATALYST</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows10.0.19041.0|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|AnyCPU'">
     <DefineConstants>$(DefineConstants);WINDOWS</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows10.0.19041.0|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|AnyCPU'">
     <DefineConstants>$(DefineConstants);WINDOWS</DefineConstants>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="AppBuilderExtensions.cs" />
     <Compile Include="AssemblyVersionInfo.cs" />
     <Compile Include="AssemblyVersionInfoCommon.cs" />
+    <Compile Include="AutoCompleteTextBox\Implementation\AutoCompleteTextBox.cs" />
+    <Compile Include="AutoCompleteTextBox\Implementation\Converters\DisplayMemberPathConverter.cs" />
+    <Compile Include="AutoCompleteTextBox\Implementation\ICustomFilterAction.cs" />
     <Compile Include="Border\Implementation\Border.cs" />
     <Compile Include="Border\Implementation\BorderShapeGrid.cs" />
     <Compile Include="Border\Implementation\BorderShapeGridLayoutManager.cs" />
     <Compile Include="ButtonSpinner\Implementation\ButtonSpinner.cs" />
     <Compile Include="ButtonSpinner\Implementation\SpinEventArgs.cs" />
     <Compile Include="Button\Implementation\Button.cs" />
+    <Compile Include="Calculator\Implementation\Calculator.cs" />
+    <Compile Include="Calculator\Implementation\CalculatorUtilities.cs" />
+    <Compile Include="Calculator\Implementation\Converters\CalculatorMemoryToVisibilityConverter.cs" />
+    <Compile Include="Calculator\Implementation\Converters\CalculatorMinHeightConverter.cs" />
+    <Compile Include="Calculator\Implementation\Converters\CalculatorMinWidthConverter.cs" />
+    <Compile Include="Calculator\Implementation\Converters\CornerButtonCornerRadiusConverter.cs" />
+    <Compile Include="Calendar\Implementation\Calendar.cs" />
+    <Compile Include="Calendar\Implementation\CalendarBlackoutDatesCollection.cs" />
+    <Compile Include="Calendar\Implementation\CalendarButton.cs" />
+    <Compile Include="Calendar\Implementation\CalendarDateRange.cs" />
+    <Compile Include="Calendar\Implementation\CalendarDayButton.cs" />
+    <Compile Include="Calendar\Implementation\Converters\CalendarMonthYearFormatConverter.cs" />
+    <Compile Include="Calendar\Implementation\DateTimeHelper.cs" />
+    <Compile Include="Calendar\Implementation\EventArgs\CalendarDateRangeChangingEventArgs.cs" />
+    <Compile Include="Calendar\Implementation\CalendarSelectedDatesCollection.cs" />
+    <Compile Include="Calendar\Implementation\MonthViewDayModel.cs" />
     <Compile Include="Card\Implementation\Card.cs" />
     <Compile Include="Chart\Implementation\AreaElementInfos\AreaElementInfos.cs" />
     <Compile Include="Chart\Implementation\AreaElementInfos\AreaElementInfosBase.cs" />
@@ -135,17 +158,30 @@
     <Compile Include="Core\Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Core\Converters\ColorToSolidColorBrushConverter.cs" />
     <Compile Include="Core\Converters\ThicknessDirectionConverter.cs" />
-    <Compile Include="Core\Extensions\IElementExtensions.cs" />
     <Compile Include="Core\IBrushesResourceDictionary.cs" />
+    <Compile Include="DateTimeUpDown\Implementation\DateTimeFormatPattern.cs" />
+    <Compile Include="DateTimeUpDown\Implementation\DateTimeInfo.cs" />
+    <Compile Include="DateTimeUpDown\Implementation\DateTimeParser.cs" />
+    <Compile Include="DateTimeUpDown\Implementation\DateTimePart.cs" />
+    <Compile Include="DateTimeUpDown\Implementation\DateTimeUpDown.cs" />
+    <Compile Include="DateTimeUpDown\Implementation\DateTimeUpDownBase.cs" />
+    <Compile Include="DropDownButton\Implementation\Converters\PopupLocationToLayoutOptions.cs" />
+    <Compile Include="DropDownButton\Implementation\DropDownButton.cs" />
     <Compile Include="Expander\Implementation\DoubleAnimation.cs" />
     <Compile Include="Expander\Implementation\ExpandDirectionEnum.cs" />
     <Compile Include="Expander\Implementation\ExpanderCornerRadiusConverter.cs" />
     <Compile Include="Expander\Implementation\ExpandedEventArgs.cs" />
     <Compile Include="Expander\Implementation\Expander.cs" />
     <Compile Include="Expander\Implementation\ExpanderSizeConverter.cs" />
-    <Compile Include="FilePicker\Implementation\Converters\FilePickerPaddingConverter.cs" />
+    <Compile Include="Popup\Implementation\IPopup.cs" />
+    <Compile Include="Popup\Implementation\Popup.cs" />
+    <Compile Include="Popup\Implementation\PopupContainer.cs" />
+    <Compile Include="Popup\Implementation\PopupHandler.cs" />
+    <Compile Include="Popup\Implementation\PopupHandler.Net.cs" />
     <Compile Include="Themes\FluentColors.cs" />
     <Compile Include="FilePicker\Implementation\FilePicker.cs" />
+    <Compile Include="FilePicker\Implementation\Converters\FilePickerButtonCornerRadiusConverter.cs" />
+    <Compile Include="FilePicker\Implementation\Converters\FilePickerPaddingConverter.cs" />
     <Compile Include="MaskedTextBox\Implementation\MaskedTextBox.Android.cs" />
     <Compile Include="MaskedTextBox\Implementation\MaskedTextBox.cs" />
     <Compile Include="NumericUpDowns\Implementation\AlowedSpecialValues.cs" />
@@ -328,6 +364,9 @@
     <Compile Include="UnitTestDetector.cs" />
   </ItemGroup>
   <ItemGroup>
+    <MauiXaml Include="AutoCompleteTextBox\Themes\AutoCompleteTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Include="Border\Themes\Border.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
@@ -346,10 +385,19 @@
     <MauiXaml Include="ContentControl\Themes\ContentControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Include="DateTimeUpDown\Themes\DateTimeUpDown.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Include="DropDownButton\Themes\DropDownButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Include="Expander\Themes\Expander.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Include="NumericUpDowns\Themes\NumericUpDown.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Include="Popup\Themes\Popup.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Include="RadioButton\Themes\RadioButton.xaml">
@@ -529,17 +577,26 @@
     <MauiXaml Include="MaskedTextBox\Themes\MaskedTextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Include="Calculator\Themes\Calculator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Include="FilePicker\Themes\FilePicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Include="Calendar\Themes\Calendar.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
   </ItemGroup>
   <!-- Android-specifc items -->
   <ItemGroup>
-    <Compile Include="Border\Implementation\BorderShapeGrid.Android.cs" />
+    <Compile Include="Border\Implementation\Border.Android.cs" />
     <Compile Include="ContentControl\Implementation\ContentControl.Android.cs" />
     <Compile Include="MaskedTextBox\Implementation\MaskedTextBox.Android.cs" />
     <Compile Include="RadioButton\Implementation\RadioButton.Android.cs" />
     <Compile Include="TextBox\Implementation\TextBox.Android.cs" />
+    <Compile Include="Popup\Implementation\PopupHandler.Android.cs" />
+    <Compile Include="Calendar\Implementation\CalendarButton.Android.cs" />
+    <Compile Include="Calendar\Implementation\CalendarDayButton.Android.cs" />
   </ItemGroup>
   <!-- iOS-specifc items -->
   <ItemGroup>
@@ -548,32 +605,46 @@
     <Compile Include="ColorCanvas\Implementation\ColorSpectrumSlider.iOS.cs" />
     <Compile Include="MaskedTextBox\Implementation\MaskedTextBox.iOS.cs" />
     <Compile Include="RadioButton\Implementation\RadioButton.iOS.cs" />
-    <Compile Include="TextBox\Implementation\TextBox.iOS.cs" />
+    <Compile Include="TextBox\Implementation\TextBox.Macios.cs" />
+    <Compile Include="Popup\Implementation\PopupHandler.Macios.cs" />
+    <Compile Include="Calendar\Implementation\CalendarButton.iOS.cs" />
+    <Compile Include="Calendar\Implementation\CalendarDayButton.iOS.cs" />
   </ItemGroup>
   <!-- Mac-Catalyst-specifc items -->
   <ItemGroup>
+    <Compile Include="AutoCompleteTextBox\Implementation\AutoCompleteTextBox.MacCatalyst.cs" />
     <Compile Include="Border\Implementation\Border.MacCatalyst.cs" />
     <Compile Include="Button\Implementation\Button.MacCatalyst.cs" />
     <Compile Include="ButtonSpinner\Implementation\ButtonSpinner.MacCatalyst.cs" />
     <Compile Include="CheckBox\Implementation\CheckBox.MacCatalyst.cs" />
+    <Compile Include="DropDownButton\Implementation\DropDownButton.MacCatalyst.cs" />
     <Compile Include="ColorCanvas\Implementation\ColorCanvas.MacCatalyst.cs" />
     <Compile Include="MaskedTextBox\Implementation\MaskedTextBox.MacCatalyst.cs" />
     <Compile Include="RadioButton\Implementation\RadioButton.MacCatalyst.cs" />
-    <Compile Include="TextBox\Implementation\TextBox.MacCatalyst.cs" />
+    <Compile Include="TextBox\Implementation\TextBox.Macios.cs" />
     <Compile Include="ToggleButton\Implementation\ToggleButton.MacCatalyst.cs" />
+    <Compile Include="Popup\Implementation\PopupHandler.Macios.cs" />
+    <Compile Include="Calendar\Implementation\CalendarButton.MacCatalyst.cs" />
+    <Compile Include="Calendar\Implementation\CalendarDayButton.MacCatalyst.cs" />
   </ItemGroup>
   <!-- Tizen-specifc items -->
   <!-- Windows-specifc items -->
   <ItemGroup>
+    <Compile Include="AutoCompleteTextBox\Implementation\AutoCompleteTextBox.Windows.cs" />
     <Compile Include="Border\Implementation\Border.Windows.cs" />
     <Compile Include="Button\Implementation\Button.Windows.cs" />
     <Compile Include="ButtonSpinner\Implementation\ButtonSpinner.Windows.cs" />
     <Compile Include="CheckBox\Implementation\CheckBox.Windows.cs" />
+    <Compile Include="DateTimeUpDown\Implementation\DateTimeUpDownBase.Windows.cs" />
+    <Compile Include="DropDownButton\Implementation\DropDownButton.Windows.cs" />
     <Compile Include="MaskedTextBox\Implementation\MaskedTextBox.Windows.cs" />
     <Compile Include="RadioButton\Implementation\RadioButton.Windows.cs" />
     <Compile Include="TextBox\Implementation\TextBox.Windows.cs" />
     <Compile Include="ToggleButton\Implementation\ToggleButton.Windows.cs" />
     <Compile Include="ToggleSwitch\Implementation\ToggleSwitch.Windows.cs" />
+    <Compile Include="Popup\Implementation\PopupHandler.Windows.cs" />
+    <Compile Include="Calendar\Implementation\CalendarButton.Windows.cs" />
+    <Compile Include="Calendar\Implementation\CalendarDayButton.Windows.cs" />
   </ItemGroup>
   <!--
   There is a bug in Visual Studio where files do not appear in the Solution Explorer if, in the csproj, they are in a Condition that is false for the
@@ -603,6 +674,12 @@
     <MauiXaml Remove="**\*.MacCatalyst.*" />
     <None Include="**\*.MacCatalyst.*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
   </ItemGroup>
+  <!-- Not Mac Catalyst and not iOS -->
+  <ItemGroup Condition="'$(TargetPlatformIdentifier)' != 'maccatalyst' And '$(TargetPlatformIdentifier)' != 'ios'">
+    <Compile Remove="**\*.Macios.*" />
+    <MauiXaml Remove="**\*.Macios.*" />
+    <None Include="**\*.Macios.*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+  </ItemGroup>
   <!-- Not Tizen -->
   <ItemGroup Condition="'$(TargetPlatformIdentifier)' != 'tizen'">
     <Compile Remove="**\*.Tizen.*" />
@@ -615,8 +692,8 @@
     <MauiXaml Remove="**\*.Windows.*" />
     <None Include="**\*.Windows.*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
   </ItemGroup>
-  <!-- Not .NET 7 (Unit tests) -->
-  <ItemGroup Condition="$(TargetFramework) != 'net7.0'">
+  <!-- Not .NET 8 (Unit tests) -->
+  <ItemGroup Condition="$(TargetFramework) != 'net8.0'">
     <Compile Remove="**\*.Net.*" />
     <MauiXaml Remove="**\*.Net.*" />
     <None Include="**\*.Net.*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />

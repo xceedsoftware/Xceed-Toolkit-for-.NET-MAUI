@@ -75,7 +75,7 @@
                   <local:ContentControl.Resources>
                     <Style TargetType="Label">
                       <Setter Property="FontSize"
-                              Value="Subtitle" />
+                              Value="{OnPlatform Android=16, Default=20}" />
                     </Style>
                   </local:ContentControl.Resources>
                 </local:ContentControl>

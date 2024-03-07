@@ -80,7 +80,7 @@ namespace Xceed.Maui.Toolkit
 
     #region CursorPosition
 
-    public static readonly BindableProperty CursorPositionProperty = BindableProperty.Create( nameof( CursorPosition ), typeof( int ), typeof( TextBox ), 0, coerceValue: OnCoerceCursorPosition );
+    public static readonly BindableProperty CursorPositionProperty = BindableProperty.Create( nameof( CursorPosition ), typeof( int ), typeof( TextBox ), 0, coerceValue: OnCoerceCursorPosition, propertyChanged: OnCursorPositionChanged );
 
     public int CursorPosition
     {
@@ -94,6 +94,19 @@ namespace Xceed.Maui.Toolkit
         throw new InvalidDataException( "CursorPosition must be greater or equal to 0." );
 
       return value;
+    }
+
+    private static void OnCursorPositionChanged( BindableObject bindable, object oldValue, object newValue )
+    {
+      if( bindable is TextBox textBox )
+      {
+        textBox.OnCursorPositionChanged( (int)oldValue, (int)newValue );
+      }
+    }
+
+    protected virtual void OnCursorPositionChanged( int oldValue, int newValue )
+    {
+      this.RaiseSelectionChangedEvent( this, EventArgs.Empty );
     }
 
     #endregion
@@ -204,7 +217,7 @@ namespace Xceed.Maui.Toolkit
 
     #region SelectionLength
 
-    public static readonly BindableProperty SelectionLengthProperty = BindableProperty.Create( nameof( SelectionLength ), typeof( int ), typeof( TextBox ), 0, coerceValue: OnCoerceSelectionLength );
+    public static readonly BindableProperty SelectionLengthProperty = BindableProperty.Create( nameof( SelectionLength ), typeof( int ), typeof( TextBox ), 0, coerceValue: OnCoerceSelectionLength, propertyChanged: OnSelectionLengthChanged );
 
     public int SelectionLength
     {
@@ -218,6 +231,19 @@ namespace Xceed.Maui.Toolkit
         throw new InvalidDataException( "SelectionLength must be greater or equal to 0." );
 
       return value;
+    }
+
+    private static void OnSelectionLengthChanged( BindableObject bindable, object oldValue, object newValue )
+    {
+      if( bindable is TextBox textBox )
+      {
+        textBox.OnSelectionLengthChanged( (int)oldValue, (int)newValue );
+      }
+    }
+
+    protected virtual void OnSelectionLengthChanged( int oldValue, int newValue )
+    {
+      this.RaiseSelectionChangedEvent( this, EventArgs.Empty );
     }
 
     #endregion
@@ -435,6 +461,17 @@ namespace Xceed.Maui.Toolkit
         this.Unfocused?.Invoke( sender, e );
       }
     }
+
+    public event EventHandler SelectionChanged;
+
+    internal void RaiseSelectionChangedEvent( object sender, EventArgs e )
+    {
+      if( this.IsEnabled )
+      {
+        this.SelectionChanged?.Invoke( sender, e );
+      }
+    }
+
     #endregion
 
     #region Event Handlers

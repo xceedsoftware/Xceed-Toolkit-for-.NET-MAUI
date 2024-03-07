@@ -35,6 +35,8 @@ namespace Xceed.Maui.Toolkit
     internal UpDownBase()
     {
       this.Unfocused += this.OnLostFocus;
+
+      this.SetDefaultValues();
     }
 
     #endregion
@@ -258,12 +260,25 @@ namespace Xceed.Maui.Toolkit
 
     #region Value
 
-    public static readonly BindableProperty ValueProperty = BindableProperty.Create( "Value", typeof( T ), typeof( UpDownBase<T> ), default( T ), propertyChanged: OnValueChanged );
+    public static readonly BindableProperty ValueProperty = BindableProperty.Create( "Value", typeof( T ), typeof( UpDownBase<T> ), default( T ), propertyChanged: OnValueChanged, coerceValue: OnCoerceValue );
 
     public T Value
     {
       get => ( T )GetValue( ValueProperty );
       set => SetValue( ValueProperty, value );
+    }
+
+    private static object OnCoerceValue( BindableObject bindable, object value )
+    {
+      if( bindable is UpDownBase<T> upDownBase )
+        return upDownBase.OnCoerceValue( value );
+
+      return value;
+    }
+
+    protected virtual object OnCoerceValue( object value )
+    {
+      return value;
     }
 
     private static void OnValueChanged( BindableObject bindable, object oldValue, object newValue )
@@ -309,6 +324,8 @@ namespace Xceed.Maui.Toolkit
 
     #region Protected Methods
 
+    protected abstract void SetDefaultValues();
+
     protected abstract string ConvertValueToText();
 
 #nullable enable
@@ -318,6 +335,10 @@ namespace Xceed.Maui.Toolkit
     protected abstract void OnIncrement();
 
     protected abstract void OnDecrement();
+
+    protected abstract bool IsLowerThan( T? value1, T? value2 );
+
+    protected abstract bool IsGreaterThan( T? value1, T? value2 );
 
     protected abstract void SetValidSpinDirection();
 

@@ -41,6 +41,54 @@
       <Grid RowDefinitions="Auto,Auto">
         <Grid RowDefinitions="100,Auto"
               ColumnDefinitions="*,35" >
+          <Grid Grid.RowSpan="2"
+                Grid.Column="1"
+                WidthRequest="25"
+                HeightRequest="135">
+            <local:ColorSpectrumSlider x:Name="PART_SpectrumSlider"
+                                       WidthRequest="135"
+                                       IsEnabled="{TemplateBinding IsEnabled}">
+              <local:ColorSpectrumSlider.ControlTemplate>
+                <ControlTemplate>
+                  <Grid Rotation="90">
+                    <local:Border x:Name="PART_SpectrumDisplay"
+                                  HeightRequest="18"
+                                  Margin="10,0,12,0" />
+                    <Grid x:Name="PART_Thumb"
+                          Background="Transparent"
+                          WidthRequest="12"
+                          HeightRequest="18"
+                          HorizontalOptions="Start"
+                          Margin="6,0,6,0"
+                          RowDefinitions="8,2,8">
+                      <Path Data="F1 M 573.071,544.714L 409.692,262.717L 247.165,545.206L 573.071,544.714 Z "
+                            Stroke="{AppThemeBinding Dark=Black, Light=White}"
+                            Fill="{AppThemeBinding Dark=White, Light=Black}"
+                            Aspect="Uniform"
+                            HorizontalOptions="Start"
+                            Grid.Row="2" />
+                      <Path Data="F1 M 575.034,142.896L 249.127,142.578L 411.805,424.98L 575.034,142.896 Z "
+                            Stroke="{AppThemeBinding Dark=Black, Light=White}"
+                            Fill="{AppThemeBinding Dark=White, Light=Black}"
+                            Aspect="Uniform"
+                            HorizontalOptions="Start" />
+                    </Grid>
+                    <Slider x:Name="PART_HiddenSlider"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Fill"
+                            Opacity="{x:OnPlatform WinUI=0, Android=0, Default=1}"
+                            Minimum="0"
+                            Maximum="360"
+                            MaximumTrackColor="Transparent"
+                            MinimumTrackColor="Transparent"
+                            ThumbColor="Transparent"
+                            Value="{Binding Source={RelativeSource TemplatedParent},Path=Value,Mode=TwoWay}"
+                            IsEnabled="{TemplateBinding IsEnabled}" />
+                  </Grid>
+                </ControlTemplate>
+              </local:ColorSpectrumSlider.ControlTemplate>
+            </local:ColorSpectrumSlider>
+          </Grid>
           <Grid>
             <Rectangle Fill="{Binding SelectedColor, Source={Reference PART_SpectrumSlider}}" />
             <Rectangle>
@@ -104,66 +152,6 @@
                            FontSize="{TemplateBinding FontSize}"
                            FontAttributes="{TemplateBinding FontAttributes}"
                            IsEnabled="{TemplateBinding IsEnabled}" />
-          </Grid>
-          <Grid Grid.RowSpan="2"
-                Grid.Column="1"
-                WidthRequest="25"
-                HeightRequest="135">
-            <local:ColorSpectrumSlider x:Name="PART_SpectrumSlider"
-                                       WidthRequest="135"
-                                       Background="{TemplateBinding Background}"
-                                       TextColor="{TemplateBinding TextColor}"
-                                       IsEnabled="{TemplateBinding IsEnabled}">
-              <local:ColorSpectrumSlider.Style>
-                <Style TargetType="{x:Type local:ColorSpectrumSlider}">
-                  <Setter Property="TextColor"
-                          Value="{Binding TextColor, Source={RelativeSource TemplatedParent}}" />
-                  <Setter Property="Background"
-                          Value="{Binding Background, Source={RelativeSource TemplatedParent}}" />
-                  <Setter Property="ControlTemplate">
-                    <Setter.Value>
-                      <ControlTemplate>
-                        <Grid Rotation="90">
-                          <Grid x:Name="PART_SpectrumDisplay"
-                                HeightRequest="18"
-                                Margin="10,0,12,0"/>
-                          <Grid x:Name="PART_Thumb"
-                                Background="Transparent"
-                                WidthRequest="12"
-                                HeightRequest="18"
-                                HorizontalOptions="Start"
-                                Margin="6,0,6,0"
-                                RowDefinitions="8,2,8">
-                            <Path Data="F1 M 573.071,544.714L 409.692,262.717L 247.165,545.206L 573.071,544.714 Z "
-                                  Stroke="{AppThemeBinding Dark=Black, Light=White}"
-                                  Fill="{AppThemeBinding Dark=White, Light=Black}"
-                                  Aspect="Uniform"
-                                  HorizontalOptions="Start"
-                                  Grid.Row="2" />
-                            <Path Data="F1 M 575.034,142.896L 249.127,142.578L 411.805,424.98L 575.034,142.896 Z "
-                                  Stroke="{AppThemeBinding Dark=Black, Light=White}"
-                                  Fill="{AppThemeBinding Dark=White, Light=Black}"
-                                  Aspect="Uniform"
-                                  HorizontalOptions="Start" />
-                          </Grid>
-                          <Slider x:Name="PART_HiddenSlider"
-                                  VerticalOptions="Center"
-                                  HorizontalOptions="Fill"
-                                  Opacity="{x:OnPlatform WinUI=0, Android=0, Default=1}"
-                                  Minimum="0"
-                                  Maximum="360"
-                                  MaximumTrackColor="Transparent"
-                                  MinimumTrackColor="Transparent"
-                                  ThumbColor="Transparent"
-                                  Value="{Binding Source={RelativeSource TemplatedParent},Path=Value,Mode=TwoWay}"
-                                  IsEnabled="{TemplateBinding IsEnabled}" />
-                        </Grid>
-                      </ControlTemplate>
-                    </Setter.Value>
-                  </Setter>
-                </Style>
-              </local:ColorSpectrumSlider.Style>
-            </local:ColorSpectrumSlider>
           </Grid>
         </Grid>
         <local:Border Grid.Row="1"

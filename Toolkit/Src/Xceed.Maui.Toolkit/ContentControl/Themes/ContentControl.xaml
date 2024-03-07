@@ -32,11 +32,13 @@
     <Setter Property="ControlTemplate">
       <Setter.Value>
         <ControlTemplate>
+          <!--ContentPresenter crashes in ControlTemplates because automatically binds to Content of type View. Our Content is type object !
+              This can be seen with Calendar which contains many CalendarDayButtons.-->
           <ContentView Content="{TemplateBinding View}"
                        Padding="{TemplateBinding Padding}"
                        Margin="{TemplateBinding Margin}"
                        VerticalOptions="{TemplateBinding VerticalOptions}"
-                       HorizontalOptions="{TemplateBinding HorizontalOptions}"/>
+                       HorizontalOptions="{TemplateBinding HorizontalOptions}" />
         </ControlTemplate>
       </Setter.Value>
     </Setter>

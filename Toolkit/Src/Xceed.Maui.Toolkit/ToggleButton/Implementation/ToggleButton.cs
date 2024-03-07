@@ -189,7 +189,7 @@ namespace Xceed.Maui.Toolkit
 
     protected internal override void Button_PointerUp()
     {
-      if( this.IsEnabled )
+      if( this.IsEnabled && this.IsPressed )
       {
         if( this.IsThreeState )
         {

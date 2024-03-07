@@ -189,7 +189,18 @@ namespace Xceed.Maui.Toolkit
 
     public Size Measure( double widthConstraint, double heightConstraint )
     {
-      if( double.IsInfinity( widthConstraint ) || double.IsInfinity( heightConstraint ))
+      if( double.IsInfinity( widthConstraint ) )
+      {
+        var parent = (VisualElement)m_seriesPanel.Parent;
+        widthConstraint = ( parent.Width > 0d ) ? parent.Width : widthConstraint;
+      }
+      if( double.IsInfinity( heightConstraint ) )
+      {
+        var parent = (VisualElement)m_seriesPanel.Parent;
+        heightConstraint = ( parent.Height > 0d ) ? parent.Height : heightConstraint;
+      }
+
+      if( double.IsInfinity( widthConstraint ) || double.IsInfinity( heightConstraint ) )
         return new Size( widthConstraint, heightConstraint );
 
       m_seriesPanel.InitializeSeries( m_seriesPanel.GetSeriesBounds( widthConstraint, heightConstraint ) );

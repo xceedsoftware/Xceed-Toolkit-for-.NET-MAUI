@@ -43,8 +43,8 @@
                 Wrap="Wrap">
       <!--Buttons Card-->
       <xctk:Card Margin="4"
-                 HeightRequest="300"
-                 WidthRequest="300"
+                 HeightRequest="380"
+                 WidthRequest="340"
                  ShadowBrush="Black"
                  HorizontalContentOptions="Start"
                  VerticalContentOptions="Start">
@@ -54,7 +54,7 @@
         <VerticalStackLayout>
           <Label Margin="6,18,6,6"
                  Text="Xceed Button exposes a Content property which allows you to layout content any way you wish." />
-          <StackLayout Margin="6,18,6,6">
+          <StackLayout Margin="6,36,6,6">
             <xctk:Button>
               <HorizontalStackLayout>
                 <Label Text="Xceed"
@@ -94,8 +94,8 @@
       </xctk:Card>
       <!--RepeatButton Card-->
       <xctk:Card Margin="4"
-                 HeightRequest="300"
-                 WidthRequest="300"
+                 HeightRequest="380"
+                 WidthRequest="340"
                  ShadowBrush="Black"
                  HorizontalContentOptions="Start"
                  VerticalContentOptions="Start">
@@ -106,7 +106,7 @@
           <Label Margin="6,18,6,6"
                  Text="Holding the button will repeat the click event, useful when dealing with numerical values." />
           <HorizontalStackLayout HorizontalOptions="Center"
-                                 Margin="0,16,0,0">
+                                 Margin="0,36,0,0">
             <Label Text="Value : " />
             <Label x:Name="repeatLabel"
                    Margin="4,0,0,0"
@@ -128,8 +128,8 @@
       </xctk:Card>
       <!--ToggleButton Card-->
       <xctk:Card Margin="4"
-                 HeightRequest="300"
-                 WidthRequest="300"
+                 HeightRequest="380"
+                 WidthRequest="340"
                  ShadowBrush="Black"
                  HorizontalContentOptions="Start"
                  VerticalContentOptions="Start">
@@ -139,7 +139,7 @@
         <VerticalStackLayout>
           <Label Text="Toggle Button will behave similarly to a checkbox, where you have a Checked property"
                  Margin="6,18,6,6" />
-          <StackLayout Margin="6,18,6,6">
+          <StackLayout Margin="6,36,6,6">
             <xctk:ToggleButton>
               <HorizontalStackLayout>
                 <Label Text="Xceed"
@@ -178,8 +178,8 @@
       </xctk:Card>
       <!--ButtonSpinner Card-->
       <xctk:Card Margin="4"
-                 HeightRequest="300"
-                 WidthRequest="300"
+                 HeightRequest="380"
+                 WidthRequest="340"
                  ShadowBrush="Black"
                  HorizontalContentOptions="Start"
                  VerticalContentOptions="Start">
@@ -214,11 +214,11 @@
           </StackLayout>
         </VerticalStackLayout>
 
-      </xctk:Card>
+      </xctk:Card>    
       <!--Border Card-->
       <xctk:Card Margin="4"
-                 HeightRequest="300"
-                 WidthRequest="300"
+                 HeightRequest="380"
+                 WidthRequest="340"
                  ShadowBrush="Black"
                  HorizontalContentOptions="Start"
                  VerticalContentOptions="Start">
@@ -238,8 +238,8 @@
       </xctk:Card>
       <!--Card Card-->
       <xctk:Card Margin="4"
-                 HeightRequest="300"
-                 WidthRequest="300"
+                 HeightRequest="380"
+                 WidthRequest="340"
                  ShadowBrush="Black"
                  HorizontalContentOptions="Start"
                  VerticalContentOptions="Start">
@@ -263,8 +263,8 @@
       </xctk:Card>
       <!--Numeric UpDown Card-->
       <xctk:Card Margin="4"
-                 HeightRequest="300"
-                 WidthRequest="300"
+                 HeightRequest="380"
+                 WidthRequest="340"
                  ShadowBrush="Black"
                  HorizontalContentOptions="Start"
                  VerticalContentOptions="Start">
@@ -333,8 +333,8 @@
       </xctk:Card>
       <!--Theme Card-->
       <xctk:Card Margin="4"
-                 HeightRequest="300"
-                 WidthRequest="300"
+                 HeightRequest="380"
+                 WidthRequest="340"
                  ShadowBrush="Black"
                  HorizontalContentOptions="Start"
                  VerticalContentOptions="Start">
@@ -387,8 +387,8 @@
       <!--ToggleSwitch Card-->
       <xctk:Card Margin="4"
                  IsVisible="True"
-                 HeightRequest="300"
-                 WidthRequest="300"
+                 HeightRequest="380"
+                 WidthRequest="340"
                  ShadowBrush="Black"
                  HorizontalContentOptions="Start"
                  VerticalContentOptions="Start">
@@ -434,8 +434,8 @@
       </xctk:Card>
       <!--ExpanderSwitch Card-->
       <xctk:Card Margin="4"
-                 HeightRequest="300"
-                 WidthRequest="300"
+                 HeightRequest="380"
+                 WidthRequest="340"
                  ShadowBrush="Black"
                  HorizontalContentOptions="Start"
                  VerticalContentOptions="Start">
@@ -465,8 +465,8 @@
       </xctk:Card>
       <!--Entry Card-->
       <xctk:Card Margin="4"
-                 HeightRequest="300"
-                 WidthRequest="300"
+                 HeightRequest="380"
+                 WidthRequest="340"
                  ShadowBrush="Black"
                  HorizontalContentOptions="Start"
                  VerticalContentOptions="Start">
@@ -478,7 +478,7 @@
           <Label Margin="6,18,6,6"
                  Text="Enhanced TextBox (entry) with full control flexibility: CornerRadius, BorderThickness, and more!" />
 
-          <xctk:TextBox Margin="0,8,0,0"                        
+          <xctk:TextBox Margin="0,8,0,0"
                         ClearButtonVisibility="WhileEditing" />
 
           <xctk:TextBox Margin="0,8,0,0"
@@ -500,8 +500,8 @@
       </xctk:Card>
       <!--Masked Entry Card-->
       <xctk:Card Margin="4"
-                 HeightRequest="300"
-                 WidthRequest="300"
+                 HeightRequest="380"
+                 WidthRequest="340"
                  ShadowBrush="Black"
                  HorizontalContentOptions="Start"
                  VerticalContentOptions="Start">
@@ -517,18 +517,18 @@
 
             <Label Text="Phone : "
                    VerticalOptions="Center"
-                   WidthRequest="50"/>
+                   WidthRequest="50" />
             <xctk:MaskedTextBox Margin="0,8,0,0"
                                 Mask="(000)000-0000"
                                 Watermark="Phone Number"
-                                ClearButtonVisibility="WhileEditing" 
-                                WidthRequest="160"/>
+                                ClearButtonVisibility="WhileEditing"
+                                WidthRequest="160" />
 
           </HorizontalStackLayout>
 
           <HorizontalStackLayout Margin="8,0,0,0">
 
-            <Label Text="IP :" 
+            <Label Text="IP :"
                    VerticalOptions="Center"
                    WidthRequest="50" />
 
@@ -557,14 +557,35 @@
                                 BorderBrush="{StaticResource XceedOrange}"
                                 ClearButtonVisibility="WhileEditing"
                                 WidthRequest="160" />
-          </HorizontalStackLayout>          
+          </HorizontalStackLayout>
 
+        </VerticalStackLayout>
+      </xctk:Card>
+      <!--AutoCompleteTextBox Card-->
+      <xctk:Card Margin="4"
+                 HeightRequest="380"
+                 WidthRequest="340"
+                 ShadowBrush="Black"
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
+        <xctk:Card.Title>
+          <Label Text="Auto Complete TextBox" />
+        </xctk:Card.Title>
+        <VerticalStackLayout>
+
+          <Label Margin="6,18,6,6"
+                 Text="Start typing and and associated values will appear in the drop down, try typing the letter C" />
+
+          <xctk:AutoCompleteTextBox x:Name="autoCompleteTextBox"
+                                    ClearButtonVisibility="WhileEditing"
+                                    Margin="6,18,6,6"                                    
+                                    WidthRequest="200"/>
         </VerticalStackLayout>
       </xctk:Card>
       <!--CheckBox Card-->
       <xctk:Card Margin="4"
-                 HeightRequest="300"
-                 WidthRequest="300"
+                 HeightRequest="380"
+                 WidthRequest="340"
                  ShadowBrush="Black"
                  HorizontalContentOptions="Start"
                  VerticalContentOptions="Start">
@@ -583,14 +604,45 @@
                          Margin="4" />
           <xctk:CheckBox Content="CheckBox 3"
                          Margin="4" />
-          <xctk:CheckBox Content="CheckBox 4"
-                         Margin="4" />
         </VerticalStackLayout>
+      </xctk:Card>
+      <!--DateTimeUpDown Card-->
+      <xctk:Card Margin="4"
+                 HeightRequest="380"
+                 WidthRequest="340"
+                 ShadowBrush="Black"
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
+        <xctk:Card.Title>
+          <Label Text="DateTimeUpDown" />
+        </xctk:Card.Title>
+        <VerticalStackLayout>
+          <Label Margin="6,18,6,6"
+                 Text="This control enables users to effortlessly select and modify dates directly. By clicking on individual components of the date, users can then utilize the Up/Down buttons or the arrow keys to adjust their selection as desired." />
+          <xctk:DateTimeUpDown x:Name="myDateTimeUpDown"
+                               Margin="0,4,0,0"
+                               WidthRequest="328"/>
+        </VerticalStackLayout>
+
+      </xctk:Card>
+      <!--Calendar Card-->
+      <xctk:Card Margin="4"
+                 HeightRequest="380"
+                 WidthRequest="340"
+                 ShadowBrush="Black"
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
+        <xctk:Card.Title>
+          <Label Text="Calendar" />
+        </xctk:Card.Title>
+        <xctk:Calendar Margin="0,36,0,0"
+                       WidthRequest="320"
+                       SelectionMode="Range"/>
       </xctk:Card>
       <!--File Picker Card-->
       <xctk:Card Margin="4"
-                 HeightRequest="300"
-                 WidthRequest="300"
+                 HeightRequest="380"
+                 WidthRequest="340"
                  ShadowBrush="Black"
                  HorizontalContentOptions="Start"
                  VerticalContentOptions="Start">
@@ -602,11 +654,94 @@
                  Text="Simple to use File Picker that works on all platforms. Also supports a custom watermark." />
           <xctk:FilePicker Watermark="File Picker" />
         </VerticalStackLayout>
-      </xctk:Card>            
+      </xctk:Card>
+      <!--DropDown Button Card-->
+      <xctk:Card Margin="4"
+                 HeightRequest="380"
+                 WidthRequest="340"
+                 ShadowBrush="Black"
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
+        <xctk:Card.Title>
+          <Label Text="Drop Down Button" />
+        </xctk:Card.Title>
+        <VerticalStackLayout>
+          <Label Margin="6,18,6,6"
+                 Text="Allows a DropDown to be attached to a button allowing easy content management. You can also control where the DropDown will be displayed." />
+
+          <xctk:DropDownButton Content="Open Drop Down"
+                               DropDownPosition="BottomRight">
+            <xctk:DropDownButton.DropDownContent>
+              <xctk:Border HeightRequest="400"
+                           WidthRequest="340"
+                           Background="#242424">
+                <VerticalStackLayout>
+                  <xctk:ToggleSwitch Margin="8" />
+                  <xctk:Button Content="Button"
+                               WidthRequest="120"
+                               HorizontalOptions="Start"
+                               Margin="8" />
+                  <xctk:CheckBox WidthRequest="120"
+                                 Margin="8"
+                                 Content="CheckBox Test" />
+                  <xctk:RadioButton WidthRequest="120"
+                                    Content="Radio Test"
+                                    Margin="8" />
+                </VerticalStackLayout>
+              </xctk:Border>
+            </xctk:DropDownButton.DropDownContent>
+          </xctk:DropDownButton>
+        </VerticalStackLayout>
+      </xctk:Card>
+      <!--PopUp Card-->
+      <xctk:Card Margin="4"
+                 HeightRequest="380"
+                 WidthRequest="340"
+                 ShadowBrush="Black"
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
+        <xctk:Card.Title>
+          <Label Text="PopUp" />
+        </xctk:Card.Title>
+        <VerticalStackLayout>
+          <Label Margin="6,18,6,6"
+                 Text="Simple to use PopUp Control, light weight and responsive." />
+
+          <xctk:ToggleButton x:Name="_myButton"
+                             Content="Click To Open a PopUp"
+                             HorizontalOptions="Center" />
+
+          <xctk:PopupContainer IsOpen="{Binding IsChecked, Source={x:Reference _myButton}}"
+                               Anchor="{Binding Source={x:Reference _myButton}}"
+                               IsModal="False"
+                               HorizontalOptions="Start"
+                               VerticalOptions="End">
+            <xctk:Card HeightRequest="400"
+                       WidthRequest="340"
+                       Title="My PopUp">
+              <VerticalStackLayout>
+                <Label Text="Can host any content! Also supports modal mode meaning the PopUp will need to be closed by user interaction."
+                       Margin="6,18,6,6" />
+                <xctk:ToggleSwitch Margin="8" />
+                <xctk:Button Content="Button"
+                             WidthRequest="120"
+                             HorizontalOptions="Start"
+                             Margin="8" />
+                <xctk:CheckBox WidthRequest="120"
+                               Margin="8"
+                               Content="CheckBox Test" />
+                <xctk:RadioButton WidthRequest="120"
+                                  Content="Radio Test"
+                                  Margin="8" />
+              </VerticalStackLayout>
+            </xctk:Card>
+          </xctk:PopupContainer>
+        </VerticalStackLayout>
+      </xctk:Card>
       <!--RadioButton Card-->
       <xctk:Card Margin="4"
-                 HeightRequest="300"
-                 WidthRequest="300"
+                 HeightRequest="380"
+                 WidthRequest="340"
                  ShadowBrush="Black"
                  HorizontalContentOptions="Start"
                  VerticalContentOptions="Start">
@@ -618,14 +753,14 @@
                  Text="A more flexible and complete RadioButton than the one exposed in the framework, similar to our other new controls" />
           <xctk:RadioButton Content="RadioButton 1"
                             IsChecked="True" />
-          <xctk:RadioButton Content="RadioButton 2"/>
+          <xctk:RadioButton Content="RadioButton 2" />
           <xctk:RadioButton Content="RadioButton 3" />
         </VerticalStackLayout>
       </xctk:Card>
       <!--Chart Card-->
       <xctk:Card Margin="4"
-                 HeightRequest="300"
-                 WidthRequest="300"
+                 HeightRequest="380"
+                 WidthRequest="340"
                  ShadowBrush="Black"
                  HorizontalContentOptions="Start"
                  VerticalContentOptions="Start">
@@ -643,7 +778,7 @@
       <!--ColorCanvas Card-->
       <xctk:Card Margin="4"
                  HeightRequest="400"
-                 WidthRequest="300"
+                 WidthRequest="340"
                  ShadowBrush="Black"
                  HorizontalContentOptions="Start"
                  VerticalContentOptions="Start">
@@ -658,8 +793,8 @@
       </xctk:Card>
       <!--Much More Card-->
       <xctk:Card Margin="4"
-                 HeightRequest="300"
-                 WidthRequest="300"
+                 HeightRequest="380"
+                 WidthRequest="340"
                  ShadowBrush="Black"
                  HorizontalContentOptions="Start"
                  VerticalContentOptions="Start">

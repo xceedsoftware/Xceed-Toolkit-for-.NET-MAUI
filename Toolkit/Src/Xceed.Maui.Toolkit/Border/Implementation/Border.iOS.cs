@@ -96,7 +96,7 @@ namespace Xceed.Maui.Toolkit
       {
         base.TouchesEnded( touches, uiEvent );
 
-        this.State = UIGestureRecognizerState.Ended;
+        this.State = UIGestureRecognizerState.Cancelled;
 
         this.Released?.Invoke( this, EventArgs.Empty );
       }

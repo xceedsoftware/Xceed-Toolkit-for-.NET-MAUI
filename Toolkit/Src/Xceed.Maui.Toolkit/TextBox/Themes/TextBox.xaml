@@ -199,7 +199,7 @@
                   <local:Button x:Name="PART_ClearButton"
                                 Grid.Column="1"
                                 IsVisible="False"
-                                Style="{TemplateBinding ClearButtonStyle}">
+                                Style="{Binding ClearButtonStyle, Source={RelativeSource TemplatedParent}, TargetNullValue={StaticResource DefaultClearButtonStyle}}">
                     <local:Button.Triggers>
                       <MultiTrigger TargetType="{x:Type local:Button}">
                         <MultiTrigger.Conditions>

@@ -24,17 +24,23 @@
 
   <PointCollection x:Key="Arrow">0,0 13,0 7,8 0,0</PointCollection>
 
+  <!--VerticalOptions/HorizontalOptions necessary for Android or Shape will move-->
   <DataTemplate x:Key="DecreaseGlyph">
     <Polygon Points="{StaticResource Arrow}"
              Stroke="{TemplateBinding TextColor}"
-             Fill="{TemplateBinding TextColor}" />
+             Fill="{TemplateBinding TextColor}"
+             VerticalOptions="Center"
+             HorizontalOptions="Center"/>
   </DataTemplate>
 
+  <!--VerticalOptions/HorizontalOptions necessary for Android or Shape will move-->
   <DataTemplate x:Key="IncreaseGlyph">
     <Polygon Points="{StaticResource Arrow}"
              Rotation="180"
              Stroke="{TemplateBinding TextColor}"
-             Fill="{TemplateBinding TextColor}" />
+             Fill="{TemplateBinding TextColor}"
+             VerticalOptions="Center"
+             HorizontalOptions="Center" />
   </DataTemplate>
 
   <DataTemplate x:Key="XGlyph">

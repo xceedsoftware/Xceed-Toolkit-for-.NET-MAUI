@@ -47,15 +47,6 @@ namespace Xceed.Maui.Toolkit
       var padding = m_borderShapeGrid.Padding;
       var margin = new Size( borderThickness.HorizontalThickness + padding.HorizontalThickness, borderThickness.VerticalThickness + padding.VerticalThickness );
 
-      if( double.IsInfinity( widthConstraint ) && ( m_borderShapeGrid.Bounds.Width >= 0 ) )
-      {
-        widthConstraint = m_borderShapeGrid.Bounds.Width;
-      }
-      if( double.IsInfinity( heightConstraint ) && ( m_borderShapeGrid.Bounds.Height >= 0 ) )
-      {
-        heightConstraint = m_borderShapeGrid.Bounds.Height;
-      }
-
       // Android/Mac/iOs needs this to respect the MaxWidth/MaxHeight.
       widthConstraint = BorderShapeGridLayoutManager.ClipMinMax( widthConstraint, m_borderShapeGrid.MinimumWidthRequest, m_borderShapeGrid.MaximumWidthRequest );
       heightConstraint = BorderShapeGridLayoutManager.ClipMinMax( heightConstraint, m_borderShapeGrid.MinimumHeightRequest, m_borderShapeGrid.MaximumHeightRequest );

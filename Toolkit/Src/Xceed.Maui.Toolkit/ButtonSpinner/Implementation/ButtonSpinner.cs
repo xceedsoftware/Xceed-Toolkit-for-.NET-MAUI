@@ -267,7 +267,7 @@ namespace Xceed.Maui.Toolkit
 
     public event EventHandler<SpinEventArgs> Spinned;
 
-    public void RaiseSpinnedEvent( object sender, SpinEventArgs e )
+    internal void RaiseSpinnedEvent( object sender, SpinEventArgs e )
     {
       if( this.IsEnabled )
       {

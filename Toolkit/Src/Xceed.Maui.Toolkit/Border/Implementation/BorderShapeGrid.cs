@@ -27,9 +27,13 @@ namespace Xceed.Maui.Toolkit
   // The Path is useful to fill with a Gradient Brush and/or use real CornerRadius of 0. It also let us joins corners with independant BorderThickness.
   public partial class BorderShapeGrid : Layout
   {
-    #region Private Members
+    #region Internal Members
 
-    private static bool IsNet8AndUp = BorderShapeGrid.IsNet8Up();
+    internal static bool IsNet8AndUp = BorderShapeGrid.IsNet8Up();
+
+    #endregion
+
+    #region Private Members
 
     private const float K_RATIO = 0.551784777779014f; // ideal ratio of cubic Bezier points for a quarter circle
     private const string FlatRectanglePathOutline = "FlatRectanglePathOutline";
@@ -43,8 +47,6 @@ namespace Xceed.Maui.Toolkit
 
     public BorderShapeGrid() 
     {
-      this.Loaded += this.BorderShapeGrid_Loaded;
-
       this.HandlerChanged += this.BorderShape_HandlerChanged;
       this.HandlerChanging += this.BorderShape_HandlerChanging;
     }
@@ -614,14 +616,11 @@ namespace Xceed.Maui.Toolkit
 
     #region Event Handlers
 
-    private void BorderShapeGrid_Loaded( object sender, EventArgs e )
-    {
-      this.UpdateShape();
-    }
-
     private void BorderShape_HandlerChanged( object sender, EventArgs e )
     {
       this.InitializeForPlatform( sender, e );
+
+      this.UpdateShape();
     }
 
     private void BorderShape_HandlerChanging( object sender, HandlerChangingEventArgs e )

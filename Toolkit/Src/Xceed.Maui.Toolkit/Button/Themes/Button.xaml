@@ -62,7 +62,9 @@
                         MinimumWidthRequest="{TemplateBinding MinimumWidthRequest}"
                         MinimumHeightRequest="{TemplateBinding MinimumHeightRequest}"
                         IsEnabled="{TemplateBinding IsEnabled}">
-            <ContentPresenter Content="{TemplateBinding View}"/>
+            <!--Using a ContentPresenter will allow the use of TemplateParent, but will crash in ControlTemplates because automatically binds to 
+                Content of type View. Our Content is type object ! This can be seen with Calendar which contains many CalendarDayButtons.-->
+            <ContentView Content="{TemplateBinding View}" />
           </local:Border>
         </ControlTemplate>
       </Setter.Value>

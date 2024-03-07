@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+/***************************************************************************************
+ 
+  Xceed Toolkit for MAUI is a multiplatform toolkit offered by Xceed Software Inc., 
+  makers of the popular WPF Toolkit.
+
+  COPYRIGHT (C) 2023 Xceed Software Inc. ALL RIGHTS RESERVED.
+
+  This program is provided to you under the terms of a Xceed Community License 
+  For more details about the Xceed Community License please visit the products GitHub or NuGet page .
+
+  DISCLAIMER: This code is provided as-is and without warranty of any kind, express or implied. The 
+  author(s) and owner(s) of this code shall not be liable for any damages or losses resulting from 
+  the use or inability to use the code. 
+
+ 
+  *************************************************************************************/
+  -->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit"
+                    xmlns:conv="clr-namespace:Xceed.Maui.Toolkit.Converters;assembly=Xceed.Maui.Toolkit">
+
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="../../TextBox/Themes/TextBox.xaml;assembly=Xceed.Maui.Toolkit" />
+    <ResourceDictionary Source="../../Themes/Brushes/Common.xaml;assembly=Xceed.Maui.Toolkit" />
+  </ResourceDictionary.MergedDictionaries>
+
+  <conv:DisplayMemberPathConverter x:Key="DisplayMemberPathConverter" />
+
+  <Style x:Key="FluentDesignAutoCompleteTextBox"
+         TargetType="{x:Type local:AutoCompleteTextBox}">
+    <Setter Property="HorizontalContentOptions"
+            Value="Start" />
+    <Setter Property="VerticalContentOptions"
+            Value="Start" />
+    <Setter Property="Background"
+            Value="{AppThemeBinding Dark={StaticResource DarkBase6}, Light={StaticResource LightBase0}}" />
+    <Setter Property="BorderBrush"
+            Value="{AppThemeBinding Dark={StaticResource DarkBase1}, Light={StaticResource LightColorSecondary}}" />
+    <Setter Property="BorderThickness"
+            Value="0" />
+    <Setter Property="CornerRadius"
+            Value="4" />
+    <Setter Property="Padding"
+            Value="8,5,5,5" />
+    <Setter Property="TextColor"
+            Value="{AppThemeBinding Dark={StaticResource DarkTextPrimary}, Light={StaticResource LightTextPrimary}}" />
+    <Setter Property="FontSize"
+            Value="14" />
+    <Setter Property="MinimumHeightRequest"
+            Value="30" />
+    <Setter Property="MinimumWidthRequest"
+            Value="15" />
+    <Setter Property="IsFocusUnderlineVisible"
+            Value="True" />
+    <Setter Property="IsTextPredictionEnabled"
+            Value="False" />
+    <Setter Property="ItemTemplate">
+      <DataTemplate>
+        <Label TextColor="{AppThemeBinding Dark={StaticResource DarkTextPrimary}, Light={StaticResource LightTextPrimary}}"
+               Padding="4">
+          <Label.Text>
+            <MultiBinding Converter="{StaticResource DisplayMemberPathConverter}">
+              <Binding Path="." />
+              <Binding Path="DisplayMemberPath"
+                       Source="{RelativeSource TemplatedParent}" />
+            </MultiBinding>
+          </Label.Text>
+        </Label>
+      </DataTemplate>
+    </Setter>
+    <Setter Property="ControlTemplate">
+      <Setter.Value>
+        <ControlTemplate>
+          <VerticalStackLayout>
+            <local:TextBox x:Name="PART_TextBox"
+                           Background="{TemplateBinding Background}"
+                           BorderBrush="{TemplateBinding BorderBrush}"
+                           BorderThickness="{TemplateBinding BorderThickness}"
+                           CornerRadius="{TemplateBinding CornerRadius}"
+                           Padding="{TemplateBinding Padding}"
+                           TextColor="{TemplateBinding TextColor}"
+                           FontSize="{TemplateBinding FontSize}"
+                           FontAttributes="{TemplateBinding FontAttributes}"
+                           FontFamily="{TemplateBinding FontFamily}"
+                           HorizontalContentOptions="{TemplateBinding HorizontalContentOptions}"
+                           VerticalContentOptions="{TemplateBinding VerticalContentOptions}"
+                           MinimumHeightRequest="{TemplateBinding MinimumHeightRequest}"
+                           MinimumWidthRequest="{TemplateBinding MinimumWidthRequest}"
+                           MaximumHeightRequest="{TemplateBinding MaximumHeightRequest}"
+                           MaximumWidthRequest="{TemplateBinding MaximumWidthRequest}"
+                           CharacterSpacing="{TemplateBinding CharacterSpacing}"
+                           ClearButtonStyle="{TemplateBinding ClearButtonStyle}"
+                           ClearButtonVisibility="{TemplateBinding ClearButtonVisibility}"
+                           CursorPosition="{TemplateBinding CursorPosition}"
+                           IsFocusUnderlineVisible="{TemplateBinding IsFocusUnderlineVisible}"
+                           IsReadOnly="{TemplateBinding IsReadOnly}"
+                           IsTextPredictionEnabled="{TemplateBinding IsTextPredictionEnabled}"
+                           Keyboard="{TemplateBinding Keyboard}"
+                           MaxLength="{TemplateBinding MaxLength}"
+                           ReturnCommand="{TemplateBinding ReturnCommand}"
+                           ReturnCommandParameter="{TemplateBinding ReturnCommandParameter}"
+                           SelectionLength="{TemplateBinding SelectionLength}"
+                           Text="{TemplateBinding Text, Mode=TwoWay}"
+                           Watermark="{TemplateBinding Watermark}" />
+
+            <local:PopupContainer x:Name="PART_PopupContainer"
+                                  Anchor="{Binding Source={x:Reference PART_TextBox}}"
+                                  HorizontalOptions="Start"
+                                  VerticalOptions="End">
+              <!--The VerticalStackLayout will keep the CollectionView compact-->
+              <VerticalStackLayout>
+                <local:Card>
+                  <CollectionView x:Name="PART_CollectionView"
+                                  ItemTemplate="{TemplateBinding ItemTemplate}"
+                                  SelectionMode="Single"
+                                  ItemSizingStrategy="MeasureFirstItem"
+                                  MaximumHeightRequest="{TemplateBinding MaxDropDownHeight}"
+                                  MaximumWidthRequest="{Binding Width, Source={x:Reference PART_TextBox}}">
+
+                  </CollectionView>
+                </local:Card>
+              </VerticalStackLayout>                
+            </local:PopupContainer>
+          </VerticalStackLayout>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style TargetType="{x:Type local:AutoCompleteTextBox}"
+         BasedOn="{StaticResource FluentDesignAutoCompleteTextBox}" />
+</ResourceDictionary>

@@ -22,15 +22,6 @@ namespace Xceed.Maui.Toolkit
 {
   public abstract class NumericUpDown<T> : UpDownBase<T?> where T : struct, IFormattable
   {
-    #region Constructors
-
-    protected NumericUpDown()
-    {
-      this.SetDefaultValues();
-    }
-
-    #endregion
-
     #region Properties
 
     #region FormatString
@@ -106,15 +97,9 @@ namespace Xceed.Maui.Toolkit
 
     protected abstract T GetValueFromDecimal( decimal value );
 
-    protected abstract void SetDefaultValues();
-
     protected abstract T IncrementValue( T value, T increment );
 
     protected abstract T DecrementValue( T value, T increment );
-
-    protected abstract bool IsLowerThan( T? value1, T? value2 );
-
-    protected abstract bool IsGreaterThan( T? value1, T? value2 );
 
     protected abstract bool TryParseText( string text, out T result );
 

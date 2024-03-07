@@ -23,18 +23,20 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:Xceed.Maui.Toolkit.LiveExplorer"
        Shell.FlyoutBehavior="Disabled"
-       BackgroundColor="White">
+       Background="{OnPlatform Android=White, Default=Transparent}">
   <Shell.TitleView>
     <Grid Margin="2">
       <Label Text="{Binding Title}"
+             Margin="16,0,0,0"
              FontSize="{OnPlatform Android=20, iOS=20, Default=30}"
              BindingContext="{Binding CurrentItem, Source={x:Reference NavigationBar}}" />
       <Label x:Name="VersionLabel"
-             HorizontalOptions="End" />
+             HorizontalOptions="End" 
+             Margin="0,16,16,0"/>
     </Grid>
   </Shell.TitleView>
 
-  <TabBar x:Name="NavigationBar"> 
+  <TabBar x:Name="NavigationBar">
     <ShellContent Title="Xceed Toolkit for .NET MAUI"
                   ContentTemplate="{DataTemplate local:MainPage}"
                   Route="MainPage" />

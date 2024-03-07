@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+/***************************************************************************************
+ 
+  Xceed Toolkit for MAUI is a multiplatform toolkit offered by Xceed Software Inc., 
+  makers of the popular WPF Toolkit.
+
+  COPYRIGHT (C) 2023 Xceed Software Inc. ALL RIGHTS RESERVED.
+
+  This program is provided to you under the terms of a Xceed Community License 
+  For more details about the Xceed Community License please visit the products GitHub or NuGet page .
+
+  DISCLAIMER: This code is provided as-is and without warranty of any kind, express or implied. The 
+  author(s) and owner(s) of this code shall not be liable for any damages or losses resulting from 
+  the use or inability to use the code. 
+
+ 
+  *************************************************************************************/
+  -->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit"
+                    xmlns:conv="clr-namespace:Xceed.Maui.Toolkit.Converters;assembly=Xceed.Maui.Toolkit">
+
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="../../Themes/Glyphs.xaml;assembly=Xceed.Maui.Toolkit" />
+    <ResourceDictionary Source="../../Themes/Brushes/Common.xaml;assembly=Xceed.Maui.Toolkit" />
+  </ResourceDictionary.MergedDictionaries>
+
+  <conv:PopupLocationToLayoutOptions x:Key="PopupLocationToLayoutOptions" />
+
+  <Style x:Key="FluentDesignDropDownButton"
+         TargetType="{x:Type local:DropDownButton}">
+    <Setter Property="BorderThickness"
+            Value="1" />
+    <Setter Property="BorderBrush"
+            Value="{AppThemeBinding Dark={StaticResource DarkControlBorderBrush},Light={StaticResource LightControlBorderBrush}}" />
+    <Setter Property="Background"
+            Value="{AppThemeBinding Light={StaticResource LightBase0}, Dark={StaticResource DarkBase2}}" />
+    <Setter Property="TextColor"
+            Value="{AppThemeBinding Light={StaticResource LightTextPrimary}, Dark={StaticResource DarkTextPrimary}}" />
+    <Setter Property="CornerRadius"
+            Value="4" />
+    <Setter Property="ControlTemplate">
+      <Setter.Value>
+        <ControlTemplate>
+          <VerticalStackLayout>
+            <local:ToggleButton x:Name="PART_ToggleButton"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                TextColor="{TemplateBinding TextColor}"
+                                HorizontalContentOptions="Fill"
+                                MaximumWidthRequest="{TemplateBinding MaximumHeightRequest}"
+                                MaximumHeightRequest="{TemplateBinding MaximumHeightRequest}"
+                                MinimumWidthRequest="{TemplateBinding MinimumWidthRequest}"
+                                MinimumHeightRequest="{TemplateBinding MinimumHeightRequest}"
+                                WidthRequest="{TemplateBinding WidthRequest}"
+                                HeightRequest="{TemplateBinding HeightRequest}"
+                                IsEnabled="{TemplateBinding IsEnabled}"
+                                IsChecked="{Binding IsOpen, Source={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                OverrideDefaultVisualStates="True">
+              <VisualStateManager.VisualStateGroups>
+                <VisualStateGroupList>
+                  <VisualStateGroup />
+                </VisualStateGroupList>
+              </VisualStateManager.VisualStateGroups>
+              <local:ToggleButton.Content>
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="20" />
+                  </Grid.ColumnDefinitions>
+                  <local:ContentControl Grid.Column="0"
+                                        Content="{Binding Content, Source={RelativeSource AncestorType={x:Type local:DropDownButton}}}"
+                                        ContentTemplate="{Binding ContentTemplate, Source={RelativeSource AncestorType={x:Type local:DropDownButton}}}"
+                                        HorizontalOptions="{Binding HorizontalContentOptions, Source={RelativeSource AncestorType={x:Type local:DropDownButton}}}"
+                                        VerticalOptions="{Binding VerticalContentOptions, Source={RelativeSource AncestorType={x:Type local:DropDownButton}}}"
+                                        Margin="{Binding Padding, Source={RelativeSource AncestorType={x:Type local:DropDownButton}}}" />
+
+                  <local:ContentControl Grid.Column="1"
+                                        ContentTemplate="{StaticResource DecreaseGlyph}"
+                                        VerticalOptions="Center" />
+                </Grid>
+              </local:ToggleButton.Content>
+            </local:ToggleButton>
+
+            <local:PopupContainer IsOpen="{Binding IsChecked, Source={x:Reference PART_ToggleButton}}"
+                                  Anchor="{Binding Source={x:Reference PART_ToggleButton}}"
+                                  HorizontalOptions="{Binding DropDownPosition, Source={RelativeSource TemplatedParent}, Converter={StaticResource PopupLocationToLayoutOptions}, ConverterParameter=H}"
+                                  VerticalOptions="{Binding DropDownPosition, Source={RelativeSource TemplatedParent}, Converter={StaticResource PopupLocationToLayoutOptions}, ConverterParameter=V}"
+                                  MaximumHeightRequest="{TemplateBinding MaxDropDownHeightRequest}">
+              <ScrollView Background="{StaticResource LightBase5}">
+                  <ContentPresenter Content="{TemplateBinding DropDownContent}"/>
+                </ScrollView>
+            </local:PopupContainer>
+          </VerticalStackLayout>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    <Style.Triggers>
+      <Trigger Property="OverrideDefaultVisualStates"
+               TargetType="{x:Type local:DropDownButton}"
+               Value="False">
+        <Setter Property="VisualStateManager.VisualStateGroups">
+          <VisualStateGroupList>
+            <VisualStateGroup>
+              <VisualState x:Name="Normal" />
+              <VisualState x:Name="Pressed">
+                <VisualState.Setters>
+                  <Setter Property="Background"
+                          Value="{AppThemeBinding Light={StaticResource LightBase4}, Dark={StaticResource DarkBase4}}" />
+                  <Setter Property="TextColor"
+                          Value="{AppThemeBinding Light={StaticResource LightTextPrimary}, Dark={StaticResource DarkTextPrimary}}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="PointerOver">
+                <VisualState.Setters>
+                  <Setter Property="Background"
+                          Value="{DynamicResource SystemAccentColorDark1}" />
+                  <Setter Property="TextColor"
+                          Value="{DynamicResource SystemAccentColorDark1Foreground}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="Opened">
+                <VisualState.Setters>
+                  <Setter Property="Background"
+                          Value="{DynamicResource SystemAccentColor}" />
+                  <Setter Property="TextColor"
+                          Value="{DynamicResource SystemAccentColorForeground}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="Focused">
+                <VisualState.Setters>
+                  <Setter Property="BorderBrush"
+                          Value="{AppThemeBinding Light={StaticResource DarkBase0}, Dark={StaticResource LightBase0}}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="Disabled">
+                <VisualState.Setters>
+                  <Setter Property="Opacity"
+                          Value="{StaticResource DisabledOpacity}" />
+                </VisualState.Setters>
+              </VisualState>
+            </VisualStateGroup>
+          </VisualStateGroupList>
+        </Setter>
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+
+  <Style TargetType="{x:Type local:DropDownButton}"
+         BasedOn="{StaticResource FluentDesignDropDownButton}" />
+</ResourceDictionary>

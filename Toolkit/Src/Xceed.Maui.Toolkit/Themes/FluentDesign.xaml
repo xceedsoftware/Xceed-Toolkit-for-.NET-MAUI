@@ -45,6 +45,12 @@
     <ResourceDictionary Source="../FilePicker/Themes/FilePicker.xaml" />
     <ResourceDictionary Source="../TextBox/Themes/TextBox.xaml" />
     <ResourceDictionary Source="../CheckBox/Themes/CheckBox.xaml" />
+    <ResourceDictionary Source="../Popup/Themes/Popup.xaml" />
+    <ResourceDictionary Source="../DropDownButton/Themes/DropDownButton.xaml" />
+    <ResourceDictionary Source="../AutoCompleteTextBox/Themes/AutoCompleteTextBox.xaml" />
+    <ResourceDictionary Source="../Calendar/Themes/Calendar.xaml" />
+    <ResourceDictionary Source="../DateTimeUpDown/Themes/DateTimeUpDown.xaml" />
+    <ResourceDictionary Source="../Calculator/Themes/Calculator.xaml" />
 
 
   </ResourceDictionary.MergedDictionaries>

@@ -339,6 +339,8 @@ namespace Xceed.Maui.Toolkit
         offset += m_axis.Chart.Series.Max( series => series.GetLeftOverlap() );
       }
 
+      if( m_otherAxisDataPointRange == null )
+        return offset;
       if( m_otherAxisDataPointRange.Start >= 0 )
         return offset;
       if( m_otherAxisDataPointRange.End < 0 )
@@ -403,6 +405,17 @@ namespace Xceed.Maui.Toolkit
 
     public Size Measure( double widthConstraint, double heightConstraint )
     {
+      if( double.IsInfinity( widthConstraint ) )
+      {
+        var parent = (VisualElement)m_axisPanel.Parent;
+        widthConstraint = (parent.Width > 0d) ? parent.Width : widthConstraint;
+      }
+      if( double.IsInfinity( heightConstraint ) )
+      {
+        var parent = (VisualElement)m_axisPanel.Parent;
+        heightConstraint = ( parent.Height > 0d ) ? parent.Height : heightConstraint;
+      }
+
       if( double.IsInfinity( widthConstraint ) || double.IsInfinity( heightConstraint ) )
         return new Size( widthConstraint, heightConstraint );
 

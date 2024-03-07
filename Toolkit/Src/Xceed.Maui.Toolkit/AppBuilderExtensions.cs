@@ -37,6 +37,7 @@ namespace Xceed.Maui.Toolkit
     {
       builder.ConfigureMauiHandlers( collection =>
       {
+        collection.AddHandler<Popup, PopupHandler>();
       } );
 
       Task.Factory.StartNew( AppBuilderExtensions.SetDefaultStyles );

@@ -76,6 +76,14 @@ namespace Xceed.Maui.Toolkit
 
     #region Protected Methods
 
+    protected override void OnBindingContextChanged()
+    {
+      if( this.Content != null )
+      {
+        this.Content.BindingContext = this.BindingContext;
+      }
+    }
+
     protected override void OnPropertyChanging( [CallerMemberName] string propertyName = null )
     {
       if( propertyName == "BackgroundColor" )

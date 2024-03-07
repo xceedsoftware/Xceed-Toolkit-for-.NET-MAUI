@@ -117,10 +117,10 @@
           <Grid ColumnDefinitions="*,36"
                 VerticalOptions="Center"
                 HorizontalOptions="Fill">
-            <local:ContentControl Content="{Binding Header, Source={RelativeSource TemplatedParent}}"
-                                  Margin="{TemplateBinding Padding}"
-                                  VerticalOptions="{TemplateBinding VerticalContentOptions}"
-                                  HorizontalOptions="{TemplateBinding HorizontalContentOptions}" />
+            <local:ContentControl Content="{Binding Header, Source={RelativeSource AncestorType={x:Type local:Expander}}}"
+                                  Margin="{Binding Padding, Source={RelativeSource AncestorType={x:Type local:Expander}}}"
+                                  VerticalOptions="{Binding VerticalContentOptions, Source={RelativeSource AncestorType={x:Type local:Expander}}}"
+                                  HorizontalOptions="{Binding HorizontalContentOptions, Source={RelativeSource AncestorType={x:Type local:Expander}}}" />
             <Grid Grid.Column="1">
               <local:ContentControl x:Name="PART_ArrowBorder"
                                     Grid.Column="1"
@@ -129,7 +129,7 @@
                                     ContentTemplate="{StaticResource DecreaseGlyph}">
                 <local:ContentControl.Triggers>
                   <DataTrigger TargetType="local:ContentControl"
-                               Binding="{Binding Direction, Source={RelativeSource TemplatedParent}}"
+                               Binding="{Binding Direction, Source={RelativeSource AncestorType={x:Type local:Expander}}}"
                                Value="Up">
                     <Setter Property="ContentTemplate"
                             Value="{StaticResource IncreaseGlyph}" />

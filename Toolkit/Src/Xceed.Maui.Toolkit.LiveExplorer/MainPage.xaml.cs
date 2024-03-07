@@ -18,30 +18,41 @@
 
 namespace Xceed.Maui.Toolkit.LiveExplorer
 {
-  public partial class MainPage : ContentPage
-  {
-    public MainPage()
+    public partial class MainPage : ContentPage
     {
-      InitializeComponent();
-    }
+        public List<string> MyAutoCompleteList { get; set; }
+        public MainPage()
+        {
+            InitializeComponent();
+            MyAutoCompleteList = new List<string> { "Alpha", "Bravo", "Charlie", "City", "Care", "Creme", "Delta", "Echo", "Foxtrot",
+            "Golf", "Hotel", "India", "Juliett", "Kilo", "Lima", "Mike", "November", "Oscar", "Papa", "Quebec", "Romeo", "Sierra",
+            "Tango", "Uniform", "Victor", "Whiskey", "X-ray", "Yankee", "Zulu"};
+            autoCompleteTextBox.ItemsSource = MyAutoCompleteList;            
+            myDateTimeUpDown.Value = DateTime.Now;            
+        }      
 
-    private void PlusRepeatButton_Clicked( System.Object sender, System.EventArgs e )
-    {
-      var value = int.Parse( repeatLabel.Text );
-      value++;
-      repeatLabel.Text = value.ToString();
-    }
+        private void PlusRepeatButton_Clicked(System.Object sender, System.EventArgs e)
+        {
+            var value = int.Parse(repeatLabel.Text);
+            value++;
+            repeatLabel.Text = value.ToString();
+        }
 
-    private void MinusRepeatButton_Clicked( System.Object sender, System.EventArgs e )
-    {
-      var value = int.Parse( repeatLabel.Text );
-      value--;
-      repeatLabel.Text = value.ToString();
-    }
+        private void MinusRepeatButton_Clicked(System.Object sender, System.EventArgs e)
+        {
+            var value = int.Parse(repeatLabel.Text);
+            value--;
+            repeatLabel.Text = value.ToString();
+        }
 
-    private async void ChartPageButton_Clicked( object sender, EventArgs e )
-    {
-      await Shell.Current.GoToAsync( "///ChartPage" );
+        private async void ChartPageButton_Clicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("///ChartPage");
+        }
+
+        private void Calendar_SelectedDatesChanged(object sender, ValueChangedEventArgs<System.Collections.ObjectModel.Collection<DateTime>> e)
+        {
+
+        }
     }
-  }
 }

@@ -49,7 +49,7 @@ namespace Xceed.Maui.Toolkit
     {
       this.UpdateView();
 
-      if( this.View != null )
+      if( (this.View != null) && ( newValue is View ) )
       {
         // Update this ContentControl's Children label's and Entry's Font properties, when not already set.
         Control.UpdateFontProperties( this.View, this );
@@ -79,9 +79,9 @@ namespace Xceed.Maui.Toolkit
 
     protected virtual void OnContentTemplateChanged( DataTemplate oldValue, DataTemplate newValue )
     {
-      this.UpdateView();
+      this.UpdateView( true );
 
-      if( this.View != null )
+      if( ( this.View != null ) && ( this.Content is View ) )
       {
         // Update this ContentControl's Children label's and Entry's Font properties, when not already set.
         Control.UpdateFontProperties( this.View, this );
@@ -163,11 +163,19 @@ namespace Xceed.Maui.Toolkit
       }
     }
 
+    protected override void OnBindingContextChanged()
+    {
+      if( (this.View != null) && (this.View.BindingContext == null) )
+      {
+        this.View.BindingContext = this.BindingContext;
+      }
+    }
+
     #endregion
 
     #region Private Methods
 
-    private void UpdateView()
+    private void UpdateView( bool reloadContentTemplate = false )
     {
       View view = null;
 
@@ -178,7 +186,15 @@ namespace Xceed.Maui.Toolkit
         {
           if( this.Content != null )
           {
-            view = this.CreateLabel();
+            if( this.View is Label labelView )
+            {
+              labelView.Text = this.Content.ToString();
+              return;
+            }
+            else
+            {
+              view = this.CreateLabel();
+            }
           }
         }
         else
@@ -186,8 +202,7 @@ namespace Xceed.Maui.Toolkit
           var children = view.GetVisualTreeDescendants();
           foreach( var element in children )
           {
-            var elementView = element as View;
-            if( elementView != null )
+            if( element is View elementView )
             {
               this.SetShapeSize( elementView );
             }
@@ -196,26 +211,27 @@ namespace Xceed.Maui.Toolkit
       }
       else
       {
-        var updatedContent = this.ContentTemplate.CreateContent() as View;
-        if( updatedContent != null )
+        var updatedView = reloadContentTemplate ? this.ContentTemplate.CreateContent() as View : this.View;
+        if( updatedView != null )
         {
-          var children = updatedContent.GetVisualTreeDescendants();
+          var children = updatedView.GetVisualTreeDescendants();
           foreach( var element in children )
           {
-            var elementView = element as View;
-            if( elementView != null )
+            if( element is View elementView )
             {
               this.SetShapeSize( elementView );
 
               // Set the BindingContext on each children.
-              if( this.Content != null )
-              {
-                elementView.BindingContext = this.Content;
-              }
+              elementView.BindingContext = this.Content;
             }
           }
 
-          view = updatedContent;
+          if( reloadContentTemplate )
+          {
+            view = updatedView;
+          }
+          else
+            return;
         }
         else if( this.Content != null )
         {

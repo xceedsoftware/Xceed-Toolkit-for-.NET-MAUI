@@ -26,7 +26,7 @@ namespace Xceed.Maui.Toolkit
     private const string PART_HiddenSlider = "PART_HiddenSlider";
     private const string PART_Thumb = "PART_Thumb";
 
-    private Grid m_spectrumDisplay;
+    private Border m_spectrumDisplay;
     private Slider m_slider;
     private Grid m_thumb;
     private LinearGradientBrush m_pickerBrush;
@@ -99,7 +99,7 @@ namespace Xceed.Maui.Toolkit
         m_slider.ValueChanged -= this.Slider_ValueChanged;
       }
 
-      m_spectrumDisplay = GetTemplateChild( PART_SpectrumDisplay ) as Grid;
+      m_spectrumDisplay = GetTemplateChild( PART_SpectrumDisplay ) as Border;
       m_slider = GetTemplateChild( PART_HiddenSlider ) as Slider;
       m_thumb = GetTemplateChild( PART_Thumb ) as Grid;
 

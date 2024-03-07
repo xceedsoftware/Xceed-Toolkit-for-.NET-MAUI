@@ -232,6 +232,20 @@ namespace Xceed.Maui.Toolkit
               : ( this.Axis.Orientation == Orientation.Horizontal ) ? this.Axis.Chart.DataPointRange[ 0 ] : this.Axis.Chart.DataPointRange[ 1 ];
     }
 
+    private Chart GetParentChart()
+    {
+      var parent = this.Parent;
+      while( parent != null )
+      {
+        if( parent is Chart )
+          return parent as Chart;
+
+        parent = parent.Parent;
+      }
+
+      return null;
+    }
+
     #endregion
 
     #region Internal Class LabelPanelLayoutManager
@@ -305,6 +319,20 @@ namespace Xceed.Maui.Toolkit
 
         m_labelPanel.SetupTickLabels();
         m_labelPanel.SetupTitleLabel();
+
+#if WINDOWS
+        Chart parentChart = null;
+        if( double.IsInfinity( widthConstraint ) )
+        {
+          parentChart = m_labelPanel.GetParentChart();
+          widthConstraint = ( parentChart != null ) ? parentChart.Width : widthConstraint;
+        }
+        if( double.IsInfinity( heightConstraint ) )
+        {
+          parentChart = (parentChart == null) ? m_labelPanel.GetParentChart() : parentChart;
+          heightConstraint = ( parentChart != null ) ? parentChart.Height : heightConstraint;
+        }
+#endif
 
         var maxValue = 0d;
         for( int i = 0; i < m_labelPanel.Count; ++i )

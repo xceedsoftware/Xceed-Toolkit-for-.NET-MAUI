@@ -18,6 +18,7 @@
 
 using Microsoft.Maui.Platform;
 using Microsoft.UI.Xaml.Input;
+using Windows.System;
 
 namespace Xceed.Maui.Toolkit
 {
@@ -28,28 +29,30 @@ namespace Xceed.Maui.Toolkit
 
     partial void InitializeForPlatform( object sender, EventArgs e )
     {
-      var border = sender as Border;
-      if( border != null )
+      var buttonSpinner = sender as ButtonSpinner;
+      if( buttonSpinner != null )
       {
-        var contentPanel = border.Handler?.PlatformView as ContentPanel;
+        var contentPanel = buttonSpinner.Handler?.PlatformView as ContentPanel;
         if( contentPanel != null )
         {
           contentPanel.PointerEntered += this.PointerEntered;
           contentPanel.PointerExited += this.PointerExited;
+          contentPanel.PreviewKeyDown += this.OnPreviewKeyDown;
         }
       }
     }
 
     partial void UninitializeForPlatform( object sender, HandlerChangingEventArgs e )
     {
-      var border = sender as Border;
-      if( border != null )
+      var buttonSpinner = sender as ButtonSpinner;
+      if( buttonSpinner != null )
       {
-        var contentPanel = border.Handler?.PlatformView as ContentPanel;
+        var contentPanel = buttonSpinner.Handler?.PlatformView as ContentPanel;
         if( contentPanel != null )
         {
           contentPanel.PointerEntered -= this.PointerEntered;
           contentPanel.PointerExited -= this.PointerExited;
+          contentPanel.PreviewKeyDown -= this.OnPreviewKeyDown;
         }
       }
     }
@@ -66,6 +69,31 @@ namespace Xceed.Maui.Toolkit
     private void PointerExited( object sender, PointerRoutedEventArgs e )
     {
       this.IsPointerOver = false;
+    }
+
+    private void OnPreviewKeyDown( object sender, KeyRoutedEventArgs e )
+    {
+      switch( e.Key )
+      {
+        case VirtualKey.Up:
+          {
+            if( this.AllowSpin )
+            {
+              this.RaiseSpinnedEvent( this, new SpinEventArgs( SpinDirection.Increase ) );
+              e.Handled = true;
+            }
+          }
+          break;
+        case VirtualKey.Down:
+          {
+            if( this.AllowSpin )
+            {
+              this.RaiseSpinnedEvent( this, new SpinEventArgs( SpinDirection.Decrease ) );
+              e.Handled = true;
+            }
+          }
+          break;
+      }
     }
 
     #endregion

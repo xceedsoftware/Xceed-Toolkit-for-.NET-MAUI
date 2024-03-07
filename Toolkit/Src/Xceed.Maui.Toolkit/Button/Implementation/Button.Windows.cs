@@ -87,12 +87,14 @@ namespace Xceed.Maui.Toolkit
     private void Border_PointerEnter( object sender, EventArgs e )
     {
       this.IsPointerOver = true;
+      VisualStateManager.GoToState( this, VisualStateManager.CommonStates.PointerOver );  // Necessary if located in popup.
     }
 
     private void Border_PointerLeave( object sender, EventArgs e )
     {
       this.IsPressed = false;
       this.IsPointerOver = false;
+      VisualStateManager.GoToState( this, VisualStateManager.CommonStates.Normal );   // Necessary if located in popup.
     }
 
     private void ContentPanel_KeyUp( object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e )

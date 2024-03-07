@@ -48,6 +48,7 @@ namespace Xceed.Maui.Toolkit
     {
       if( Control.IsFirstLoad )
       {
+        // Loaded callback not called when located in a popup.
         this.Loaded += this.Control_Loaded;
       }
     }
@@ -329,34 +330,25 @@ namespace Xceed.Maui.Toolkit
         var children = view.GetVisualTreeDescendants();
         foreach( var element in children )
         {
-          var label = element as Label;
-          if( label != null )
+          if( element is Label label )
           {
             if( Control.CanSetFontProperty<Color>( label, Label.TextColorProperty, null, oldColor ) )
             {
               label.TextColor = newColor;
             }
           }
-          else
+          else if( element is Entry entry )
           {
-            var entry = element as Entry;
-            if( entry != null )
+            if( Control.CanSetFontProperty<Color>( entry, Entry.TextColorProperty, null, oldColor ) )
             {
-              if( Control.CanSetFontProperty<Color>( entry, Entry.TextColorProperty, null, oldColor ) )
-              {
-                entry.TextColor = newColor;
-              }
+              entry.TextColor = newColor;
             }
-            else
+          }
+          else if( element is Control control )
+          {
+            if( Control.CanSetFontProperty<Color>( control, Control.TextColorProperty, null, oldColor ) )
             {
-              var control = element as Control;
-              if( control != null )
-              {
-                if( Control.CanSetFontProperty<Color>( control, Control.TextColorProperty, null, oldColor ) )
-                {
-                  control.TextColor = newColor;
-                }
-              }
+              control.TextColor = newColor;
             }
           }
         }
@@ -370,34 +362,25 @@ namespace Xceed.Maui.Toolkit
         var children = view.GetVisualTreeDescendants();
         foreach( var element in children )
         {
-          var label = element as Label;
-          if( label != null )
+          if( element is Label label )
           {
             if( Control.CanSetFontProperty<double>( label, Label.FontSizeProperty, Control.DefaultFontSize, oldSize ) )
             {
               label.FontSize = newSize;
             }
           }
-          else
+          else if( element is Entry entry )
           {
-            var entry = element as Entry;
-            if( entry != null )
+            if( Control.CanSetFontProperty<double>( entry, Entry.FontSizeProperty, Control.DefaultFontSize, oldSize ) )
             {
-              if( Control.CanSetFontProperty<double>( entry, Entry.FontSizeProperty, Control.DefaultFontSize, oldSize ) )
-              {
-                entry.FontSize = newSize;
-              }
+              entry.FontSize = newSize;
             }
-            else
+          }
+          else if( element is Control control )
+          {
+            if( Control.CanSetFontProperty<double>( control, Control.FontSizeProperty, Control.DefaultFontSize, oldSize ) )
             {
-              var control = element as Control;
-              if( control != null )
-              {
-                if( Control.CanSetFontProperty<double>( control, Control.FontSizeProperty, Control.DefaultFontSize, oldSize ) )
-                {
-                  control.FontSize = newSize;
-                }
-              }
+              control.FontSize = newSize;
             }
           }
         }
@@ -411,34 +394,25 @@ namespace Xceed.Maui.Toolkit
         var children = view.GetVisualTreeDescendants();
         foreach( var element in children )
         {
-          var label = element as Label;
-          if( label != null )
+          if( element is Label label )
           {
             if( Control.CanSetFontProperty<string>( label, Label.FontFamilyProperty, null, oldFontFamily ) )
             {
               label.FontFamily = newFontFamily;
             }
           }
-          else
+          else if( element is Entry entry )
           {
-            var entry = element as Entry;
-            if( entry != null )
+            if( Control.CanSetFontProperty<string>( entry, Entry.FontFamilyProperty, null, oldFontFamily ) )
             {
-              if( Control.CanSetFontProperty<string>( entry, Entry.FontFamilyProperty, null, oldFontFamily ) )
-              {
-                entry.FontFamily = newFontFamily;
-              }
+              entry.FontFamily = newFontFamily;
             }
-            else
+          }
+          else if( element is Control control )
+          {
+            if( Control.CanSetFontProperty<string>( control, Control.FontFamilyProperty, null, oldFontFamily ) )
             {
-              var control = element as Control;
-              if( control != null )
-              {
-                if( Control.CanSetFontProperty<string>( control, Control.FontFamilyProperty, null, oldFontFamily ) )
-                {
-                  control.FontFamily = newFontFamily;
-                }
-              }
+              control.FontFamily = newFontFamily;
             }
           }
         }
@@ -452,34 +426,25 @@ namespace Xceed.Maui.Toolkit
         var children = view.GetVisualTreeDescendants();
         foreach( var element in children )
         {
-          var label = element as Label;
-          if( label != null )
+          if( element is Label label )
           {
             if( Control.CanSetFontProperty<FontAttributes>( label, Label.FontAttributesProperty, Control.DefaultFontAttributes, oldFontAttributes ) )
             {
               label.FontAttributes = newFontAttributes;
             }
           }
-          else
+          else if( element is Entry entry )
           {
-            var entry = element as Entry;
-            if( entry != null )
+            if( Control.CanSetFontProperty<FontAttributes>( entry, Entry.FontAttributesProperty, Control.DefaultFontAttributes, oldFontAttributes ) )
             {
-              if( Control.CanSetFontProperty<FontAttributes>( entry, Entry.FontAttributesProperty, Control.DefaultFontAttributes, oldFontAttributes ) )
-              {
-                entry.FontAttributes = newFontAttributes;
-              }
+              entry.FontAttributes = newFontAttributes;
             }
-            else
+          }
+          else if( element is Control control )
+          {
+            if( Control.CanSetFontProperty<FontAttributes>( control, Control.FontAttributesProperty, Control.DefaultFontAttributes, oldFontAttributes ) )
             {
-              var control = element as Control;
-              if( control != null )
-              {
-                if( Control.CanSetFontProperty<FontAttributes>( control, Control.FontAttributesProperty, Control.DefaultFontAttributes, oldFontAttributes ) )
-                {
-                  control.FontAttributes = newFontAttributes;
-                }
-              }
+              control.FontAttributes = newFontAttributes;
             }
           }
         }
@@ -489,6 +454,14 @@ namespace Xceed.Maui.Toolkit
     internal static void ResetIsFirstLoad()
     {
       Control.IsFirstLoad = true;
+    }
+
+    internal void SetInitialOverrideDefaultVisualStates()
+    {
+      if( this.OverrideDefaultVisualStates == null )
+      {
+        this.OverrideDefaultVisualStates = false;
+      }
     }
 
     #endregion
@@ -513,10 +486,7 @@ namespace Xceed.Maui.Toolkit
                                               "'.UseXceedMauiToolkit()' in your MauiProgram.CreateMauiApp() or the '<xctk:FluentDesign/>' +" +
                                               " ResourceDictionary in your ContentPage or App.xaml. See documentation for more details." );
 
-      if( this.OverrideDefaultVisualStates == null )
-      {
-        this.OverrideDefaultVisualStates = false;
-      }
+      this.SetInitialOverrideDefaultVisualStates();
     }
 
     #endregion

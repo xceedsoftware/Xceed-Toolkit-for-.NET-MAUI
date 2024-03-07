@@ -1,0 +1,379 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+/***************************************************************************************
+ 
+  Xceed Toolkit for MAUI is a multiplatform toolkit offered by Xceed Software Inc., 
+  makers of the popular WPF Toolkit.
+
+  COPYRIGHT (C) 2023 Xceed Software Inc. ALL RIGHTS RESERVED.
+
+  This program is provided to you under the terms of a Xceed Community License 
+  For more details about the Xceed Community License please visit the products GitHub or NuGet page .
+
+  DISCLAIMER: This code is provided as-is and without warranty of any kind, express or implied. The 
+  author(s) and owner(s) of this code shall not be liable for any damages or losses resulting from 
+  the use or inability to use the code. 
+
+ 
+  *************************************************************************************/
+  -->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit">
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="../../Themes/Brushes/Common.xaml;assembly=Xceed.Maui.Toolkit" />
+  </ResourceDictionary.MergedDictionaries>
+
+  <local:CalculatorMemoryToVisibilityConverter x:Key="CalculatorMemoryToVisibilityConverter" />
+  <local:CornerButtonCornerRadiusConverter x:Key="CornerButtonCornerRadiusConverter" />
+  <local:CalculatorMinHeightConverter x:Key="CalculatorMinHeightConverter" />
+  <local:CalculatorMinWidthConverter x:Key="CalculatorMinWidthConverter" />
+
+  <Style x:Key="FluentDesignCalculatorOperationButtonStyle"
+         TargetType="{x:Type local:Button}">
+    <Setter Property="Padding"
+            Value="0" />
+    <Setter Property="IsEnabled"
+            Value="{TemplateBinding IsEnabled}" />
+  </Style>
+
+  <Style x:Key="FluentDesignCalculatorDisplayTextStyle"
+         TargetType="{x:Type local:TextBox}">
+    <Setter Property="Margin"
+            Value="2,0" />
+    <Setter Property="Padding"
+            Value="5" />
+    <Setter Property="HorizontalContentOptions"
+            Value="End" />
+    <Setter Property="TextColor"
+            Value="{TemplateBinding TextColor}" />
+    <Setter Property="IsEnabled"
+            Value="{TemplateBinding IsEnabled}" />
+    <Setter Property="IsFocusUnderlineVisible"
+            Value="False" />
+    <Setter Property="IsReadOnly"
+            Value="True" />
+    <Setter Property="BorderThickness"
+            Value="0" />
+    <Setter Property="CornerRadius"
+            Value="0" />
+    <Setter Property="FontSize"
+            Value="25" />
+  </Style>
+
+  <Style x:Key="FluentDesignCalculatorClearButtonStyle"
+         TargetType="{x:Type local:Button}">
+    <Setter Property="Background"
+            Value="{StaticResource SystemAccentColor}" />
+    <Setter Property="TextColor"
+            Value="{StaticResource SystemAccentColorForeground}" />
+    <Setter Property="IsEnabled"
+            Value="{TemplateBinding IsEnabled}" />
+
+  </Style>
+
+  <Style x:Key="FluentDesignCalculatorDigitButtonStyle"
+         TargetType="{x:Type local:Button}">
+    <Setter Property="Background"
+            Value="{AppThemeBinding Light={StaticResource LightBase2}, Dark={StaticResource DarkBase4}}" />
+    <Setter Property="IsEnabled"
+            Value="{TemplateBinding IsEnabled}" />
+
+  </Style>
+
+  <DataTemplate x:Key="CalculatorButtonPanel">
+    <local:Border x:Name="MainBorder"
+                  Padding="0"
+                  BorderThickness="0"
+                  CornerRadius="{Binding CornerRadius, Source={RelativeSource AncestorType={x:Type local:Calculator}}}">
+      <Grid ColumnSpacing="2"
+            RowSpacing="2"
+            ColumnDefinitions="*,*,*,*,*"
+            RowDefinitions="*,*,*,*,*,*">
+        <local:Button Style="{Binding OperationButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="MC">
+          <Label Text="MC" />
+        </local:Button>
+        <local:Button Grid.Row="1"
+                      Style="{Binding OperationButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="Back"
+                      Grid.RowSpan="1">
+          <Label Text="Back" />
+        </local:Button>
+        <local:Button Grid.Row="2"
+                      Style="{Binding DigitButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="Seven">
+          <Label Text="7" />
+        </local:Button>
+        <local:Button Grid.Row="3"
+                      Style="{Binding DigitButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="Four">
+          <Label Text="4" />
+        </local:Button>
+        <local:Button Grid.Row="4"
+                      Style="{Binding DigitButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="One">
+          <Label Text="1" />
+        </local:Button>
+        <local:Button Grid.Column="1"
+                      Style="{Binding OperationButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="MR">
+          <Label Text="MR" />
+        </local:Button>
+        <local:Button Grid.Column="1"
+                      Grid.Row="1"
+                      Style="{Binding ClearButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="Cancel">
+          <Label Text="CE" />
+        </local:Button>
+        <local:Button Grid.Column="1"
+                      Grid.Row="2"
+                      Style="{Binding DigitButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="Eight">
+          <Label Text="8" />
+        </local:Button>
+        <local:Button Grid.Column="1"
+                      Grid.Row="3"
+                      Style="{Binding DigitButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="Five">
+          <Label Text="5" />
+        </local:Button>
+        <local:Button Grid.Column="2"
+                      Grid.Row="1"
+                      Style="{Binding ClearButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="Clear"
+                      Grid.RowSpan="1">
+          <Label Text="C" />
+        </local:Button>
+        <local:Button Grid.Column="2"
+                      Style="{Binding OperationButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="MS">
+          <Label Text="MS" />
+        </local:Button>
+        <local:Button Grid.Column="2"
+                      Grid.Row="2"
+                      Style="{Binding DigitButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="Nine">
+          <Label Text="9" />
+        </local:Button>
+        <local:Button Grid.Column="2"
+                      Grid.Row="3"
+                      Style="{Binding DigitButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="Six">
+          <Label Text="6" />
+        </local:Button>
+        <local:Button Grid.Column="3"
+                      Style="{Binding OperationButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="MAdd">
+          <Label Text="M+" />
+        </local:Button>
+        <local:Button Grid.Column="3"
+                      Grid.Row="1"
+                      Style="{Binding OperationButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="Negate">
+          <Label Text="+/-" />
+        </local:Button>
+        <local:Button Grid.Column="3"
+                      Grid.Row="2"
+                      Style="{Binding OperationButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="Divide">
+          <Label Text="/" />
+        </local:Button>
+        <local:Button Grid.Column="3"
+                      Grid.Row="3"
+                      Style="{Binding OperationButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="Multiply">
+          <Label Text="x" />
+        </local:Button>
+        <local:Button Grid.Column="4"
+                      Style="{Binding OperationButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="MSub">
+          <Label Text="M-" />
+        </local:Button>
+        <local:Button Grid.Column="4"
+                      Grid.Row="1"
+                      Style="{Binding OperationButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="Sqrt">
+          <Label Text="√" />
+        </local:Button>
+        <local:Button Grid.Column="4"
+                      Grid.Row="2"
+                      Style="{Binding OperationButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="Percent">
+          <Label Text="%" />
+        </local:Button>
+        <local:Button Grid.Column="4"
+                      Grid.Row="3"
+                      Style="{Binding OperationButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="Fraction">
+          <Label Text="1/x" />
+        </local:Button>
+        <local:Button Grid.Column="1"
+                      Grid.Row="4"
+                      Style="{Binding DigitButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="Two">
+          <Label Text="2" />
+        </local:Button>
+        <local:Button Grid.Column="2"
+                      Grid.Row="4"
+                      Style="{Binding DigitButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="Three">
+          <Label Text="3" />
+        </local:Button>
+        <local:Button Grid.Column="3"
+                      Grid.Row="4"
+                      Style="{Binding OperationButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="Subtract">
+          <Label Text="-" />
+        </local:Button>
+        <local:Button Grid.Column="4"
+                      Grid.Row="4"
+                      Grid.RowSpan="2"
+                      Style="{Binding OperationButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="Equal">
+          <local:Button.CornerRadius>
+            <MultiBinding Converter="{StaticResource CornerButtonCornerRadiusConverter}"
+                          ConverterParameter="EqualButton">
+              <Binding Path="CornerRadius"
+                       Source="{Reference MainBorder}" />
+              <Binding Path="CornerRadius"
+                       Source="{RelativeSource Self}" />
+            </MultiBinding>
+          </local:Button.CornerRadius>
+          <Label Text="=" />
+        </local:Button>
+        <local:Button Grid.Row="5"
+                      Grid.ColumnSpan="2"
+                      Style="{Binding DigitButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="Zero">
+          <local:Button.CornerRadius>
+            <MultiBinding Converter="{StaticResource CornerButtonCornerRadiusConverter}"
+                          ConverterParameter="ZeroButton">
+              <Binding Path="CornerRadius"
+                       Source="{Reference MainBorder}" />
+              <Binding Path="CornerRadius"
+                       Source="{RelativeSource Self}" />
+            </MultiBinding>
+          </local:Button.CornerRadius>
+          <Label Text="0" />
+        </local:Button>
+        <local:Button Grid.Column="2"
+                      Grid.Row="5"
+                      Style="{Binding DigitButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="Decimal">
+          <Label Text="," />
+        </local:Button>
+        <local:Button Grid.Column="3"
+                      Grid.Row="5"
+                      Command="{Binding ButtonCommand,Source={RelativeSource AncestorType={x:Type local:Calculator}}}"
+                      CommandParameter="Add"
+                      Style="{Binding OperationButtonStyle, Source={RelativeSource AncestorType={x:Type local:Calculator}}}">
+          <Label Text="+" />
+        </local:Button>
+      </Grid>
+    </local:Border>
+  </DataTemplate>
+
+  <ControlTemplate x:Key="calculatorTemplate">
+    <local:Border x:Name="MainBorder"
+                  Padding="{TemplateBinding Padding}"
+                  IsEnabled="{TemplateBinding IsEnabled}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  Background="{TemplateBinding Background}"
+                  MinimumHeightRequest="{TemplateBinding MinimumHeightRequest}"
+                  MinimumWidthRequest="{TemplateBinding MinimumWidthRequest}">
+      <Grid RowDefinitions="Auto,*">
+        <StackLayout Margin="0,0,0,10">
+          <Grid HeightRequest="12"
+                WidthRequest="12"
+                HorizontalOptions="Start"
+                VerticalOptions="Start"
+                Margin="2,2,0,0">
+            <Path Aspect="Fill"
+                  Fill="{Binding TextColor, Source={RelativeSource TemplatedParent}}"
+                  Data="F1 M 508.172,390L 506.031,390L 504.612,393.385C 504.174,394.477 503.788,395.533 503.453,396.555L 503.417,396.555C 503.334,395.528 503.206,394.471 503.035,393.385L 502.454,390L 500.301,390L 498.637,399L 500.226,399L 500.807,395.537C 500.903,394.973 501,394.379 501.099,393.756C 501.198,393.133 501.287,392.534 501.367,391.957L 501.402,391.957C 501.444,392.514 501.499,393.08 501.567,393.655C 501.635,394.231 501.712,394.776 501.8,395.292L 502.382,398.871L 503.7,398.871L 505.231,395.233C 505.445,394.724 505.663,394.187 505.884,393.622C 506.105,393.057 506.313,392.502 506.508,391.957L 506.543,391.957C 506.411,393.11 506.304,394.292 506.223,395.502L 505.979,399L 507.637,399L 508.172,390 Z "
+                  IsVisible="{Binding Source={RelativeSource TemplatedParent}, Path=Memory,Converter={StaticResource CalculatorMemoryToVisibilityConverter}}" />
+          </Grid>
+          <local:TextBox x:Name="PART_DisplayTextControl"
+                         Style="{Binding DisplayTextStyle, Source={RelativeSource TemplatedParent}}"
+                         Text="{TemplateBinding DisplayText}" />
+        </StackLayout>
+        <local:ContentControl Grid.Row="1"
+                              IsEnabled="{TemplateBinding IsEnabled}"
+                              ContentTemplate="{Binding CalculatorButtonPanelTemplate, Source={RelativeSource TemplatedParent}, TargetNullValue={StaticResource CalculatorButtonPanel}}"
+                              HorizontalContentOptions="{TemplateBinding HorizontalContentOptions}"
+                              VerticalContentOptions="{TemplateBinding VerticalContentOptions}">
+        </local:ContentControl>
+      </Grid>
+      <local:Border.Triggers>
+        <DataTrigger TargetType="{x:Type local:Border}"
+                     Binding="{Binding IsEnabled, Source={RelativeSource TemplatedParent}}"
+                     Value="False">
+          <Setter Property="Opacity"
+                  Value="{StaticResource DisabledOpacity}" />
+        </DataTrigger>
+      </local:Border.Triggers>
+    </local:Border>
+  </ControlTemplate>
+
+  <Style x:Key="FluentDesignCalculator"
+         TargetType="{x:Type local:Calculator}">
+    <Setter Property="BorderThickness"
+            Value="1" />
+    <Setter Property="CornerRadius"
+            Value="5" />
+    <Setter Property="BorderBrush"
+            Value="{AppThemeBinding Light={StaticResource DarkColorTertiary}, Dark={StaticResource LightColorTertiary}}" />
+    <Setter Property="TextColor"
+            Value="{AppThemeBinding Light={StaticResource DarkBase0}, Dark={StaticResource LightBase0}}" />
+    <Setter Property="Background"
+            Value="{AppThemeBinding Light={StaticResource LightBase0}, Dark={StaticResource DarkBase0}}" />
+    <Setter Property="MinimumHeightRequest"
+            Value="{Binding BorderThickness, Source={RelativeSource Self}, Converter={StaticResource CalculatorMinHeightConverter}}" />
+    <Setter Property="MinimumWidthRequest"
+            Value="{Binding BorderThickness, Source={RelativeSource Self}, Converter={StaticResource CalculatorMinWidthConverter}}" />
+    <Setter Property="OperationButtonStyle"
+            Value="{StaticResource FluentDesignCalculatorOperationButtonStyle}" />
+    <Setter Property="DisplayTextStyle"
+            Value="{StaticResource FluentDesignCalculatorDisplayTextStyle}" />
+    <Setter Property="DigitButtonStyle"
+            Value="{StaticResource FluentDesignCalculatorDigitButtonStyle}" />
+    <Setter Property="ClearButtonStyle"
+            Value="{StaticResource FluentDesignCalculatorClearButtonStyle}" />
+    <Setter Property="ControlTemplate"
+            Value="{StaticResource calculatorTemplate}" />
+  </Style>
+
+  <Style TargetType="{x:Type local:Calculator}"
+         BasedOn="{StaticResource FluentDesignCalculator}" />
+</ResourceDictionary>
