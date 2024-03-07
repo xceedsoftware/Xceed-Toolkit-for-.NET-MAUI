@@ -6,6 +6,7 @@
 
 # Update 1.7
 The Maui Toolkit now runs on .NET 8.
+
 We keep adding more, here's 6 new controls
 - [Calendar](#calendar)
 - [PopUp](#popup)
