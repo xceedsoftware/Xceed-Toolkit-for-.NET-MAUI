@@ -11,7 +11,7 @@ We keep adding more, here's 6 new controls
 - [DropDownButton](#dropdownbutton)
 - [AutoCompleteTextBox](#autocompletetextbox)
 - [DateTimeUpDown](#datetimeupdown)
-- [Calculator](#calcultor)
+- [Calculator](#calculator)
 
 # Update 1.6
 - [MaskedTextBox](#maskedtextbox)
