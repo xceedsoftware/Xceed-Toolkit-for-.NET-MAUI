@@ -4,14 +4,21 @@
 ![Platforms](https://img.shields.io/badge/platforms-Android%20%7C%20Windows%20%7C%20iOS%20%7C%20macOS-brightgreen)
 ![Static Badge](https://img.shields.io/badge/.NET-7%2B-blue)
 
+# Update 1.7
+We keep adding more, here's 6 new controls
+- [Calendar](#calendar)
+- [PopUp](#popup)
+- [DropDownButton](#dropdownbutton)
+- [AutoCompleteTextBox](#autocompletetextbox)
+- [DateTimeUpDown](#datetimeupdown)
+- [Calculator](#calcultor)
+
 # Update 1.6
-We keep adding more, here's 3 new controls
 - [MaskedTextBox](#maskedtextbox)
 - [FilePicker](#filepicker)
 - [RadioButton](#radiobutton)
 
 # Update 1.5 
-We have added a series of new controls for the MAUI Toolkit
 - [Chart](#chart)
 - [ColorCanvas](#colorcanvas)
 - [Switch](#switch)
@@ -101,6 +108,42 @@ Here's a quick code sample to get you started:
   </xctk:Chart.Series>
 </xctk:Chart>
 ````
+
+<a id="calendar"></a>
+### Calendar
+
+Choose dates effortlessly with a control similar to the WPF, which allows selection by month, year, or decade. It supports specifying SelectedDates and BlackoutDates, providing flexibility in choosing single dates, ranges, or multiple ranges to meet your scheduling needs.
+
+````xaml
+<xctk:Calendar ="MultiRange"
+               IsTodayHighlighted="True"
+               SelectedDatesChanged="Calendar_SelectedDatesChanged"/>
+````
+
+<a id="popup"></a>
+### PopUp
+
+A control allows for displaying any View on top of everything else, offering both modal and non-modal popup options. The latter closes with a click outside. You can position the popup in various locations: TopLeft, Top, TopRight, Right, BottomRight, Bottom, BottomLeft, or Left, relative to the Window, the popup's parent, or an Anchor View object. The IsOpen property is used to open or close the popup, with Open()/Close() methods available for straightforward operation. Additionally, Opened and Closed events are provided for effective application integration.
+
+<a id="dropdownbutton"></a>
+### DropDownButton
+
+A control designed for click interaction, opening a popup that can contain any View. It automatically closes when clicking outside the popup. The location of the popup can be customized to appear on any corner or side of the DropDownButton, with the option to set a maximum popup height. It includes Opened and Closed events for easy tracking of the popup's state.
+
+<a id="datetimeupdown"></a>
+### DateTimeUpDown
+
+A control similar to the NumericUpDown, but designed for adjusting date portions with Up/Down actions. Keyboard left and right navigation enables shifting between different date segments, enhancing the user's interaction and efficiency in date selection. You can also adjust the Date Format to be any of the predefined formats or use a custom one.
+
+<a id="autocompletetextbox"></a>
+### AutoCompleteTextBox
+
+A control, derived from our TextBox (retaining all its properties), enables the provision of an ItemsSource and a FilterType to display a popup that filters data based on current input. It supports filtering methods such as Contains, StartsWith, Equals, and more. An ItemTemplate property allows for customized display of popup elements according to your preferences.
+
+<a id="calculator"></a>
+### Calculator
+
+A control designed to display a calculator complete with buttons for performing calculations. All buttons are stylizable, and the precision of decimal calculations can be adjusted to meet specific requirements.
 
 <a id="colorcanvas"></a>
 ### ColorCanvas
@@ -470,6 +513,13 @@ The BasedOn needs to be set to the name of our resource, here's the list of name
 - FluentDesignTextBox
 - FluentDesignToggleButton
 - FluentDesignToggleSwitch
+- FluentDesignCalendar
+- FluentDesignPopup
+- FluentDesignDropDownButton
+- FluentDesignAutoCompleteTextBox
+- FluentDesignDateTimeUpDown
+- FluentDesignCalculator
+
 
 Note that the OverrideDefaultVisualStates will allow you to change the style of a Control while overriding our VisualStates.
 
