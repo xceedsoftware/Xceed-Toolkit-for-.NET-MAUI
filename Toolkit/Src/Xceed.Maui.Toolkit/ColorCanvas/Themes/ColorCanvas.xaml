@@ -20,7 +20,7 @@
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit"
+                    xmlns:local="clr-namespace:Xceed.Maui.Toolkit;assembly=Xceed.Maui.Toolkit"
                     xmlns:conv="clr-namespace:Xceed.Maui.Toolkit.Converters;assembly=Xceed.Maui.Toolkit">
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="../../Themes/Glyphs.xaml;assembly=Xceed.Maui.Toolkit" />
@@ -256,7 +256,7 @@
   </ControlTemplate>
 
   <Style x:Key="FluentDesignColorCanvas"
-         TargetType="{x:Type local:ColorCanvas}">
+         TargetType="local:ColorCanvas">
     <Setter Property="Background"
             Value="{AppThemeBinding Light={StaticResource LightBase0}, Dark={StaticResource DarkBase2}}" />
     <Setter Property="BorderThickness"
@@ -274,7 +274,7 @@
 
     <Style.Triggers>
       <Trigger Property="OverrideDefaultVisualStates"
-               TargetType="{x:Type local:ColorCanvas}"
+               TargetType="local:ColorCanvas"
                Value="False">
         <Setter Property="VisualStateManager.VisualStateGroups">
           <VisualStateGroupList>
@@ -293,7 +293,7 @@
     </Style.Triggers>
   </Style>
 
-  <Style TargetType="{x:Type local:ColorCanvas}"
+  <Style TargetType="local:ColorCanvas"
          BasedOn="{StaticResource FluentDesignColorCanvas}" />
 
 </ResourceDictionary>

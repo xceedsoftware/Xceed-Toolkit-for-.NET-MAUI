@@ -97,9 +97,9 @@ namespace Xceed.Maui.Toolkit
 
     #endregion
 
-    #region Private Classes
+    #region Internal Classes
 
-    private class TouchRecognizer : UIGestureRecognizer
+    internal class TouchRecognizer : UIGestureRecognizer
     {
       public event EventHandler Pressed;
       public event EventHandler Released;

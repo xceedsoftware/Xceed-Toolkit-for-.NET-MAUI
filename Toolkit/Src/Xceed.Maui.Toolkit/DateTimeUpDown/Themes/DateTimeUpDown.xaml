@@ -20,7 +20,7 @@
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit">
+                    xmlns:local="clr-namespace:Xceed.Maui.Toolkit;assembly=Xceed.Maui.Toolkit">
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="../../Themes/Glyphs.xaml;assembly=Xceed.Maui.Toolkit" />
     <ResourceDictionary Source="../../Themes/Brushes/Common.xaml;assembly=Xceed.Maui.Toolkit" />
@@ -28,7 +28,7 @@
 
   <!-- Targeting Control because DateTimeUpDown is a templated type and can't be used in XAML.-->
   <Style x:Key="FluentDesignDateTimeUpDown"
-         TargetType="{x:Type local:InputBase}">
+         TargetType="local:InputBase">
     <Setter Property="Background"
             Value="{AppThemeBinding Light={StaticResource LightBase0}, Dark={StaticResource DarkBase2}}" />
     <Setter Property="BorderBrush"
@@ -85,7 +85,7 @@
                              FontAttributes="{Binding FontAttributes, Source={RelativeSource TemplatedParent}, Mode=TwoWay}"
                              IsEnabled="{TemplateBinding IsEnabled}">
                 <local:TextBox.Triggers>
-                  <DataTrigger TargetType="{x:Type local:TextBox}"
+                  <DataTrigger TargetType="local:TextBox"
                                Binding="{Binding SpinnerLocation, Source={x:Reference PART_Spinner}}"
                                Value="Left">
                     <Setter Property="CornerRadius"
@@ -100,6 +100,6 @@
     </Setter>
   </Style>
 
-  <Style TargetType="{x:Type local:DateTimeUpDown}"
+  <Style TargetType="local:DateTimeUpDown"
          BasedOn="{StaticResource FluentDesignDateTimeUpDown}" /> 
 </ResourceDictionary>

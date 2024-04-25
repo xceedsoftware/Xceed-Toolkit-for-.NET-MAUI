@@ -21,21 +21,6 @@ namespace Xceed.Maui.Toolkit
   public partial class CalendarButton
   {
     #region Partial Methods
-    partial void ApplyTemplateForPlatform( Border oldMainBorder, Border newMainBorder )
-    {
-      if( oldMainBorder != null )
-      {
-        oldMainBorder.PointerDown -= this.Border_PointerDown;
-        oldMainBorder.PointerUp -= this.Border_PointerUp;
-      }
-      if( newMainBorder != null )
-      {
-        newMainBorder.PointerDown += this.MainBorder_PointerDown;
-        newMainBorder.PointerUp += this.MainBorder_PointerUp;
-      }
-
-      this.SetVisualStateAfterPointerEvent();
-    }
 
     partial void UpdateVisualState()
     {
@@ -54,29 +39,6 @@ namespace Xceed.Maui.Toolkit
       else
       {
         VisualStateManager.GoToState( this, VisualStateManager.CommonStates.Normal );
-      }
-    }
-
-    #endregion
-
-    #region Event Handlers
-    private void MainBorder_PointerUp( object sender, EventArgs e )
-    {
-      base.Button_PointerUp();
-
-      if( this.IsEnabled )
-      {
-        this.SetVisualStateAfterPointerEvent();
-      }
-    }
-
-    private void MainBorder_PointerDown( object sender, EventArgs e )
-    {
-      base.Button_PointerDown();
-
-      if( this.IsEnabled )
-      {
-        this.SetVisualStateAfterPointerEvent();
       }
     }
 

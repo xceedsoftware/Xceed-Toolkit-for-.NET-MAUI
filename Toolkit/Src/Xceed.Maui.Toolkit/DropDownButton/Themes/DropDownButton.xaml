@@ -20,7 +20,7 @@
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit"
+                    xmlns:local="clr-namespace:Xceed.Maui.Toolkit;assembly=Xceed.Maui.Toolkit"
                     xmlns:conv="clr-namespace:Xceed.Maui.Toolkit.Converters;assembly=Xceed.Maui.Toolkit">
 
   <ResourceDictionary.MergedDictionaries>
@@ -31,7 +31,7 @@
   <conv:PopupLocationToLayoutOptions x:Key="PopupLocationToLayoutOptions" />
 
   <Style x:Key="FluentDesignDropDownButton"
-         TargetType="{x:Type local:DropDownButton}">
+         TargetType="local:DropDownButton">
     <Setter Property="BorderThickness"
             Value="1" />
     <Setter Property="BorderBrush"
@@ -102,7 +102,7 @@
     </Setter>
     <Style.Triggers>
       <Trigger Property="OverrideDefaultVisualStates"
-               TargetType="{x:Type local:DropDownButton}"
+               TargetType="local:DropDownButton"
                Value="False">
         <Setter Property="VisualStateManager.VisualStateGroups">
           <VisualStateGroupList>
@@ -151,6 +151,6 @@
     </Style.Triggers>
   </Style>
 
-  <Style TargetType="{x:Type local:DropDownButton}"
+  <Style TargetType="local:DropDownButton"
          BasedOn="{StaticResource FluentDesignDropDownButton}" />
 </ResourceDictionary>

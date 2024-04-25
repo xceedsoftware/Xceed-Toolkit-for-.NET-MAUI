@@ -18,7 +18,6 @@
 
 using Android.App;
 using Android.Graphics.Drawables;
-using Android.OS;
 using Android.Util;
 using Android.Views;
 using Microsoft.Maui.Handlers;
@@ -30,6 +29,8 @@ namespace Xceed.Maui.Toolkit
 {
   public partial class PopupHandler : ViewHandler<IPopup, Android.Views.View>
   {
+    private Dialog? m_dialog;
+
     #region Override Methods
 
     protected override Android.Views.View CreatePlatformView()
@@ -42,18 +43,13 @@ namespace Xceed.Maui.Toolkit
       if( context == null )
         throw new InvalidOperationException( "Android Context is null" );
 
-      return new Android.Views.View( context )
-      {
-        Visibility = ViewStates.Invisible,
-        Tag = new Dialog( context )
-      };
+      m_dialog = new Dialog( context );
+
+      return new Android.Views.View( context );
     }
 
     protected override void ConnectHandler( Android.Views.View platformView )
     {
-      if( platformView == null )
-        throw new ArgumentNullException( "platformView" );
-
       if( ( this.VirtualView != null ) && ( this.VirtualView.Content != null ) && this.VirtualView.Handler is PopupHandler handler )
       {
         var mauiContext = this.MauiContext;
@@ -63,9 +59,10 @@ namespace Xceed.Maui.Toolkit
         var platformContent = handler.VirtualView.Content?.ToPlatform( mauiContext );
         if( platformContent != null )
         {
-          var dialog = platformView.Tag as Dialog;
+          var dialog = m_dialog;
           if( dialog != null )
           {
+            dialog.Window?.SetBackgroundDrawable( new ColorDrawable( Android.Graphics.Color.Transparent ) );
             dialog.SetContentView( platformContent );
             if( (dialog.Window != null) && this.VirtualView is Popup popup && !popup.Focusable )
             {
@@ -84,7 +81,7 @@ namespace Xceed.Maui.Toolkit
       if( platformView == null )
         throw new ArgumentNullException( "platformView" );
 
-      var dialog = platformView.Tag as Dialog;
+      var dialog = m_dialog;
       if( dialog != null )
       {
         dialog.DismissEvent -= this.PlatformView_Closed;
@@ -96,9 +93,9 @@ namespace Xceed.Maui.Toolkit
         layoutviewGroup.RemoveView( platformView );
       }
 
+#pragma warning disable CS8604
       base.DisconnectHandler( platformView );
-
-      platformView.Dispose();
+#pragma warning restore CS8604
     }
 
     #endregion
@@ -115,7 +112,7 @@ namespace Xceed.Maui.Toolkit
       if( popup == null )
         throw new ArgumentNullException( "popup" );
 
-      var dialog = handler?.PlatformView?.Tag as Dialog;
+      var dialog = handler?.m_dialog;
       if( dialog != null )
       {
         dialog.SetCanceledOnTouchOutside( !popup.IsModal );
@@ -127,11 +124,7 @@ namespace Xceed.Maui.Toolkit
       if( handler == null )
         throw new ArgumentNullException( "handler" );
 
-      var platformView = handler.PlatformView;
-      if( platformView == null )
-        throw new ArgumentNullException( "platformView" );
-
-      var dialog = platformView.Tag as Dialog;
+      var dialog = handler.m_dialog;
       dialog?.Dismiss();
 
       // Disconnect handler only if Popup wasn't part of the original xaml and was added with something like: var myPopup = new Popup().
@@ -146,17 +139,12 @@ namespace Xceed.Maui.Toolkit
       if( handler == null )
         throw new ArgumentNullException( "handler" );
 
-      var platformView = handler.PlatformView;
-      if( platformView == null )
-        throw new ArgumentNullException( "platformView" );
+      var dialog = handler.m_dialog;      
 
-      var dialog = platformView.Tag as Dialog;
-
-      dialog?.Window?.SetBackgroundDrawable( new ColorDrawable( Android.Graphics.Color.Transparent ) );
       PopupHandler.SetSize( handler, popup );
       PopupHandler.SetLayout( handler, popup );
 
-      dialog?.Show();
+      dialog?.Show();     
     }
 
     public static void MapUpdateSize( PopupHandler handler, IPopup popup, object? result )
@@ -164,7 +152,7 @@ namespace Xceed.Maui.Toolkit
       PopupHandler.SetSize( handler, popup );
     }
 
-    #endregion
+#endregion
 
     #region Private Methods
 
@@ -183,9 +171,11 @@ namespace Xceed.Maui.Toolkit
         throw new InvalidDataException( "defaultDisplay must not be null." );
 
       var displayMetrics = new DisplayMetrics();
+#pragma warning disable CA1422
       defaultDisplay.GetMetrics( displayMetrics );
       var realDisplayMetrics = new DisplayMetrics();
       defaultDisplay.GetRealMetrics( realDisplayMetrics );
+#pragma warning restore CA1422
       return realDisplayMetrics.HeightPixels - displayMetrics.HeightPixels;
     }
 
@@ -199,11 +189,7 @@ namespace Xceed.Maui.Toolkit
       if( popup.Content == null )
         return;
 
-      var platformView = handler.PlatformView;
-      if( platformView == null )
-        throw new ArgumentNullException( "platformView" );
-
-      var dialog = platformView.Tag as Dialog;
+      var dialog = handler.m_dialog;
       if( dialog == null )
         return;
 
@@ -313,11 +299,11 @@ namespace Xceed.Maui.Toolkit
       if( popup == null )
         throw new ArgumentNullException( "popup" );
 
-      var visualAnchor = popup?.Anchor as Microsoft.Maui.Controls.VisualElement;
+      var visualAnchor = popup.Anchor as Microsoft.Maui.Controls.VisualElement;
       if( visualAnchor == null )
         throw new InvalidDataException( "Anchor must be a VisualElement" );
 
-      var dialog = handler.PlatformView?.Tag as Dialog;
+      var dialog = handler.m_dialog;
       if( dialog == null )
         return;
 
@@ -340,6 +326,9 @@ namespace Xceed.Maui.Toolkit
       // if Popup was part of the original xaml and was not added with something like: var myPopup = new Popup().
       if( Popup.IsFromXaml( popup ) )
       {
+        if( handler.MauiContext == null )
+          throw new InvalidDataException( "handler.MauiContext is null." );
+
         var locationOnScreen = new int[ 2 ];
         visualAnchor.ToPlatform( handler.MauiContext ).GetLocationOnScreen( locationOnScreen );
 
@@ -446,7 +435,8 @@ namespace Xceed.Maui.Toolkit
       if( popup == null )
         throw new ArgumentNullException( "popup" );
 
-      var dialog = handler.PlatformView?.Tag as Dialog;
+      //var dialog = handler.PlatformView?.Tag as Dialog;
+      var dialog = handler.m_dialog;
       if( dialog == null )
         return;
 
@@ -502,7 +492,8 @@ namespace Xceed.Maui.Toolkit
       if( popup == null )
         throw new ArgumentNullException( "popup" );
 
-      var dialog = handler.PlatformView?.Tag as Dialog;
+      //var dialog = handler.PlatformView?.Tag as Dialog;
+      var dialog = handler.m_dialog;
       if( dialog == null )
         return;
 
@@ -519,6 +510,9 @@ namespace Xceed.Maui.Toolkit
       var popupVisualElement = popup as Microsoft.Maui.Controls.VisualElement;
       if( popupVisualElement == null )
         throw new InvalidDataException( "popup must be a VisualElement" );
+
+      if( handler.MauiContext == null )
+        throw new InvalidDataException( "handler.MauiContext is null." );
 
       var locationOnScreen = new int[ 2 ];
       parent.ToPlatform( handler.MauiContext ).GetLocationOnScreen( locationOnScreen );
@@ -598,7 +592,7 @@ namespace Xceed.Maui.Toolkit
 
     #region Event Handlers
 
-    private void PlatformView_Closed( object sender, object e )
+    private void PlatformView_Closed( object? sender, object e )
     {
       if( this.VirtualView != null )
       {

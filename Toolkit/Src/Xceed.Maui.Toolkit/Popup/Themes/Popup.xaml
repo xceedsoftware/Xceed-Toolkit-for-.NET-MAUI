@@ -20,17 +20,17 @@
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit">
+                    xmlns:local="clr-namespace:Xceed.Maui.Toolkit;assembly=Xceed.Maui.Toolkit">
 
    <ResourceDictionary.MergedDictionaries>
       <ResourceDictionary Source="../../Themes/Brushes/Common.xaml;assembly=Xceed.Maui.Toolkit" />
    </ResourceDictionary.MergedDictionaries>
 
    <Style x:Key="FluentDesignPopup"
-          TargetType="{x:Type local:Popup}">
+          TargetType="local:Popup">
    </Style>
 
-   <Style TargetType="{x:Type local:Popup}"
+   <Style TargetType="local:Popup"
           BasedOn="{StaticResource FluentDesignPopup}" />
 
 </ResourceDictionary>

@@ -41,7 +41,7 @@ namespace Xceed.Maui.Toolkit
 
     #region Public methods
 
-    public bool Contains( DateTime date )
+    public bool Contains( DateOnly date )
     {
       return this.GetContainingDateRange( date ) != null;
     }
@@ -141,12 +141,12 @@ namespace Xceed.Maui.Toolkit
       return this.IsValid( item.Start, item.End );
     }
 
-    private bool IsValid( DateTime start, DateTime end )
+    private bool IsValid( DateOnly start, DateOnly end )
     {
-      foreach( DateTime selectedDate in m_owner.SelectedDates )
+      foreach( DateOnly selectedDate in m_owner.SelectedDates )
       {
-        if( DateTime.Compare( DateTimeHelper.OnlyDate( selectedDate ).Value, start.Date ) > -1
-          && DateTime.Compare( DateTimeHelper.OnlyDate( selectedDate ).Value, end.Date ) < 1 )
+        if( ( selectedDate >= start)
+          && ( selectedDate <= end ) )
           return false;
       }
 
@@ -158,12 +158,12 @@ namespace Xceed.Maui.Toolkit
       return Thread.CurrentThread == m_dispatcherThread;
     }
 
-    private CalendarDateRange GetContainingDateRange( DateTime date )
+    private CalendarDateRange GetContainingDateRange( DateOnly date )
     {
       for( int i = 0; i < base.Count; i++ )
       {
-        if( DateTime.Compare( DateTimeHelper.OnlyDate( date ).Value, base[ i ].Start.Date ) > -1
-          && DateTime.Compare( DateTimeHelper.OnlyDate( date ).Value, base[ i ].End.Date ) < 1 )
+        if( ( date >= base[ i ].Start ) 
+          && ( date <= base[ i ].End ) )
           return base[ i ];
       }
 

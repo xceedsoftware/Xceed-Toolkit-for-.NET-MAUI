@@ -18,15 +18,13 @@
 
 namespace Xceed.Maui.Toolkit
 {
-  public partial class CalendarDayButton : Button
+  public partial class CalendarDayButton : CalendarLabel
   {
     #region Private Members
 
     private const string VisualState_Inactive = "Inactive";
     private const string VisualState_Today = "Today";
     private const string VisualState_BlackoutDay = "BlackoutDay";
-
-    private Calendar m_calendar;
 
     #endregion
 
@@ -35,10 +33,6 @@ namespace Xceed.Maui.Toolkit
     public CalendarDayButton()
     {
       this.Loaded += this.CalendarDayButton_Loaded;
-      this.PointerEnter += this.CalendarDayButton_PointerEnter;
-      this.PointerLeave += this.CalendarDayButton_PointerLeave;
-      this.PointerDown += this.CalendarDayButton_PointerDown;
-      this.PointerUp += this.CalendarDayButton_PointerUp;
     }
 
     #endregion
@@ -80,13 +74,41 @@ namespace Xceed.Maui.Toolkit
 
     #region IsToday
 
-    public static readonly BindableProperty IsTodayProperty = BindableProperty.Create( nameof( IsToday ), typeof( bool ), typeof( CalendarDayButton ), defaultValue: false );
+    public static readonly BindableProperty IsTodayProperty = BindableProperty.Create( nameof( IsToday ), typeof( bool ), typeof( CalendarDayButton ), defaultValue: false, propertyChanged: OnIsTodayChanged );
 
     public bool IsToday
     {
-      get => ( bool )GetValue( IsTodayProperty );
+      get => (bool)GetValue( IsTodayProperty );
       internal set => SetValue( IsTodayProperty, value );
     }
+
+    private static void OnIsTodayChanged( BindableObject bindable, object oldValue, object newValue )
+    {
+      if( bindable is CalendarDayButton calendarDayButton )
+      {
+        calendarDayButton.OnIsTodayChanged( (bool)oldValue, (bool)newValue );
+      }
+    }
+
+    protected virtual void OnIsTodayChanged( bool oldValue, bool newValue )
+    {
+      this.OnIsTodayChanged();
+    }
+
+    #endregion
+
+    #region Internal Properties
+
+    #region ParentCalendar
+
+    internal Calendar ParentCalendar
+    {
+      get;
+      set;
+    }
+
+    #endregion
+
 
     #endregion
 
@@ -96,23 +118,33 @@ namespace Xceed.Maui.Toolkit
 
     partial void UpdateVisualState();
 
+    partial void OnIsTodayChanged();
+
     #endregion
 
     #region Protected Methods
+
+    protected override void OnIsPointerOverChanged( bool oldValue, bool newValue )
+    {
+      base.OnIsPointerOverChanged( oldValue, newValue );
+
+      if( this.IsEnabled )
+      {
+        this.SetVisualStateAfterPointerEvent();
+      }
+    }
 
     protected override void OnIsPressedChanged( bool oldValue, bool newValue )
     {
       if( !this.IsBlackedOut )
       {
         base.OnIsPressedChanged( oldValue, newValue );
+
+        if( this.IsEnabled )
+        {
+          this.SetVisualStateAfterPointerEvent();
+        }
       }
-    }
-
-    protected override void OnApplyTemplate()
-    {
-      base.OnApplyTemplate();
-
-      this.SetVisualStateAfterPointerEvent();
     }
 
     #endregion
@@ -124,31 +156,9 @@ namespace Xceed.Maui.Toolkit
       this.UpdateVisualState();
     }
 
-    internal void SetContentInternal( string value )
-    {
-      this.SetValue( ContentControl.ContentProperty, value );
-    }
-
     #endregion
 
     #region Private Methods
-
-    private static Calendar GetParentCalendar( CalendarDayButton view )
-    {
-      if( view == null )
-        return null;
-
-      var parent = view.Parent;
-      while( parent != null )
-      {
-        if( parent is Calendar )
-          return parent as Calendar;
-
-        parent = parent.Parent;
-      }
-
-      return null;
-    }
 
     private void SetSpecificVisualState( string state )
     {
@@ -164,44 +174,12 @@ namespace Xceed.Maui.Toolkit
 
     #region Event Handlers
 
+
     private void CalendarDayButton_Loaded( object sender, EventArgs e )
     {
-      m_calendar = CalendarDayButton.GetParentCalendar( this );
       this.UpdateVisualState();
     }
 
-    private void CalendarDayButton_PointerEnter( object sender, EventArgs e )
-    {
-      if( this.IsEnabled )
-      {
-        this.SetVisualStateAfterPointerEvent();
-      }
-    }
-
-    private void CalendarDayButton_PointerLeave( object sender, EventArgs e )
-    {
-      if( this.IsEnabled )
-      {
-        this.SetVisualStateAfterPointerEvent();
-      }
-    }
-
-    private void CalendarDayButton_PointerUp( object sender, EventArgs e )
-    {
-      if( this.IsEnabled )
-      {
-        this.SetVisualStateAfterPointerEvent();
-      }
-    }
-
-    private void CalendarDayButton_PointerDown( object sender, EventArgs e )
-    {
-      if( this.IsEnabled )
-      {
-        this.SetVisualStateAfterPointerEvent();
-      }
-    }
-
-    #endregion    
+    #endregion
   }
 }

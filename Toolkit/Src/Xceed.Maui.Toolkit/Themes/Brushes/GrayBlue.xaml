@@ -20,7 +20,6 @@
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                                 xmlns:local="clr-namespace:Xceed.Maui.Toolkit;assembly=Xceed.Maui.Toolkit"
                                  x:Class="Xceed.Maui.Toolkit.Themes.Brushes.GrayBlue">
   <Color x:Key="SystemAccentColor">#69797E</Color>
   <Color x:Key="SystemAccentColorForeground">#000000</Color>

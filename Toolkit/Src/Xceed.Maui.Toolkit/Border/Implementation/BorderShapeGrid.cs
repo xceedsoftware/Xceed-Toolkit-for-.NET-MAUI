@@ -18,38 +18,21 @@
 
 using Microsoft.Maui.Controls.Shapes;
 using Microsoft.Maui.Layouts;
-using System.Runtime.InteropServices;
 using Point = Microsoft.Maui.Graphics.Point;
 
 namespace Xceed.Maui.Toolkit
 {
   // BorderShapeGrid is a Grid containing a Background RoundRectangle, an outline Path( or roundRectangle ) and the ContentPresenter.
   // The Path is useful to fill with a Gradient Brush and/or use real CornerRadius of 0. It also let us joins corners with independant BorderThickness.
-  public partial class BorderShapeGrid : Layout
+  public class BorderShapeGrid : Layout
   {
-    #region Internal Members
-
-    internal static bool IsNet8AndUp = BorderShapeGrid.IsNet8Up();
-
-    #endregion
 
     #region Private Members
 
     private const float K_RATIO = 0.551784777779014f; // ideal ratio of cubic Bezier points for a quarter circle
-    private const string FlatRectanglePathOutline = "FlatRectanglePathOutline";
     private const string PathOutline = "PathOutline";
     private const string BackgroundRectangle = "BackgroundRectangle";
     private const string FrameworkRectangleOutline = "FrameworkRectangleOutline";
-
-    #endregion
-
-    #region Constructors
-
-    public BorderShapeGrid() 
-    {
-      this.HandlerChanged += this.BorderShape_HandlerChanged;
-      this.HandlerChanging += this.BorderShape_HandlerChanging;
-    }
 
     #endregion
 
@@ -57,12 +40,44 @@ namespace Xceed.Maui.Toolkit
 
     #region Background
 
-    public static new readonly BindableProperty BackgroundProperty = BindableProperty.Create( nameof( Background ), typeof( Brush ), typeof( BorderShapeGrid ), null );
+    public static new readonly BindableProperty BackgroundProperty = BindableProperty.Create( nameof( Background ), typeof( Brush ), typeof( BorderShapeGrid ), null, propertyChanged: OnBackgroundChanged );
 
     public new Brush Background
     {
       get => (Brush)GetValue( BackgroundProperty );
       set => SetValue( BackgroundProperty, value );
+    }
+
+    private static void OnBackgroundChanged( BindableObject bindable, object oldValue, object newValue )
+    {
+      if( bindable is BorderShapeGrid borderShapeGrid )
+      {
+        borderShapeGrid.OnBackgroundChanged( (Brush)oldValue, (Brush)newValue );
+      }
+    }
+
+    private void OnBackgroundChanged( Brush oldValue, Brush newValue )
+    {
+      var isOldValueNullOrTransparent = BorderShapeGrid.IsBrushNullOrTransparent( oldValue );
+      var isNewValueNullOrTransparent = BorderShapeGrid.IsBrushNullOrTransparent( newValue );
+
+      if( isOldValueNullOrTransparent && !isNewValueNullOrTransparent )
+      {
+        var rectangle = this.CreateBackgroundRectangle();
+        if( rectangle != null )
+        {
+          this.Children.Insert( 0, rectangle );
+        }
+      }
+      else if( isNewValueNullOrTransparent )
+      {
+        var itemToRemove = this.GetChildrenBackgroundRectangle();
+        if( itemToRemove != null )
+        {
+          this.ClearBackgroundRectangle( itemToRemove );         
+          this.Children.Remove( itemToRemove );
+        }
+      }
     }
 
     #endregion
@@ -87,23 +102,32 @@ namespace Xceed.Maui.Toolkit
 
     protected virtual void OnBorderBrushPropertyChanged( Brush oldValue, Brush newValue )
     {
-      if( !this.IsLoaded )
-        return;
+      var isOldValueNullOrTransparent = BorderShapeGrid.IsBrushNullOrTransparent( oldValue );
+      var isNewValueNullOrTransparent = BorderShapeGrid.IsBrushNullOrTransparent( newValue );
 
-      if( this.IsFrameworkRoundRectangleOutline()
-        && ( ( newValue == null ) || ( newValue is SolidColorBrush ) )
-        && ( ( oldValue == null ) || ( oldValue is SolidColorBrush ) ) )
-        return;
+      if( isOldValueNullOrTransparent && !isNewValueNullOrTransparent )
+      {
+        var outlineShape = this.CreateOutlineShape();
+        if( outlineShape != null )
+        {
+          var containBackgroundRectangle = (this.GetChildrenBackgroundRectangle() != null);
+          this.Children.Insert( containBackgroundRectangle ? 1 : 0, outlineShape );
 
-      if( this.IsPathFlatOutline()
-        && ( ( newValue == null ) || ( newValue is SolidColorBrush ) )
-        && ( ( oldValue == null ) || ( oldValue is SolidColorBrush ) ) )
-        return;
-
-      if( this.IsPathOutline() )
-        return;
-
-      this.UpdateShape();
+          if( BorderShapeGrid.IsOutlineShapePath( outlineShape ) )
+          {
+            this.SetPathOutline( outlineShape as Microsoft.Maui.Controls.Shapes.Path, this.Width, this.Height );
+          }
+        }
+      }
+      else if( isNewValueNullOrTransparent )
+      {
+        var itemToRemove = this.GetChildrenOutlineShape();
+        if( itemToRemove != null )
+        {
+          this.ClearOutlineShape( itemToRemove );
+          this.Children.Remove( itemToRemove );
+        }
+      }
     }
 
     #endregion
@@ -122,19 +146,35 @@ namespace Xceed.Maui.Toolkit
     {
       if( bindable is BorderShapeGrid borderShape )
       {
-        borderShape.OnBorderThicknessPropertyChanged( ( Thickness )oldValue, ( Thickness )newValue );
+        borderShape.OnBorderThicknessPropertyChanged( (Thickness)oldValue, (Thickness)newValue );
       }
     }
 
     protected virtual void OnBorderThicknessPropertyChanged( Thickness oldValue, Thickness newValue )
     {
-      if( !this.IsLoaded )
-        return;
+      if( ( oldValue == Thickness.Zero ) && ( newValue != Thickness.Zero ) )
+      {
+        var outlineShape = this.CreateOutlineShape();
+        if( outlineShape != null )
+        {
+          var containBackgroundRectangle = ( this.GetChildrenBackgroundRectangle() != null );
+          this.Children.Insert( containBackgroundRectangle ? 1 : 0, outlineShape );
 
-      if( this.IsFrameworkRoundRectangleOutline() && this.IsUniformThicknessmOutlines() )
-        return;
-
-      this.UpdateShape();
+          if( BorderShapeGrid.IsOutlineShapePath( outlineShape ) )
+          {
+            this.SetPathOutline( outlineShape as Microsoft.Maui.Controls.Shapes.Path, this.Width, this.Height );
+          }
+        }
+      }
+      else if( newValue == Thickness.Zero )
+      {
+        var itemToRemove = this.GetChildrenOutlineShape();
+        if( itemToRemove != null )
+        {
+          this.ClearOutlineShape( itemToRemove );
+          this.Children.Remove( itemToRemove );
+        }
+      }
     }
 
     #endregion
@@ -159,24 +199,14 @@ namespace Xceed.Maui.Toolkit
 
     protected virtual void OnCornerRadiusPropertyChanged( CornerRadius oldValue, CornerRadius newValue )
     {
-      if( !this.IsLoaded )
-        return;
-
-      if( this.IsFrameworkRoundRectangleOutline() && ( newValue != default( CornerRadius ) ) )
-        return;
-
-      this.UpdateShape();
+      var outlinePath = this.GetChildrenOutlineShape() as Microsoft.Maui.Controls.Shapes.Path;
+      if( outlinePath != null )
+      {
+        this.SetPathOutline( outlinePath, this.Width, this.Height );
+      }
     }
 
     #endregion
-
-    #endregion
-
-    #region Partial Methods
-
-    partial void InitializeForPlatform( object sender, EventArgs e );
-
-    partial void UninitializeForPlatform( object sender, HandlerChangingEventArgs e );
 
     #endregion
 
@@ -190,75 +220,18 @@ namespace Xceed.Maui.Toolkit
     protected override Size ArrangeOverride( Rect bounds )
     {
       // Update calculations for Path Outlines.
-      this.UpdateShapeSize( bounds.Width, bounds.Height );
+      var outlinePath = this.GetChildrenOutlineShape() as Microsoft.Maui.Controls.Shapes.Path;
+      if( outlinePath != null )
+      {
+        this.SetPathOutline( outlinePath, this.Width, this.Height );
+      }
 
       return base.ArrangeOverride( bounds );
     }
 
     #endregion
 
-    #region Internal Methods
-
-    internal void UpdateShapeSize( double width, double height )
-    {
-      // Only outline Path need to be resized. RoundRectangle automatically fills content.
-      if( ( this.Children.Count > 1 )
-         && ( this.Children[ this.Children.Count - 2 ] is Microsoft.Maui.Controls.Shapes.Path path ) )
-      {
-        if( path.ClassId == BorderShapeGrid.PathOutline )
-        {
-          this.SetPathOutline( path, width, height );
-        }
-        else if( path.ClassId == BorderShapeGrid.FlatRectanglePathOutline )
-        {
-          this.SetFlatRectangleOutline( path, width, height );
-        }
-      }
-    }
-
-    internal void UpdateShape()
-    {
-      this.Children.ToList().ForEach( child =>
-      {
-        if( !( child is ContentPresenter ) )
-        {
-          this.Children.Remove( child );
-        }
-      } );
-
-      var outlineShape = this.GetOutlineShape();
-      if( outlineShape != null )
-      {
-        this.Children.Insert( 0, outlineShape );
-      }
-
-      var backgroundShape = this.GetBackgroundRoundedRectangle();
-      if( backgroundShape != null )
-      {
-        this.Children.Insert( 0, backgroundShape );
-      }
-
-      this.UpdateShapeSize( this.Width, this.Height );
-    }
-
-    #endregion
-
     #region Private Methods
-
-    private static bool IsNet8Up()
-    {
-      var version = RuntimeInformation.FrameworkDescription;
-      if( !version.StartsWith( ".NET " ) )
-        return false;
-
-      var parts = version.Split( '.', ' ' );
-      if( parts.Count() < 3 )
-        return false;
-
-      var versinNumber = int.Parse( parts[ 2 ] );
-
-      return (versinNumber >= 8);
-    }
 
     private static double ClampCornerRadius( double cornerRadius, double width, double height )
     {
@@ -275,33 +248,91 @@ namespace Xceed.Maui.Toolkit
       return cornerRadius;
     }
 
-    private Shape GetOutlineShape()
+    private static bool IsBrushNullOrTransparent( Brush brush )
     {
+      if( brush == null )
+        return true;
+
+      if( brush is SolidColorBrush solidColorBrush && ( solidColorBrush.Color.Alpha == 0 ) )
+        return true;
+
+      return false;
+    }
+
+    private static bool IsOutlineShapeFrameworkRectangle( IView shape )
+    {
+      return ( ( shape is RoundRectangle rect ) && ( rect.ClassId == BorderShapeGrid.FrameworkRectangleOutline ) );
+    }
+
+    private static bool IsOutlineShapePath( IView shape )
+    {
+      return ( ( shape is Microsoft.Maui.Controls.Shapes.Path path ) && ( path.ClassId == BorderShapeGrid.PathOutline ) );
+    }
+
+    private Microsoft.Maui.Controls.Shapes.Shape CreateBackgroundRectangle()
+    {
+      var rectangle = new RoundRectangle();
+
+      rectangle.SetBinding( RoundRectangle.StrokeThicknessProperty, "BorderThickness.Left" );
+      rectangle.SetBinding( RoundRectangle.FillProperty, "Background" );
+      rectangle.SetBinding( RoundRectangle.CornerRadiusProperty, "CornerRadius" );
+      rectangle.BindingContext = this;
+
+      rectangle.ClassId = BorderShapeGrid.BackgroundRectangle;
+
+      return rectangle;
+    }
+
+    private void ClearBackgroundRectangle( RoundRectangle rectangle )
+    {
+      if( rectangle == null )
+        return;
+
+      rectangle.RemoveBinding( RoundRectangle.StrokeThicknessProperty );
+      rectangle.RemoveBinding( RoundRectangle.FillProperty );
+      rectangle.RemoveBinding( RoundRectangle.CornerRadiusProperty );
+      rectangle.BindingContext = null;
+    }
+
+    private Microsoft.Maui.Controls.Shapes.Shape CreateOutlineShape()
+    {
+      if( BorderShapeGrid.IsBrushNullOrTransparent( this.BorderBrush ) )
+        return null;
+
       if( this.IsUniformThicknessmOutlines() )
       {
-        if( ( this.BorderThickness.Left == 0 ) || ( this.BorderBrush == null ) )
+        if( this.BorderThickness.Left == 0 )
           return null;
 
-        if( this.BorderBrush is SolidColorBrush solidColorBrush )
-        {
-          if( solidColorBrush.Color == Colors.Transparent )
-            return null;
-
-
-          // Create a Path with 0 CornerRadius. The framework's RoundRectangle(or Rectangle) always has visible rounded Corners, even with CornerRadius at 0.
-          // This has been fixed in .NET 8+.
-          if( !BorderShapeGrid.IsNet8AndUp )
-          {
-            if( this.CornerRadius == default( CornerRadius ) )
-              return GetFlatRectanglePathOutline();
-          }
-
-          return this.GetFrameworkRoundedRectangleOutline();
-        }
+        return this.CreateFrameworkRoundedRectangleOutline();
       }
 
-      return this.GetPathOutline();
+      return this.CreatePathOutline();
     }
+
+    private void ClearOutlineShape( IView shape )
+    {
+      if( BorderShapeGrid.IsOutlineShapeFrameworkRectangle( shape ) )
+      {
+        var rectangle = shape as RoundRectangle;
+        if( rectangle != null )
+        {
+          rectangle.RemoveBinding( RoundRectangle.StrokeProperty );
+          rectangle.RemoveBinding( RoundRectangle.StrokeThicknessProperty );
+          rectangle.RemoveBinding( RoundRectangle.CornerRadiusProperty );
+          rectangle.BindingContext = null;
+        }
+      }
+      else if( BorderShapeGrid.IsOutlineShapePath( shape ) )
+      {
+        var path = shape as Microsoft.Maui.Controls.Shapes.Path;
+        if( path != null )
+        {
+          path.RemoveBinding( Microsoft.Maui.Controls.Shapes.Path.FillProperty );
+          path.BindingContext = null;
+        }
+      }
+    }    
 
     private bool IsUniformThicknessmOutlines()
     {
@@ -310,78 +341,7 @@ namespace Xceed.Maui.Toolkit
           && ( this.BorderThickness.Left == this.BorderThickness.Bottom );
     }
 
-    private bool IsPathOutline()
-    {
-      return ( this.Children.Count > 1 )
-          && ( this.Children[ this.Children.Count - 2 ] is Microsoft.Maui.Controls.Shapes.Path path )
-          && ( path.ClassId == BorderShapeGrid.PathOutline );
-    }
-
-    private bool IsFrameworkRoundRectangleOutline()
-    {
-      return ( this.Children.Count > 1 )
-          && ( this.Children[ this.Children.Count - 2 ] is RoundRectangle );
-    }
-
-    private bool IsPathFlatOutline()
-    {
-      return ( this.Children.Count > 1 )
-          && ( this.Children[ this.Children.Count - 2 ] is Microsoft.Maui.Controls.Shapes.Path path )
-          && ( path.ClassId == BorderShapeGrid.FlatRectanglePathOutline );
-    }
-
-    private Shape GetFlatRectanglePathOutline()
-    {
-      var path = new Microsoft.Maui.Controls.Shapes.Path();
-      path.StrokeThickness = 0;
-
-      path.SetBinding( Microsoft.Maui.Controls.Shapes.Path.FillProperty, "BorderBrush" );
-      path.BindingContext = this;
-
-      path.ClassId = BorderShapeGrid.FlatRectanglePathOutline;
-
-      return path;
-    }
-
-    private Shape SetFlatRectangleOutline( Microsoft.Maui.Controls.Shapes.Path path, double width, double height )
-    {
-      if( path == null )
-        return null;
-
-      var thickness = this.BorderThickness.Left;
-      var pathFigureCollection = new PathFigureCollection();
-
-      // Top lines
-      var pathFigure = new PathFigure() { StartPoint = new Point( 0, 0 ) };
-      pathFigure.Segments.Add( new LineSegment( new Point( width, 0 ) ) );
-      pathFigure.Segments.Add( new LineSegment( new Point( width, thickness ) ) );
-      pathFigure.Segments.Add( new LineSegment( new Point( 0, thickness ) ) );
-      pathFigureCollection.Add( pathFigure );
-      // Right lines
-      pathFigure = new PathFigure() { StartPoint = new Point( width, 0 ) };
-      pathFigure.Segments.Add( new LineSegment( new Point( width, height ) ) );
-      pathFigure.Segments.Add( new LineSegment( new Point( width - thickness, height ) ) );
-      pathFigure.Segments.Add( new LineSegment( new Point( width - thickness, 0 ) ) );
-      pathFigureCollection.Add( pathFigure );
-      // Bottom lines
-      pathFigure = new PathFigure() { StartPoint = new Point( width, height ) };
-      pathFigure.Segments.Add( new LineSegment( new Point( 0, height ) ) );
-      pathFigure.Segments.Add( new LineSegment( new Point( 0, height - thickness ) ) );
-      pathFigure.Segments.Add( new LineSegment( new Point( width, height - thickness ) ) );
-      pathFigureCollection.Add( pathFigure );
-      // Left lines
-      pathFigure = new PathFigure() { StartPoint = new Point( 0, height ) };
-      pathFigure.Segments.Add( new LineSegment( new Point( 0, 0 ) ) );
-      pathFigure.Segments.Add( new LineSegment( new Point( thickness, 0 ) ) );
-      pathFigure.Segments.Add( new LineSegment( new Point( thickness, height ) ) );
-      pathFigureCollection.Add( pathFigure );
-
-      path.Data = new PathGeometry( pathFigureCollection );
-
-      return path;
-    }
-
-    private Shape GetPathOutline()
+    private Microsoft.Maui.Controls.Shapes.Shape CreatePathOutline()
     {
       var path = new Microsoft.Maui.Controls.Shapes.Path();
       path.StrokeThickness = 0;
@@ -394,9 +354,11 @@ namespace Xceed.Maui.Toolkit
       return path;
     }
 
-    private Shape SetPathOutline( Microsoft.Maui.Controls.Shapes.Path path, double width, double height )
+    private Microsoft.Maui.Controls.Shapes.Shape SetPathOutline( Microsoft.Maui.Controls.Shapes.Path path, double width, double height )
     {
       if( path == null )
+        return null;
+      if( ( width == -1 ) || ( height == -1 ) )
         return null;
 
       var pathFigureCollection = new PathFigureCollection();
@@ -581,7 +543,7 @@ namespace Xceed.Maui.Toolkit
       return path;
     }
 
-    private Shape GetFrameworkRoundedRectangleOutline()
+    private Microsoft.Maui.Controls.Shapes.Shape CreateFrameworkRoundedRectangleOutline()
     {
       var rectangle = new RoundRectangle();
 
@@ -595,37 +557,16 @@ namespace Xceed.Maui.Toolkit
       return rectangle;
     }
 
-    private Shape GetBackgroundRoundedRectangle()
+    private RoundRectangle GetChildrenBackgroundRectangle()
     {
-      if( this.Background == null )
-        return null;
-
-      var rectangle = new RoundRectangle();
-
-      rectangle.SetBinding( RoundRectangle.StrokeThicknessProperty, "BorderThickness.Left" );
-      rectangle.SetBinding( RoundRectangle.FillProperty, "Background" );
-      rectangle.SetBinding( RoundRectangle.CornerRadiusProperty, "CornerRadius" );
-      rectangle.BindingContext = this;
-
-      rectangle.ClassId = BorderShapeGrid.BackgroundRectangle;
-
-      return rectangle;
+      return this.Children.FirstOrDefault( item => item is RoundRectangle rect 
+                                                  && ( rect.ClassId == BorderShapeGrid.BackgroundRectangle ) ) as RoundRectangle;
     }
 
-    #endregion
-
-    #region Event Handlers
-
-    private void BorderShape_HandlerChanged( object sender, EventArgs e )
+    private IView GetChildrenOutlineShape()
     {
-      this.InitializeForPlatform( sender, e );
-
-      this.UpdateShape();
-    }
-
-    private void BorderShape_HandlerChanging( object sender, HandlerChangingEventArgs e )
-    {
-      this.UninitializeForPlatform( sender, e );
+      return this.Children.FirstOrDefault( item => BorderShapeGrid.IsOutlineShapeFrameworkRectangle( item )
+                                                || BorderShapeGrid.IsOutlineShapePath( item ) );
     }
 
     #endregion

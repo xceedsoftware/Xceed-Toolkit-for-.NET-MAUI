@@ -58,8 +58,8 @@ namespace Xceed.Maui.Toolkit
 
     private void OnPreviewKeyDown( object sender, KeyRoutedEventArgs e )
     {
-      var selectionStart = ( _selectedDateTimeInfo != null ) ? _selectedDateTimeInfo.StartPosition : 0;
-      var selectionLength = ( _selectedDateTimeInfo != null ) ? _selectedDateTimeInfo.Length : 0;
+      var selectionStart = ( m_selectedDateTimeInfo != null ) ? m_selectedDateTimeInfo.StartPosition : 0;
+      var selectionLength = ( m_selectedDateTimeInfo != null ) ? m_selectedDateTimeInfo.Length : 0;
 
       switch( e.Key )
       {

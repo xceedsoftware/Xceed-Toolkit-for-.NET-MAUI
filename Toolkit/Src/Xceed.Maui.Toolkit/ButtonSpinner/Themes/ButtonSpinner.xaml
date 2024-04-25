@@ -20,7 +20,7 @@
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit"
+                    xmlns:local="clr-namespace:Xceed.Maui.Toolkit;assembly=Xceed.Maui.Toolkit"
                     xmlns:conv="clr-namespace:Xceed.Maui.Toolkit.Converters;assembly=Xceed.Maui.Toolkit">
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="../../Themes/Glyphs.xaml;assembly=Xceed.Maui.Toolkit" />
@@ -30,7 +30,7 @@
   <conv:CornerRadiusToSideCornerRadiusConverter x:Key="CornerRadiusToSideCornerRadiusConverter" />
 
   <Style x:Key="RepeatButtonStyle"
-         TargetType="{x:Type local:RepeatButton}">
+         TargetType="local:RepeatButton">
     <Setter Property="OverrideDefaultVisualStates"
             Value="True" />
     <Setter Property="VisualStateManager.VisualStateGroups">
@@ -77,7 +77,7 @@
   </Style>
 
   <Style x:Key="FluentDesignButtonSpinner"
-         TargetType="{x:Type local:ButtonSpinner}">
+         TargetType="local:ButtonSpinner">
     <Setter Property="Background"
             Value="{AppThemeBinding Dark={StaticResource DarkBase2}, Light={StaticResource LightBase0}}" />
     <Setter Property="BorderBrush"
@@ -140,7 +140,7 @@
     </Setter>
     <Style.Triggers>
       <Trigger Property="OverrideDefaultVisualStates"
-               TargetType="{x:Type local:ButtonSpinner}"
+               TargetType="local:ButtonSpinner"
                Value="False">
         <Setter Property="VisualStateManager.VisualStateGroups">
           <VisualStateGroupList>
@@ -167,7 +167,7 @@
 
       <Trigger Property="SpinnerLocation"
                Value="Left"
-               TargetType="{x:Type local:ButtonSpinner}">
+               TargetType="local:ButtonSpinner">
         <Setter Property="ControlTemplate">
           <Setter.Value>
             <ControlTemplate>
@@ -212,7 +212,7 @@
     </Style.Triggers>
   </Style>
 
-  <Style TargetType="{x:Type local:ButtonSpinner}"
+  <Style TargetType="local:ButtonSpinner"
          BasedOn="{StaticResource FluentDesignButtonSpinner}" />
 
 </ResourceDictionary>

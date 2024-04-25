@@ -38,8 +38,6 @@ public partial class ChartPage : ContentPage
         };
 
         MyChart.Series[randomSeries].DataPoints.Add(myDataPoint);
-
-        System.Diagnostics.Debug.WriteLine($"my series has {FirstSeries.DataPoints.Count.ToString()} points");
     }
 
     private void ChangeChartButton_Clicked(object sender, EventArgs e)

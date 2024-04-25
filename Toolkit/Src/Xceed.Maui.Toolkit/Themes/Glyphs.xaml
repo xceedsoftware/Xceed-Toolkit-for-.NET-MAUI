@@ -20,9 +20,17 @@
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit" >
+                    xmlns:local="clr-namespace:Xceed.Maui.Toolkit;assembly=Xceed.Maui.Toolkit" >
 
   <PointCollection x:Key="Arrow">0,0 13,0 7,8 0,0</PointCollection>
+
+  <DataTemplate x:Key="DatePickerIconDark">
+    <Image Source="{OnPlatform Themes/Icons/calendaricondark_w.png, Android=Themes/Icons/calendaricondark.png }" />
+  </DataTemplate>
+
+  <DataTemplate x:Key="DatePickerIconLight">
+    <Image Source="{OnPlatform Themes/Icons/calendariconlight_w.png, Android=Themes/Icons/calendariconlight.png }" />
+  </DataTemplate>
 
   <!--VerticalOptions/HorizontalOptions necessary for Android or Shape will move-->
   <DataTemplate x:Key="DecreaseGlyph">
@@ -43,6 +51,18 @@
              HorizontalOptions="Center" />
   </DataTemplate>
 
+  <!--VerticalOptions/HorizontalOptions necessary for Android or Shape will move-->
+  <DataTemplate x:Key="DropDownGlyph">
+    <Grid>
+      <Polygon Points="{StaticResource Arrow}"
+               Stroke="{AppThemeBinding Dark={StaticResource LightBase0}, Light={StaticResource DarkBase0}}"
+               StrokeThickness="2"
+               Fill="{AppThemeBinding Dark={StaticResource DarkBase0}, Light={StaticResource LightBase0}}"
+               VerticalOptions="Center"
+               HorizontalOptions="Center" />
+    </Grid>   
+  </DataTemplate>
+
   <DataTemplate x:Key="XGlyph">
     <Grid>
       <Line X1="0"
@@ -55,6 +75,36 @@
             X2="8"
             Y2="0"
             Stroke="Gray" />
+    </Grid>
+  </DataTemplate>
+
+  <DataTemplate x:Key="CancelGlyph">
+    <Grid>
+      <Line X1="0"
+            Y1="0"
+            X2="12"
+            Y2="12"
+            Stroke="{AppThemeBinding Dark={StaticResource LightBase0}, Light={StaticResource DarkBase0}}" />
+      <Line X1="0"
+            Y1="12"
+            X2="12"
+            Y2="0"
+            Stroke="{AppThemeBinding Dark={StaticResource LightBase0}, Light={StaticResource DarkBase0}}" />
+    </Grid>
+  </DataTemplate>
+
+  <DataTemplate x:Key="AcceptGlyph">
+    <Grid>
+      <Line X1="0"
+            Y1="8"
+            X2="4"
+            Y2="12"
+            Stroke="{AppThemeBinding Dark={StaticResource LightBase0}, Light={StaticResource DarkBase0}}" />
+      <Line X1="4"
+            Y1="12"
+            X2="12"
+            Y2="0"
+            Stroke="{AppThemeBinding Dark={StaticResource LightBase0}, Light={StaticResource DarkBase0}}" />
     </Grid>
   </DataTemplate>
 </ResourceDictionary>

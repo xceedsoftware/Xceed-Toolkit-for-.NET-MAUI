@@ -36,7 +36,7 @@
   <ScrollView>
     <VerticalStackLayout HorizontalOptions="Center"
                          Margin="48">      
-      <Image Source="{OnPlatform Resources/Images/logowhite_w.png, Android=Resources/Images/logowhite.png, iOS=Resources/Images/logowhite.png }"
+      <Image Source="{OnPlatform Resources/Images/logowhite_w.png, Android=Resources/Images/logowhite.png }"
              HeightRequest="100"/>
       <Label Text="Xceed Software is a well-established and highly regarded company in the software development industry. With a rich history spanning several decades, Xceed has earned a reputation for excellence and innovation in providing top-quality software components and development tools for the Microsoft .NET platform." />
       <Label Text="At the core of Xceed's offerings is their extensive range of UI controls and libraries designed to enhance the application development experience. These controls empower developers to create visually stunning, feature-rich, and high-performing applications across various platforms, including Windows Presentation Foundation (WPF) and .NET Multi-platform App UI (MAUI)." />

@@ -27,7 +27,10 @@
   <Color x:Key="LightUncheckedBase">#EDEDED</Color>
   <Color x:Key="LightBase3">#D8D8D8</Color>
   <Color x:Key="LightBase4">#CFCFCF</Color>
-  <Color x:Key="LightBase5">#C0C0C0</Color>  
+  <Color x:Key="LightBase5">#C0C0C0</Color>
+  <Color x:Key="LightBase6">#C5C5C5</Color>
+  <Color x:Key="LightBase7">#E1E1E1</Color>
+
   <Color x:Key="LightColorDefault">#FFE6E6E6</Color>
   <Color x:Key="LightColorSecondary">#CFCFCF</Color>
   <Color x:Key="LightColorTertiary">#BFBFBF</Color>

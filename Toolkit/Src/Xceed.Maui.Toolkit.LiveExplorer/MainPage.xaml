@@ -25,7 +25,8 @@
              x:Class="Xceed.Maui.Toolkit.LiveExplorer.MainPage"
              Background="{AppThemeBinding Dark=#202020, Light=#F3F3F3}">
   <ContentPage.Resources>
-    <DataTemplate x:Key="ColorItemTemplate">
+    <DataTemplate x:Key="ColorItemTemplate"
+                  x:DataType="{x:Type local:ColorItem}">
       <xctk:Button Background="{Binding Color}"
                    ToolTipProperties.Text="{Binding Name}"
                    WidthRequest="20"
@@ -61,7 +62,7 @@
                        VerticalOptions="Center" />
                 <Image HeightRequest="32"
                        WidthRequest="32"
-                       Source="{OnPlatform Resources/Images/logox_w.png, Android=Resources/Images/logox.png, iOS=Resources/Images/logox.png }" />
+                       Source="{OnPlatform Resources/Images/logox_w.png, Android=Resources/Images/logox.png }" />
                 <Label Text="Button"
                        VerticalOptions="Center" />
               </HorizontalStackLayout>
@@ -73,7 +74,7 @@
                        VerticalOptions="Center" />
                 <Image HeightRequest="32"
                        WidthRequest="32"
-                       Source="{OnPlatform Resources/Images/logox_w.png, Android=Resources/Images/logox.png, iOS=Resources/Images/logox.png }" />
+                       Source="{OnPlatform Resources/Images/logox_w.png, Android=Resources/Images/logox.png }" />
                 <Label Text="Button"
                        FontAttributes="Bold"
                        VerticalOptions="Center" />
@@ -85,7 +86,7 @@
                        VerticalOptions="Center" />
                 <Image HeightRequest="32"
                        WidthRequest="32"
-                       Source="{OnPlatform Resources/Images/logox_w.png, Android=Resources/Images/logox.png, iOS=Resources/Images/logox.png }" />
+                       Source="{OnPlatform Resources/Images/logox_w.png, Android=Resources/Images/logox.png }" />
               </HorizontalStackLayout>
             </xctk:Button>
 
@@ -146,7 +147,7 @@
                        VerticalOptions="Center" />
                 <Image HeightRequest="32"
                        WidthRequest="32"
-                       Source="{OnPlatform Resources/Images/logox_w.png, Android=Resources/Images/logox.png, iOS=Resources/Images/logox.png }" />
+                       Source="{OnPlatform Resources/Images/logox_w.png, Android=Resources/Images/logox.png }" />
                 <Label Text="Toggle Button"
                        VerticalOptions="Center" />
               </HorizontalStackLayout>
@@ -158,7 +159,7 @@
                        VerticalOptions="Center" />
                 <Image HeightRequest="32"
                        WidthRequest="32"
-                       Source="{OnPlatform Resources/Images/logox_w.png, Android=Resources/Images/logox.png, iOS=Resources/Images/logox.png }" />
+                       Source="{OnPlatform Resources/Images/logox_w.png, Android=Resources/Images/logox.png }" />
                 <Label Text="Toggle Button"
                        FontAttributes="Bold"
                        VerticalOptions="Center" />
@@ -170,7 +171,7 @@
                        VerticalOptions="Center" />
                 <Image HeightRequest="32"
                        WidthRequest="32"
-                       Source="{OnPlatform Resources/Images/logox_w.png, Android=Resources/Images/logox.png, iOS=Resources/Images/logox.png }" />
+                       Source="{OnPlatform Resources/Images/logox_w.png, Android=Resources/Images/logox.png }" />
               </HorizontalStackLayout>
             </xctk:ToggleButton>
           </StackLayout>
@@ -410,7 +411,7 @@
                                Margin="8">
               <xctk:ToggleSwitch.CheckedContent>
                 <Grid>
-                  <Image Source="{OnPlatform Resources/Images/sun_w.png, Android=Resources/Images/sun.png, iOS=Resources/Images/sun.png }"
+                  <Image Source="{OnPlatform Resources/Images/sun_w.png, Android=Resources/Images/sun.png }"
                          HeightRequest="28"
                          VerticalOptions="Center"
                          HorizontalOptions="Center"
@@ -419,7 +420,7 @@
               </xctk:ToggleSwitch.CheckedContent>
               <xctk:ToggleSwitch.UncheckedContent>
                 <Grid>
-                  <Image Source="{OnPlatform Resources/Images/moon_w.png, Android=Resources/Images/moon.png, iOS=Resources/Images/moon.png }"
+                  <Image Source="{OnPlatform Resources/Images/moon_w.png, Android=Resources/Images/moon.png}"
                          HeightRequest="28"
                          VerticalOptions="Center"
                          HorizontalOptions="Center"
@@ -580,6 +581,22 @@
                                     ClearButtonVisibility="WhileEditing"
                                     Margin="6,18,6,6"                                    
                                     WidthRequest="200"/>
+        </VerticalStackLayout>
+      </xctk:Card>
+      <!--CheckBox Card-->
+      <xctk:Card Margin="4"
+                 HeightRequest="380"
+                 WidthRequest="340"
+                 ShadowBrush="Black"
+                 HorizontalContentOptions="Start"
+                 VerticalContentOptions="Start">
+        <xctk:Card.Title>
+          <Label Text="Date Time Up Down" />
+        </xctk:Card.Title>
+        <VerticalStackLayout>
+          <Label Margin="6,18,6,6"
+                 Text="Simple Date Time Up Down" />          
+          <xctk:DateTimeUpDown />
         </VerticalStackLayout>
       </xctk:Card>
       <!--CheckBox Card-->

@@ -152,7 +152,7 @@ namespace Xceed.Maui.Toolkit
       }
     }
 
-    public event EventHandler PointerLeave;
+    public event EventHandler PointerLeave;   //Windows and Mac only
 
     internal void RaisePointerLeaveEvent( object sender, EventArgs e )
     {
@@ -162,7 +162,7 @@ namespace Xceed.Maui.Toolkit
       }
     }
 
-    public event EventHandler PointerDown;   //Windows and Mac only
+    public event EventHandler PointerDown;
 
     internal void RaisePointerDownEvent( object sender, EventArgs e )
     {

@@ -20,7 +20,7 @@
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit"
+                    xmlns:local="clr-namespace:Xceed.Maui.Toolkit;assembly=Xceed.Maui.Toolkit"
                     xmlns:conv="clr-namespace:Xceed.Maui.Toolkit.Converters;assembly=Xceed.Maui.Toolkit">
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="../../Themes/Brushes/Common.xaml;assembly=Xceed.Maui.Toolkit" />
@@ -33,7 +33,7 @@
   <conv:BorderClipConverter x:Key="BorderClipConverter" />
 
   <Style x:Key="DefaultBrowseButtonStyle"
-         TargetType="{x:Type local:ToggleButton}">
+         TargetType="local:ToggleButton">
     <Setter Property="BorderThickness"
             Value="0" />
     <Setter Property="Padding"
@@ -131,7 +131,7 @@
   </ControlTemplate>
 
   <Style x:Key="FluentDesignFilePicker"
-         TargetType="{x:Type local:FilePicker}">
+         TargetType="local:FilePicker">
     <Setter Property="VerticalContentOptions"
             Value="Center" />
     <Setter Property="HorizontalContentOptions"
@@ -156,7 +156,7 @@
             Value="{StaticResource filePickerTemplate}" />
     <Style.Triggers>
       <Trigger Property="OverrideDefaultVisualStates"
-               TargetType="{x:Type local:FilePicker}"
+               TargetType="local:FilePicker"
                Value="False">
         <Setter Property="VisualStateManager.VisualStateGroups">
           <VisualStateGroupList>
@@ -175,6 +175,6 @@
     </Style.Triggers>
   </Style>
 
-  <Style TargetType="{x:Type local:FilePicker}"
+  <Style TargetType="local:FilePicker"
          BasedOn="{StaticResource FluentDesignFilePicker}" />
 </ResourceDictionary>

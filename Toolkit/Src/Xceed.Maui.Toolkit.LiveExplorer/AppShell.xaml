@@ -25,7 +25,8 @@
        Shell.FlyoutBehavior="Disabled"
        Background="{OnPlatform Android=White, Default=Transparent}">
   <Shell.TitleView>
-    <Grid Margin="2">
+    <Grid Margin="2"
+          x:DataType="{x:Type ShellContent}">
       <Label Text="{Binding Title}"
              Margin="16,0,0,0"
              FontSize="{OnPlatform Android=20, iOS=20, Default=30}"

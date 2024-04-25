@@ -20,7 +20,7 @@
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit"
+                    xmlns:local="clr-namespace:Xceed.Maui.Toolkit;assembly=Xceed.Maui.Toolkit"
                     xmlns:conv="clr-namespace:Xceed.Maui.Toolkit.Converters;assembly=Xceed.Maui.Toolkit">
 
   <ResourceDictionary.MergedDictionaries>
@@ -34,7 +34,7 @@
   <conv:BorderClipConverter x:Key="BorderClipConverter" />
 
   <Style x:Key="DefaultClearButtonStyle"
-         TargetType="{x:Type local:Button}">
+         TargetType="local:Button">
     <Setter Property="BorderThickness"
             Value="0" />
     <Setter Property="ContentTemplate"
@@ -76,7 +76,7 @@
   </Style>
 
   <Style x:Key="FluentDesignTextBox"
-         TargetType="{x:Type local:TextBox}">
+         TargetType="local:TextBox">
     <Setter Property="HorizontalContentOptions"
             Value="Start" />
     <Setter Property="VerticalContentOptions"
@@ -135,7 +135,7 @@
                               InputTransparent="True"
                               IsVisible="{TemplateBinding IsFocusUnderlineVisible}">
                   <local:Border.Triggers>
-                    <MultiTrigger TargetType="{x:Type local:Border}">
+                    <MultiTrigger TargetType="local:Border">
                       <MultiTrigger.Conditions>
                         <BindingCondition Binding="{Binding IsFocused, Source={x:Reference PART_Entry}}"
                                           Value="True" />
@@ -162,13 +162,13 @@
                                         VerticalOptions="{TemplateBinding VerticalContentOptions}"
                                         HeightRequest="{Binding Height, Source={x:Reference PART_Entry}}">
                     <local:ContentControl.Triggers>
-                      <DataTrigger TargetType="{x:Type local:ContentControl}"
+                      <DataTrigger TargetType="local:ContentControl"
                                    Binding="{Binding Text, Source={x:Reference PART_Entry}, Converter={StaticResource HasContentToBoolConverter}}"
                                    Value="True">
                         <Setter Property="IsVisible"
                                 Value="False" />
                       </DataTrigger>
-                      <DataTrigger TargetType="{x:Type local:ContentControl}"
+                      <DataTrigger TargetType="local:ContentControl"
                                    Binding="{Binding Watermark, Source={RelativeSource TemplatedParent}, Converter={StaticResource IsStringToBoolConverter}}"
                                    Value="True">
                         <Setter Property="TextColor"
@@ -201,7 +201,7 @@
                                 IsVisible="False"
                                 Style="{Binding ClearButtonStyle, Source={RelativeSource TemplatedParent}, TargetNullValue={StaticResource DefaultClearButtonStyle}}">
                     <local:Button.Triggers>
-                      <MultiTrigger TargetType="{x:Type local:Button}">
+                      <MultiTrigger TargetType="local:Button">
                         <MultiTrigger.Conditions>
                           <BindingCondition Binding="{Binding ClearButtonVisibility, Source={RelativeSource TemplatedParent}}"
                                             Value="WhileEditing" />
@@ -227,7 +227,7 @@
     </Setter>
     <Style.Triggers>
       <Trigger Property="OverrideDefaultVisualStates"
-               TargetType="{x:Type local:TextBox}"
+               TargetType="local:TextBox"
                Value="False">
         <Setter Property="VisualStateManager.VisualStateGroups">
           <VisualStateGroupList>
@@ -259,6 +259,6 @@
     </Style.Triggers>
   </Style>
 
-  <Style TargetType="{x:Type local:TextBox}"
+  <Style TargetType="local:TextBox"
          BasedOn="{StaticResource FluentDesignTextBox}" />
 </ResourceDictionary>

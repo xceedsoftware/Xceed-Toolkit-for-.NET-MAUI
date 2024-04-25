@@ -20,7 +20,7 @@
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit"
+                    xmlns:local="clr-namespace:Xceed.Maui.Toolkit;assembly=Xceed.Maui.Toolkit"
                     xmlns:conv="clr-namespace:Xceed.Maui.Toolkit.Converters;assembly=Xceed.Maui.Toolkit">
 
   <ResourceDictionary.MergedDictionaries>
@@ -29,62 +29,25 @@
     <ResourceDictionary Source="../../Themes/Glyphs.xaml;assembly=Xceed.Maui.Toolkit" />
   </ResourceDictionary.MergedDictionaries>
 
-  <local:CalendarMonthYearFormatConverter x:Key="MonthYearFormatConverter" />
   <conv:BorderClipConverter x:Key="BorderClipConverter" />
 
   <Style x:Key="FluentDesignCalendarDayButton"
-         TargetType="{x:Type local:CalendarDayButton}"
-         BasedOn="{local:StaticResource {x:Type local:Button}}">
+         TargetType="local:CalendarDayButton">
     <Setter Property="Background"
-            Value="Transparent" />
-    <Setter Property="BorderBrush"
-            Value="Transparent" />
-    <Setter Property="BorderThickness"
-            Value="0" />
+            Value="{OnPlatform Transparent, WinUI={x:Null}}" />
     <Setter Property="FontSize"
             Value="14" />
-    <Setter Property="MinimumHeightRequest"
-            Value="30" />
-    <Setter Property="MinimumWidthRequest"
-            Value="30" />
-    <Setter Property="CommandParameter"
-            Value="{Binding Id, Source={RelativeSource Self}}" />
     <Setter Property="Margin"
             Value="1" />
-    <Setter Property="VerticalContentOptions"
+    <!-- Padding must be big enough for PointerOver to detect a vertical movement on the CalendarDayButton to set the valid visual state-->
+    <Setter Property="Padding"
+            Value="{OnPlatform 7, MacCatalyst=5}" />
+    <Setter Property="HorizontalTextAlignment"
             Value="Center" />
-    <Setter Property="HorizontalContentOptions"
+    <Setter Property="VerticalTextAlignment"
             Value="Center" />
-    <Setter Property="CornerRadius"
-            Value="{Binding Width, Source={RelativeSource Self}}" />
     <Setter Property="TextColor"
-            Value="{AppThemeBinding Light={StaticResource LightTextPrimary}, Dark={StaticResource DarkTextPrimary}}" />
-    <Setter Property="OverrideDefaultVisualStates"
-            Value="True" />
-    <Setter Property="Content"
-            Value="{Binding DayOfMonth}" />
-    <Setter Property="IsBlackedOut"
-            Value="{Binding IsBlackedOut}" />
-    <Setter Property="IsInactive"
-            Value="{Binding IsInactive}" />
-    <Setter Property="IsToday"
-            Value="{Binding IsToday}" />
-    <Setter Property="IsEnabled"
-            Value="{Binding IsElementEnabled}" />
-    <Setter Property="IsVisible"
-            Value="{Binding IsElementVisible}" />
-    <Setter Property="IsSelected"
-            Value="{Binding IsSelected}" />
-    <Setter Property="ContentTemplate">
-      <Setter.Value>
-        <DataTemplate>
-          <Label Text="{Binding }"
-                 LineBreakMode="NoWrap"
-                 VerticalOptions="{TemplateBinding VerticalContentOptions}"
-                 HorizontalOptions="{TemplateBinding HorizontalContentOptions}" />
-        </DataTemplate>
-      </Setter.Value>
-    </Setter>
+            Value="{AppThemeBinding Light={StaticResource LightTextPrimary}, Dark={StaticResource DarkTextPrimary}}" />   
     <Setter Property="VisualStateManager.VisualStateGroups">
       <VisualStateGroupList>
         <VisualStateGroup>
@@ -144,6 +107,14 @@
                       Value="{DynamicResource SystemAccentColorForeground}" />
             </VisualState.Setters>
           </VisualState>
+          <VisualState x:Name="Focused">
+            <VisualState.Setters>
+              <Setter Property="Background"
+                      Value="{DynamicResource SystemAccentColor}" />
+              <Setter Property="TextColor"
+                      Value="{DynamicResource SystemAccentColorForeground}" />
+            </VisualState.Setters>
+          </VisualState>
           <VisualState x:Name="Disabled">
             <VisualState.Setters>
               <Setter Property="Opacity"
@@ -155,17 +126,10 @@
     </Setter>
   </Style>
 
-  <Style TargetType="{x:Type local:CalendarDayButton}"
-         BasedOn="{StaticResource FluentDesignCalendarDayButton}" />
-
   <Style x:Key="FluentDesignCalendarButton"
-         TargetType="{x:Type local:CalendarButton}">
+         TargetType="local:CalendarButton">
     <Setter Property="Background"
-            Value="Transparent" />
-    <Setter Property="BorderBrush"
-            Value="Transparent" />
-    <Setter Property="BorderThickness"
-            Value="0" />
+            Value="{OnPlatform Transparent, WinUI={x:Null}}" />
     <Setter Property="FontSize"
             Value="14" />
     <Setter Property="MinimumHeightRequest"
@@ -174,109 +138,114 @@
             Value="40" />
     <Setter Property="Margin"
             Value="1" />
-    <Setter Property="VerticalContentOptions"
+    <!-- Padding must be big enough for PointerOver to detect a vertical movement on the CalendarButton to set the valid visual state-->
+    <Setter Property="Padding"
+            Value="10,18,10,18" />
+    <Setter Property="HorizontalTextAlignment"
             Value="Center" />
-    <Setter Property="HorizontalContentOptions"
+    <Setter Property="VerticalTextAlignment"
             Value="Center" />
-    <Setter Property="CornerRadius"
-            Value="{Binding Width, Source={RelativeSource Self}}" />
     <Setter Property="TextColor"
-            Value="{AppThemeBinding Light={StaticResource LightTextPrimary}, Dark={StaticResource DarkTextPrimary}}" />
-    <Setter Property="CommandParameter"
-            Value="{Binding Id, Source={RelativeSource Self}}" />
-    <Setter Property="ControlTemplate">
-      <Setter.Value>
-        <ControlTemplate>
-          <local:Border x:Name="PART_MainBorder"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        Background="{TemplateBinding Background}"
-                        VerticalContentOptions="{TemplateBinding VerticalContentOptions}"
-                        HorizontalContentOptions="{TemplateBinding HorizontalContentOptions}"
-                        IsEnabled="{Binding IsEnabled, Source={RelativeSource AncestorType={x:Type local:CalendarButton}}}"
-                        CornerRadius="{TemplateBinding CornerRadius}"
-                        MinimumHeightRequest="{TemplateBinding MinimumHeightRequest}"
-                        MinimumWidthRequest="{TemplateBinding MinimumWidthRequest}">
-            <local:ContentControl VerticalOptions="{TemplateBinding VerticalContentOptions}"
-                                  TextColor="{TemplateBinding TextColor}"
-                                  FontSize="{TemplateBinding FontSize}"
-                                  FontAttributes="{TemplateBinding FontAttributes}"
-                                  FontFamily="{TemplateBinding FontFamily}"
-                                  InputTransparent="True">
-              <local:ContentControl.Content>
-                <Label>
-                  <Label.Text>
-                    <MultiBinding Converter="{StaticResource MonthYearFormatConverter}">
-                      <Binding Path="Content"
-                               Source="{RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CalendarButton}}" />
-                      <Binding Path="DisplayMode"
-                               Source="{RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Calendar}}" />
-                    </MultiBinding>
-                  </Label.Text>
-                </Label>
-              </local:ContentControl.Content>
-            </local:ContentControl>
-          </local:Border>
-        </ControlTemplate>
-      </Setter.Value>
+            Value="{AppThemeBinding Light={StaticResource LightTextPrimary}, Dark={StaticResource DarkTextPrimary}}" />    
+    <Setter Property="IsEnabled"
+            Value="{Binding IsEnabled, Source={RelativeSource AncestorType={x:Type local:CalendarButton}}}" />
+    <Setter Property="VisualStateManager.VisualStateGroups">
+      <VisualStateGroupList>
+        <VisualStateGroup>
+          <VisualState x:Name="Normal" />
+          <VisualState x:Name="Pressed">
+            <VisualState.Setters>
+              <Setter Property="Background"
+                      Value="{AppThemeBinding Light={StaticResource LightBase4}, Dark={StaticResource DarkBase4}}" />
+              <Setter Property="TextColor"
+                      Value="{AppThemeBinding Light={StaticResource LightTextSecondary}, Dark={StaticResource DarkTextSecondary}}" />
+            </VisualState.Setters>
+          </VisualState>
+          <VisualState x:Name="Inactive">
+            <VisualState.Setters>
+              <Setter Property="TextColor"
+                      Value="{AppThemeBinding Light={StaticResource LightTextSecondary}, Dark={StaticResource DarkTextSecondary}}" />
+            </VisualState.Setters>
+          </VisualState>
+          <VisualState x:Name="Selected">
+            <VisualState.Setters>
+              <Setter Property="Background"
+                      Value="{DynamicResource SystemAccentColorDark2}" />
+              <Setter Property="TextColor"
+                      Value="{DynamicResource SystemAccentColorDark2Foreground}" />
+            </VisualState.Setters>
+          </VisualState>
+          <VisualState x:Name="PointerOver">
+            <VisualState.Setters>
+              <Setter Property="Background"
+                      Value="{AppThemeBinding Light={StaticResource LightBase3}, Dark={StaticResource DarkBase6}}" />
+              <Setter Property="TextColor"
+                      Value="{AppThemeBinding Light={StaticResource LightTextPrimary}, Dark={StaticResource DarkTextPrimary}}" />
+            </VisualState.Setters>
+          </VisualState>
+          <VisualState x:Name="Disabled">
+            <VisualState.Setters>
+              <Setter Property="Opacity"
+                      Value="{StaticResource DisabledOpacity}" />
+            </VisualState.Setters>
+          </VisualState>
+        </VisualStateGroup>
+      </VisualStateGroupList>
     </Setter>
-    <Style.Triggers>
-      <Trigger Property="OverrideDefaultVisualStates"
-               TargetType="{x:Type local:CalendarButton}"
-               Value="False">
-        <Setter Property="VisualStateManager.VisualStateGroups">
-          <VisualStateGroupList>
-            <VisualStateGroup>
-              <VisualState x:Name="Normal" />
-              <VisualState x:Name="Pressed">
-                <VisualState.Setters>
-                  <Setter Property="Background"
-                          Value="{AppThemeBinding Light={StaticResource LightBase4}, Dark={StaticResource DarkBase4}}" />
-                  <Setter Property="TextColor"
-                          Value="{AppThemeBinding Light={StaticResource LightTextSecondary}, Dark={StaticResource DarkTextSecondary}}" />
-                </VisualState.Setters>
-              </VisualState>
-              <VisualState x:Name="Inactive">
-                <VisualState.Setters>
-                  <Setter Property="TextColor"
-                          Value="{AppThemeBinding Light={StaticResource LightTextSecondary}, Dark={StaticResource DarkTextSecondary}}" />
-                </VisualState.Setters>
-              </VisualState>
-              <VisualState x:Name="Selected">
-                <VisualState.Setters>
-                  <Setter Property="Background"
-                          Value="{DynamicResource SystemAccentColorDark2}" />
-                  <Setter Property="TextColor"
-                          Value="{DynamicResource SystemAccentColorDark2Foreground}" />
-                </VisualState.Setters>
-              </VisualState>
-              <VisualState x:Name="PointerOver">
-                <VisualState.Setters>
-                  <Setter Property="Background"
-                          Value="{AppThemeBinding Light={StaticResource LightBase3}, Dark={StaticResource DarkBase6}}" />
-                  <Setter Property="TextColor"
-                          Value="{AppThemeBinding Light={StaticResource LightTextPrimary}, Dark={StaticResource DarkTextPrimary}}" />
-                </VisualState.Setters>
-              </VisualState>
-              <VisualState x:Name="Disabled">
-                <VisualState.Setters>
-                  <Setter Property="Opacity"
-                          Value="{StaticResource DisabledOpacity}" />
-                </VisualState.Setters>
-              </VisualState>
-            </VisualStateGroup>
-          </VisualStateGroupList>
-        </Setter>
-      </Trigger>
-    </Style.Triggers>
-
   </Style>
 
-  <Style TargetType="{x:Type local:CalendarButton}"
-         BasedOn="{StaticResource FluentDesignCalendarButton}" />
+  <Style x:Key="HeaderButtonsStyle"
+         TargetType="local:Button">
+    <Setter Property="Background"
+            Value="{x:Null}" />
+    <Setter Property="OverrideDefaultVisualStates"
+            Value="True" />
+    <Setter Property="VisualStateManager.VisualStateGroups">
+      <VisualStateGroupList>
+        <VisualStateGroup>
+          <VisualState x:Name="Normal">
+            <VisualState.Setters>
+              <!-- Transparent here won't work when setting a BorderBrush in Focus VisualState, so we use #00FFFFFF.-->
+              <Setter Property="BorderBrush"
+                      Value="#00FFFFFF" />
+            </VisualState.Setters>
+          </VisualState>
+          <VisualState x:Name="Pressed">
+            <VisualState.Setters>
+              <Setter Property="Background"
+                      Value="{AppThemeBinding Light={StaticResource LightBase4}, Dark={StaticResource DarkBase4}}" />
+              <Setter Property="TextColor"
+                      Value="{AppThemeBinding Light={StaticResource LightTextPrimary}, Dark={StaticResource DarkTextPrimary}}" />
+            </VisualState.Setters>
+          </VisualState>
+          <VisualState x:Name="PointerOver">
+            <VisualState.Setters>
+              <Setter Property="Background"
+                      Value="{DynamicResource SystemAccentColorDark1}" />
+              <Setter Property="TextColor"
+                      Value="{DynamicResource SystemAccentColorDark1Foreground}" />
+            </VisualState.Setters>
+          </VisualState>
+          <VisualState x:Name="Focused">
+            <VisualState.Setters>
+              <Setter Property="BorderBrush"
+                      Value="{AppThemeBinding Light={StaticResource DarkBase0}, Dark={StaticResource LightBase0}}" />
+            </VisualState.Setters>
+          </VisualState>
+          <VisualState x:Name="Disabled">
+            <VisualState.Setters>
+              <Setter Property="Opacity"
+                      Value="{StaticResource DisabledOpacity}" />
+            </VisualState.Setters>
+          </VisualState>
+        </VisualStateGroup>
+      </VisualStateGroupList>
+    </Setter>
+  </Style>
+
 
   <Style x:Key="FluentDesignCalendar"
-         TargetType="{x:Type local:Calendar}">
+         TargetType="local:Calendar">
     <Setter Property="Background"
             Value="{AppThemeBinding Dark={StaticResource DarkBase2}, Light={StaticResource LightBase0}}" />
     <Setter Property="BorderBrush"
@@ -333,51 +302,41 @@
                 <Grid Margin="0,0,0,6"
                       ColumnDefinitions="5*,*,*">
                   <local:Button x:Name="PART_HeaderButton"
-                                Background="Transparent"
-                                BorderThickness="0" />
+                                Style="{StaticResource HeaderButtonsStyle}" />
                   <local:Button x:Name="PART_PreviousButton"
                                 Grid.Column="1"
-                                Background="Transparent"
-                                BorderThickness="0"
-                                ContentTemplate="{StaticResource IncreaseGlyph}" />
+                                ContentTemplate="{StaticResource IncreaseGlyph}"
+                                Style="{StaticResource HeaderButtonsStyle}" />
                   <local:Button x:Name="PART_NextButton"
                                 Grid.Column="2"
-                                Background="Transparent"
-                                BorderThickness="0"
-                                ContentTemplate="{StaticResource DecreaseGlyph}" />
+                                ContentTemplate="{StaticResource DecreaseGlyph}"
+                                Style="{StaticResource HeaderButtonsStyle}" />
                 </Grid>
                 <Grid x:Name="PART_MonthView"
                       Grid.Row="1"
                       RowDefinitions="25,*,*,*,*,*,*"
                       ColumnDefinitions="*,*,*,*,*,*,*"
-                      MinimumWidthRequest="225"
-                      MinimumHeightRequest="225">
-                  <Label Text="{Binding }"
-                         VerticalOptions="Center"
+                      WidthRequest="225"
+                      HeightRequest="225">
+                  <Label VerticalOptions="Center"
                          HorizontalOptions="Center"
                          Grid.Column="0" />
-                  <Label Text="{Binding }"
-                         VerticalOptions="Center"
+                  <Label VerticalOptions="Center"
                          HorizontalOptions="Center"
                          Grid.Column="1" />
-                  <Label Text="{Binding }"
-                         VerticalOptions="Center"
+                  <Label VerticalOptions="Center"
                          HorizontalOptions="Center"
                          Grid.Column="2" />
-                  <Label Text="{Binding }"
-                         VerticalOptions="Center"
+                  <Label VerticalOptions="Center"
                          HorizontalOptions="Center"
                          Grid.Column="3" />
-                  <Label Text="{Binding }"
-                         VerticalOptions="Center"
+                  <Label VerticalOptions="Center"
                          HorizontalOptions="Center"
                          Grid.Column="4" />
-                  <Label Text="{Binding }"
-                         VerticalOptions="Center"
+                  <Label VerticalOptions="Center"
                          HorizontalOptions="Center"
                          Grid.Column="5" />
-                  <Label Text="{Binding }"
-                         VerticalOptions="Center"
+                  <Label VerticalOptions="Center"
                          HorizontalOptions="Center"
                          Grid.Column="6" />
                   <local:CalendarDayButton Grid.Row="1"
@@ -552,7 +511,7 @@
     </Setter>
     <Style.Triggers>
       <Trigger Property="OverrideDefaultVisualStates"
-               TargetType="{x:Type local:Calendar}"
+               TargetType="local:Calendar"
                Value="False">
         <Setter Property="VisualStateManager.VisualStateGroups">
           <VisualStateGroupList>
@@ -571,6 +530,6 @@
     </Style.Triggers>
   </Style>
 
-  <Style TargetType="{x:Type local:Calendar}"
+  <Style TargetType="local:Calendar"
          BasedOn="{StaticResource FluentDesignCalendar}" />
 </ResourceDictionary>

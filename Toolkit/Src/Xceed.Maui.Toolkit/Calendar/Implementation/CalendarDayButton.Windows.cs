@@ -16,6 +16,8 @@
   *************************************************************************************/
 
 
+using Microsoft.Maui.Platform;
+
 namespace Xceed.Maui.Toolkit
 {
   public partial class CalendarDayButton
@@ -29,6 +31,15 @@ namespace Xceed.Maui.Toolkit
 
     #region Partial Methods
 
+    partial void OnIsTodayChanged()
+    {
+      var contentPanel = this.Handler?.PlatformView as ContentPanel;
+      if( contentPanel != null )
+      {
+        contentPanel.IsTabStop = this.IsToday;
+      }
+    }
+
     partial void UpdateVisualState()
     {
       if( !this.IsEnabled )
@@ -38,26 +49,26 @@ namespace Xceed.Maui.Toolkit
       else if( this.IsPointerOver )
       {
         var isSelectingForward = true;
-        if( m_calendar != null
-          && ( m_calendar.SelectionMode == CalendarSelectionMode.MultiRange || m_calendar.SelectionMode == CalendarSelectionMode.Range )
-          && m_calendar.DateRangeStart != null )
+        if( (this.ParentCalendar != null)
+          && ( this.ParentCalendar.SelectionMode == CalendarSelectionMode.MultiRange || this.ParentCalendar.SelectionMode == CalendarSelectionMode.Range )
+          && (this.ParentCalendar.DateRangeStart != null) )
         {
-          var start = m_calendar.DateRangeStart.Value;
-          var end = ( ( MonthViewDayModel )this.BindingContext ).Date;
-          if( DateTime.Compare( m_calendar.DateRangeStart.Value, ( ( MonthViewDayModel )this.BindingContext ).Date ) > 0 )
+          var start = this.ParentCalendar.DateRangeStart.Value;
+          var end = ( (DateOnly)this.BindingContext );
+          if( this.ParentCalendar.DateRangeStart.Value > ( (DateOnly)this.BindingContext ) )
           {
-            start = ( ( MonthViewDayModel )this.BindingContext ).Date;
-            end = m_calendar.DateRangeStart.Value;
+            start = ( (DateOnly)this.BindingContext );
+            end = this.ParentCalendar.DateRangeStart.Value;
             isSelectingForward = false;
           }
 
-          foreach( var calendarDayBtn in m_calendar.GetCalendarDayButtons() )
+          foreach( var calendarDayBtn in this.ParentCalendar.GetCalendarDayButtons() )
           {
             if( isSelectingForward )
             {
-              if( DateTime.Compare( start, ( ( MonthViewDayModel )calendarDayBtn.BindingContext ).Date ) < 0
-                && DateTime.Compare( end, ( ( MonthViewDayModel )calendarDayBtn.BindingContext ).Date ) >= 0
-                && !( ( MonthViewDayModel )calendarDayBtn.BindingContext ).IsBlackedOut )
+              if( ( start < ( (DateOnly)calendarDayBtn.BindingContext ) )
+                && ( end >= ( (DateOnly)calendarDayBtn.BindingContext ) )
+                && !calendarDayBtn.IsBlackedOut )
               {
                 calendarDayBtn.SetSpecificVisualState( calendarDayBtn.IsSelected ? CalendarDayButton.VisualState_RangePreUnSelected : CalendarDayButton.VisualState_RangePreSelected );
               }
@@ -68,9 +79,9 @@ namespace Xceed.Maui.Toolkit
             }
             else
             {
-              if( DateTime.Compare( start, ( ( MonthViewDayModel )calendarDayBtn.BindingContext ).Date ) <= 0
-                && DateTime.Compare( end, ( ( MonthViewDayModel )calendarDayBtn.BindingContext ).Date ) > 0
-                && !( ( MonthViewDayModel )calendarDayBtn.BindingContext ).IsBlackedOut )
+              if( ( start <= ( (DateOnly)calendarDayBtn.BindingContext ) )
+                && ( end > ( (DateOnly)calendarDayBtn.BindingContext ) )
+                && !calendarDayBtn.IsBlackedOut )
               {
                 calendarDayBtn.SetSpecificVisualState( calendarDayBtn.IsSelected ? CalendarDayButton.VisualState_RangePreUnSelected : CalendarDayButton.VisualState_RangePreSelected );
               }
@@ -97,7 +108,7 @@ namespace Xceed.Maui.Toolkit
       {
         VisualStateManager.GoToState( this, CalendarDayButton.VisualState_BlackoutDay );
       }
-      else if( m_calendar != null && this.IsToday && m_calendar.IsTodayHighlighted )
+      else if( (this.ParentCalendar != null) && this.IsToday && this.ParentCalendar.IsTodayHighlighted )
       {
         VisualStateManager.GoToState( this, CalendarDayButton.VisualState_Today );
       }
@@ -118,6 +129,7 @@ namespace Xceed.Maui.Toolkit
     #endregion
 
     #region Internal Methods
+
     internal void UpdateVisualStateWindowsInternal()
     {
       if( !this.IsEnabled )
@@ -132,7 +144,7 @@ namespace Xceed.Maui.Toolkit
       {
         VisualStateManager.GoToState( this, VisualStateManager.CommonStates.PointerOver );
       }
-      else if( this.IsToday && m_calendar != null && m_calendar.IsTodayHighlighted )
+      else if( this.IsToday && (this.ParentCalendar != null) && ParentCalendar.IsTodayHighlighted )
       {
         VisualStateManager.GoToState( this, CalendarDayButton.VisualState_Today );
       }

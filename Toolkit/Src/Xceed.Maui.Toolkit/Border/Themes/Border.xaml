@@ -29,7 +29,7 @@
   <conv:AddThicknessConverter x:Key="AddThicknessConverter" />
 
   <Style x:Key="FluentDesignBorder"
-         TargetType="{x:Type local:Border}">
+         TargetType="local:Border">
     <Setter Property="TextColor"
             Value="{AppThemeBinding Light={StaticResource LightTextPrimary}, Dark={StaticResource DarkTextPrimary}}" />
     <Setter Property="Padding"
@@ -61,6 +61,6 @@
     </Setter>
   </Style>
 
-  <Style TargetType="{x:Type local:Border}"
+  <Style TargetType="local:Border"
          BasedOn="{StaticResource FluentDesignBorder}" />
 </ResourceDictionary>

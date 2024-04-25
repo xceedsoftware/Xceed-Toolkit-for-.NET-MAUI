@@ -32,8 +32,8 @@ namespace Xceed.Maui.Toolkit
   {
     #region Private Members
 
-    private UIViewController m_controller;
-    private PopupPresentationDelegate m_popupPresentationDelegate;
+    private UIViewController? m_controller;
+    private PopupPresentationDelegate? m_popupPresentationDelegate;
 
     #endregion
 
@@ -152,25 +152,28 @@ namespace Xceed.Maui.Toolkit
       PopupHandler.SetLayout( handler, popup );
 
       var currentViewController = WindowStateManager.Default.GetCurrentUIViewController();
-      var presentationController = handler.m_controller?.PresentationController as UIPopoverPresentationController;
-      if( presentationController != null )
+      if( (currentViewController != null) && (currentViewController.View != null) )
       {
-        presentationController.SourceView = currentViewController?.View;
-        presentationController.Delegate = handler.m_popupPresentationDelegate;
-        // For Mac
-        if( popup.Anchor != null )
+        var presentationController = handler.m_controller.PresentationController as UIPopoverPresentationController;
+        if( presentationController != null )
         {
-          presentationController.PassthroughViews = new UIView[] { popup.Anchor.ToPlatform( handler.MauiContext ) };
+          presentationController.SourceView = currentViewController.View;
+          presentationController.Delegate = handler.m_popupPresentationDelegate;
+          // For Mac
+          if( popup.Anchor != null )
+          {
+            presentationController.PassthroughViews = new UIView[] { popup.Anchor.ToPlatform( handler.MauiContext ) };
+          }
+
+          // For iOS.
+          presentationController.PopoverBackgroundViewType = typeof( TransparentPopoverBackgroundView );
+          presentationController.PopoverLayoutMargins = new UIEdgeInsets( 0.0001f, 0.0001f, 0.0001f, 0.0001f );
         }
 
-        // For iOS.
-        presentationController.PopoverBackgroundViewType = typeof( TransparentPopoverBackgroundView );
-        presentationController.PopoverLayoutMargins = new UIEdgeInsets( 0.0001f, 0.0001f, 0.0001f, 0.0001f );
+        //  UIView currentFirstResponder = FindFirstResponder(currentViewController.View);
+
+        currentViewController?.PresentViewController( handler.m_controller, false, null );
       }
-
-      //  UIView currentFirstResponder = FindFirstResponder(currentViewController.View);
-
-      currentViewController?.PresentViewController( handler.m_controller, false, null );
     }
 
     //     private static UIView FindFirstResponder(UIView view)
@@ -229,7 +232,7 @@ namespace Xceed.Maui.Toolkit
       if( popup == null )
         throw new ArgumentNullException( "popup" );
 
-      if( popup.Content == null )
+      if( (popup.Content == null) || (handler.m_controller == null) )
         return;
 
       var mauiContext = handler.MauiContext;
@@ -403,7 +406,9 @@ namespace Xceed.Maui.Toolkit
 
         }
 
+#pragma warning disable CA1416
         presentationController.SourceItem = platformAnchor;
+#pragma warning restore CA1416
 
         var isTopBottom = ( direction == UIPopoverArrowDirection.Down ) || ( direction == UIPopoverArrowDirection.Up );
         presentationController.SourceRect = new CGRect( positionX,
@@ -437,7 +442,9 @@ namespace Xceed.Maui.Toolkit
 
         NFloat positionX = 0f;
         NFloat positionY = 0f;
+#if !IOS
         var direction = UIPopoverArrowDirection.Up;
+#endif
         switch(popup.HorizontalLayoutAlignment, popup.VerticalLayoutAlignment)
         {
           case (Microsoft.Maui.Primitives.LayoutAlignment.Start, Microsoft.Maui.Primitives.LayoutAlignment.Start ):
@@ -473,7 +480,9 @@ namespace Xceed.Maui.Toolkit
             {
               positionX = frameBounds.Width - popupSize.Value.Width;
               positionY = ( frameBounds.Height / 2 ) - ( popupSize.Value.Height / 2 );
+#if !IOS
               direction = UIPopoverArrowDirection.Left;
+#endif
             }
             break;
           case (Microsoft.Maui.Primitives.LayoutAlignment.Start, Microsoft.Maui.Primitives.LayoutAlignment.End ):
@@ -611,7 +620,7 @@ namespace Xceed.Maui.Toolkit
       }
     }
 
-    #endregion
+#endregion
 
     #region Event Handlers
 

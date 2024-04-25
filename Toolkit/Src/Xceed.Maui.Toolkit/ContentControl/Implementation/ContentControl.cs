@@ -175,7 +175,7 @@ namespace Xceed.Maui.Toolkit
 
     #region Private Methods
 
-    private void UpdateView( bool reloadContentTemplate = false )
+    private void UpdateView( bool isContentTemplateChanged = false )
     {
       View view = null;
 
@@ -211,22 +211,18 @@ namespace Xceed.Maui.Toolkit
       }
       else
       {
-        var updatedView = reloadContentTemplate ? this.ContentTemplate.CreateContent() as View : this.View;
+        var updatedView = isContentTemplateChanged ? this.ContentTemplate.CreateContent() as View : this.View;
         if( updatedView != null )
         {
-          var children = updatedView.GetVisualTreeDescendants();
-          foreach( var element in children )
+          var element = updatedView.GetVisualTreeDescendants().FirstOrDefault();
+          if( element is View elementView )
           {
-            if( element is View elementView )
-            {
-              this.SetShapeSize( elementView );
+            this.SetShapeSize( elementView );
 
-              // Set the BindingContext on each children.
-              elementView.BindingContext = this.Content;
-            }
+            elementView.BindingContext = this.Content;
           }
 
-          if( reloadContentTemplate )
+          if( isContentTemplateChanged )
           {
             view = updatedView;
           }

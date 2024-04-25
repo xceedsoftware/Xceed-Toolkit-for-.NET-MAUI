@@ -23,18 +23,12 @@ namespace Xceed.Maui.Toolkit
 {
   internal static class DateTimeHelper
   {
-    #region Private Members
-
-    private static readonly System.Globalization.Calendar m_Calendar = new GregorianCalendar();
-
-    #endregion
-
     #region Internal Methods
-    internal static DateTime? AddDays( DateTime time, int days )
+    internal static DateOnly? AddDays( DateOnly date, int days )
     {
       try
       {
-        return m_Calendar.AddDays( time, days );
+        return date.AddDays( days );
       }
       catch( ArgumentException )
       {
@@ -42,11 +36,11 @@ namespace Xceed.Maui.Toolkit
       }
     }
 
-    internal static DateTime? AddMonths( DateTime time, int months )
+    internal static DateOnly? AddMonths( DateOnly date, int months )
     {
       try
       {
-        return m_Calendar.AddMonths( time, months );
+        return date.AddMonths( months );
       }
       catch( ArgumentException )
       {
@@ -54,11 +48,11 @@ namespace Xceed.Maui.Toolkit
       }
     }
 
-    internal static DateTime? AddYears( DateTime time, int years )
+    internal static DateOnly? AddYears( DateOnly date, int years )
     {
       try
       {
-        return m_Calendar.AddYears( time, years );
+        return date.AddYears( years );
       }
       catch( ArgumentException )
       {
@@ -66,7 +60,7 @@ namespace Xceed.Maui.Toolkit
       }
     }
 
-    internal static DateTime? SetYearMonth( DateTime date, DateTime yearMonth )
+    internal static DateOnly? SetYearMonth( DateOnly date, DateOnly yearMonth )
     {
       var result = DateTimeHelper.AddYears( date, yearMonth.Year - date.Year );
       if( result.HasValue )
@@ -77,17 +71,9 @@ namespace Xceed.Maui.Toolkit
       return result;
     }
 
-    internal static int CompareYearAndMonth( DateTime dt1, DateTime dt2 )
+    internal static int CompareYearAndMonth( DateOnly dt1, DateOnly dt2 )
     {
       return ( dt1.Year - dt2.Year ) * 12 + ( dt1.Month - dt2.Month );
-    }
-
-    internal static DateTime? OnlyDate( DateTime? d )
-    {
-      if( !d.HasValue )
-        return null;
-
-      return d.Value.Date;
     }
 
     internal static string ToDecadeRangeString( int decade, VisualElement visualElement )
@@ -103,7 +89,7 @@ namespace Xceed.Maui.Toolkit
       return result;
     }
 
-    internal static string ToYearMonthPatternString( DateTime? date, CultureInfo culture )
+    internal static string ToYearMonthPatternString( DateOnly? date, CultureInfo culture )
     {
       var result = string.Empty;
       var dateFormat = DateTimeHelper.GetDateFormat( culture );
@@ -115,7 +101,7 @@ namespace Xceed.Maui.Toolkit
       return result;
     }
 
-    internal static string ToYearString( DateTime? date, CultureInfo culture )
+    internal static string ToYearString( DateOnly? date, CultureInfo culture )
     {
       var result = string.Empty;
       var dateFormat = DateTimeHelper.GetDateFormat( culture );

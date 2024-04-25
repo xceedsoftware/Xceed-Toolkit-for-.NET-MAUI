@@ -20,14 +20,14 @@
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit">
+                    xmlns:local="clr-namespace:Xceed.Maui.Toolkit;assembly=Xceed.Maui.Toolkit">
 
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="../../Themes/Brushes/Common.xaml;assembly=Xceed.Maui.Toolkit" />
   </ResourceDictionary.MergedDictionaries>
 
   <Style x:Key="FluentDesignButton"
-         TargetType="{x:Type local:Button}">
+         TargetType="local:Button">
     <Setter Property="Background"
             Value="{AppThemeBinding Light={StaticResource LightBase0}, Dark={StaticResource DarkBase2}}" />
     <Setter Property="FontSize"
@@ -71,7 +71,7 @@
     </Setter>
     <Style.Triggers>
       <Trigger Property="OverrideDefaultVisualStates"
-               TargetType="{x:Type local:Button}"
+               TargetType="local:Button"
                Value="False">
         <Setter Property="VisualStateManager.VisualStateGroups">
           <VisualStateGroupList>
@@ -112,6 +112,6 @@
     </Style.Triggers>
   </Style>
 
-  <Style TargetType="{x:Type local:Button}"
+  <Style TargetType="local:Button"
          BasedOn="{StaticResource FluentDesignButton}" />
 </ResourceDictionary>

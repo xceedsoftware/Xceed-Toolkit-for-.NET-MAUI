@@ -29,6 +29,7 @@ namespace Xceed.Maui.Toolkit
 
     private bool m_isShown;
     private bool m_focusable = true;
+    private IElementHandler? m_platformHandler;
 
     #endregion
 
@@ -82,6 +83,11 @@ namespace Xceed.Maui.Toolkit
     protected virtual void OnContentChanged( View? oldValue, View? newValue )
     {
       this.OnBindingContextChanged();
+
+      if( this.IsLoaded && (newValue != null) )
+      {
+        m_platformHandler = this.GetPlatformHandler();
+      }
     }
 
     #endregion
@@ -186,7 +192,7 @@ namespace Xceed.Maui.Toolkit
     #region Internal Methods
 
     // if Popup was part of the original xaml and was not added with something like: var myPopup = new Popup().
-    internal static bool IsFromXaml( IPopup popup )
+    internal static bool IsFromXaml( IPopup? popup )
     {
       if( popup == null )
         return false;
@@ -224,21 +230,23 @@ namespace Xceed.Maui.Toolkit
       if( this.Content == null )
         return;
 
-      var parentPage = Popup.GetParentPage( this );
-      var mauiContext = Popup.GetMauiContext( parentPage );
-      if( mauiContext != null )
+      if( m_platformHandler == null )
       {
-        var platformHandler = this.ToHandler( mauiContext );
-        platformHandler?.Invoke( nameof( IPopup.Open ) );
+        m_platformHandler = this.GetPlatformHandler();
       }
+
+      m_platformHandler?.Invoke( nameof( IPopup.Open ) );
 
       this.RaiseOpenedEvent( this, EventArgs.Empty );
 
       m_isShown = true;
     }
 
-    internal void UpdateParent( PopupContainer popupContainer )
+    internal void InitForPopupContainer( PopupContainer popupContainer )
     {
+      if( popupContainer == null )
+        return;
+
       // When popup is in PopupContainer, Popup's parent must be reset for Content's control to load correctly( loaded event callback being called).
       this.Parent = null;
       this.Parent = popupContainer;
@@ -248,6 +256,8 @@ namespace Xceed.Maui.Toolkit
         // When popup is in PopupContainer, Popup Content's Parent must be reset for Content's control to load correctly( loaded event callback being called).
         this.Content.Parent = null;
         this.Content.Parent = this;
+
+        m_platformHandler = this.GetPlatformHandler();
       }
     }
 
@@ -269,13 +279,23 @@ namespace Xceed.Maui.Toolkit
       m_isShown = false;
     }
 
+    private IElementHandler? GetPlatformHandler()
+    {
+      var parentPage = Popup.GetParentPage( this );
+      var mauiContext = Popup.GetMauiContext( parentPage );
+      if( mauiContext != null )
+        return this.ToHandler( mauiContext );
+
+      return null;
+    }
+
     #endregion
 
     #region Events
 
     public event EventHandler? Opened;
 
-    public void RaiseOpenedEvent( object sender, EventArgs e )
+    internal void RaiseOpenedEvent( object sender, EventArgs e )
     {
       if( this.IsEnabled )
       {
@@ -285,7 +305,7 @@ namespace Xceed.Maui.Toolkit
 
     public event EventHandler? Closed;
 
-    public void RaiseClosedEvent( object sender, EventArgs e )
+    internal void RaiseClosedEvent( object sender, EventArgs e )
     {
       if( this.IsEnabled )
       {

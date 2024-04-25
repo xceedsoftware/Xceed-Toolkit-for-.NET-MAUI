@@ -19,7 +19,7 @@
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    xmlns:local="http://schemas.xceed.com/maui/xaml/toolkit"
+                    xmlns:local="clr-namespace:Xceed.Maui.Toolkit;assembly=Xceed.Maui.Toolkit"
                     xmlns:conv="clr-namespace:Xceed.Maui.Toolkit.Converters;assembly=Xceed.Maui.Toolkit">
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="../../Themes/Brushes/Common.xaml;assembly=Xceed.Maui.Toolkit" />
@@ -46,7 +46,7 @@
       <local:Border.Triggers>
         <DataTrigger Binding="{Binding IsChecked, Source={RelativeSource TemplatedParent}}"
                      Value="True"
-                     TargetType="{x:Type local:Border}">
+                     TargetType="local:Border">
           <Setter Property="Background"
                   Value="{TemplateBinding CheckedBackground}" />
         </DataTrigger>
@@ -92,7 +92,7 @@
                   <local:ContentControl.Triggers>
                     <DataTrigger Binding="{Binding IsCheckedLeft, Source={RelativeSource TemplatedParent}}"
                                  Value="True"
-                                 TargetType="{x:Type local:ContentControl}">
+                                 TargetType="local:ContentControl">
                       <Setter Property="Content"
                               Value="{Binding UncheckedContent, Source={RelativeSource TemplatedParent}}" />
                     </DataTrigger>
@@ -112,7 +112,7 @@
                   <local:ContentControl.Triggers>
                     <DataTrigger Binding="{Binding IsCheckedLeft, Source={RelativeSource TemplatedParent}}"
                                  Value="True"
-                                 TargetType="{x:Type local:ContentControl}">
+                                 TargetType="local:ContentControl">
                       <Setter Property="Content"
                               Value="{Binding CheckedContent, Source={RelativeSource TemplatedParent}}" />
                     </DataTrigger>
@@ -138,7 +138,7 @@
             <local:ContentControl.Triggers>
               <DataTrigger Binding="{Binding IsChecked, Source={RelativeSource TemplatedParent}}"
                            Value="True"
-                           TargetType="{x:Type local:ContentControl}">
+                           TargetType="local:ContentControl">
                 <Setter Property="Content"
                         Value="{Binding ThumbCheckedContent, Source={RelativeSource TemplatedParent}}" />
               </DataTrigger>
@@ -147,7 +147,7 @@
           <local:Border.Triggers>
             <DataTrigger Binding="{Binding IsChecked, Source={RelativeSource TemplatedParent}}"
                          Value="True"
-                         TargetType="{x:Type local:Border}">
+                         TargetType="local:Border">
               <Setter Property="Background"
                       Value="{Binding ThumbCheckedBackground, Source={RelativeSource TemplatedParent}}" />
             </DataTrigger>
@@ -171,7 +171,7 @@
   <!-- Style (generic)        -->
   <!-- ********************** -->
   <Style x:Key="FluentDesignToggleSwitch"
-         TargetType="{x:Type local:ToggleSwitch}">
+         TargetType="local:ToggleSwitch">
     <Setter Property="MinimumHeightRequest"
             Value="20" />
     <Setter Property="MinimumWidthRequest"
@@ -209,7 +209,7 @@
 
     <Style.Triggers>
       <Trigger Property="OverrideDefaultVisualStates"
-               TargetType="{x:Type local:ToggleSwitch}"
+               TargetType="local:ToggleSwitch"
                Value="False">
         <Setter Property="VisualStateManager.VisualStateGroups">
           <VisualStateGroupList>
@@ -234,6 +234,6 @@
     </Style.Triggers>
   </Style>
 
-  <Style TargetType="{x:Type local:ToggleSwitch}"
+  <Style TargetType="local:ToggleSwitch"
          BasedOn="{StaticResource FluentDesignToggleSwitch}" />
 </ResourceDictionary>

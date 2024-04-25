@@ -76,7 +76,7 @@ namespace Xceed.Maui.Toolkit
 
     public static readonly BindableProperty DefaultValueProperty = BindableProperty.Create( "DefaultValue", typeof( T ), typeof( UpDownBase<T> ), default( T ), propertyChanged: OnDefaultValueChanged );
 
-    public T DefaultValue
+    public virtual T DefaultValue
     {
       get => ( T )GetValue( DefaultValueProperty );
       set => SetValue( DefaultValueProperty, value );
@@ -140,7 +140,7 @@ namespace Xceed.Maui.Toolkit
 
     public static readonly BindableProperty MaximumProperty = BindableProperty.Create( "Maximum", typeof( T ), typeof( UpDownBase<T> ), default( T ), propertyChanged: OnMaximumChanged, coerceValue: OnCoerceMaximum );
 
-    public T Maximum
+    public virtual T Maximum
     {
       get => ( T )GetValue( MaximumProperty );
       set => SetValue( MaximumProperty, value );
@@ -183,7 +183,7 @@ namespace Xceed.Maui.Toolkit
 
     public static readonly BindableProperty MinimumProperty = BindableProperty.Create( "Minimum", typeof( T ), typeof( UpDownBase<T> ), default( T ), propertyChanged: OnMinimumChanged, coerceValue: OnCoerceMinimum );
 
-    public T Minimum
+    public virtual T Minimum
     {
       get => ( T )GetValue( MinimumProperty );
       set => SetValue( MinimumProperty, value );
@@ -262,7 +262,7 @@ namespace Xceed.Maui.Toolkit
 
     public static readonly BindableProperty ValueProperty = BindableProperty.Create( "Value", typeof( T ), typeof( UpDownBase<T> ), default( T ), propertyChanged: OnValueChanged, coerceValue: OnCoerceValue );
 
-    public T Value
+    public virtual T Value
     {
       get => ( T )GetValue( ValueProperty );
       set => SetValue( ValueProperty, value );
@@ -336,9 +336,11 @@ namespace Xceed.Maui.Toolkit
 
     protected abstract void OnDecrement();
 
+#nullable enable
     protected abstract bool IsLowerThan( T? value1, T? value2 );
 
     protected abstract bool IsGreaterThan( T? value1, T? value2 );
+#nullable disable
 
     protected abstract void SetValidSpinDirection();
 

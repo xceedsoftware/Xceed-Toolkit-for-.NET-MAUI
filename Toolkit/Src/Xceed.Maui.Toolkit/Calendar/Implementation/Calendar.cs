@@ -18,6 +18,7 @@
 
 // This file is inspired from Microsoft under the MIT License.
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Globalization;
 
 namespace Xceed.Maui.Toolkit
@@ -51,6 +52,8 @@ namespace Xceed.Maui.Toolkit
 
     private const int YEARS_PER_DECADE = 10;
 
+    private static DateOnly TodayDateOnly = DateOnly.FromDateTime( DateTime.Today );
+
     private System.Globalization.Calendar m_calendar = new GregorianCalendar();
 
     private Button m_headerButton;
@@ -65,11 +68,11 @@ namespace Xceed.Maui.Toolkit
 
     private bool m_isMovingThroughMonths;
 
-    private DateTime? m_dateRangeStart;
+    private DateOnly? m_dateRangeStart;
 
-    private DateTime? m_dateRangeEnd;
+    private DateOnly? m_dateRangeEnd;
 
-    private DateTime? m_currentDate;
+    private DateOnly? m_currentDate;
 
     #endregion
 
@@ -85,7 +88,7 @@ namespace Xceed.Maui.Toolkit
       this.SelectedDates.CollectionChanged += this.SelectedDates_CollectionChanged;
       this.SelectedDates.ItemsCleared += this.SelectedDates_ItemsCleared;
 
-      this.DisplayedDate = DateTime.Today;
+      this.DisplayedDate = Calendar.TodayDateOnly;
 
       this.Loaded += this.Calendar_Loaded;      
     }
@@ -149,13 +152,14 @@ namespace Xceed.Maui.Toolkit
 
     #region DisplayedDate
 
-    public static readonly BindableProperty DisplayedDateProperty = BindableProperty.Create( nameof( DisplayedDate ), typeof( DateTime ), typeof( Calendar ), defaultValue: DateTime.MinValue, propertyChanged: OnDisplayedDateChanged, coerceValue: CoerceDisplayedDate );
+    public static readonly BindableProperty DisplayedDateProperty = BindableProperty.Create( nameof( DisplayedDate ), typeof( DateOnly ), typeof( Calendar ), defaultValue: DateOnly.MinValue, propertyChanged: OnDisplayedDateChanged, coerceValue: CoerceDisplayedDate );
 
-    public DateTime DisplayedDate
+    [TypeConverter( typeof( DateOnlyTypeConverter ) )]
+    public DateOnly DisplayedDate
     {
       get
       {
-        return ( DateTime )GetValue( DisplayedDateProperty );
+        return (DateOnly)GetValue( DisplayedDateProperty );
       }
       set
       {
@@ -167,11 +171,11 @@ namespace Xceed.Maui.Toolkit
     {
       if( bindable is Calendar calendar )
       {
-        var dateTime = ( DateTime )value;
+        var date = ( DateOnly )value;
 
-        if( calendar.FirstVisibleDate.HasValue && ( dateTime < calendar.FirstVisibleDate.Value ) )
+        if( calendar.FirstVisibleDate.HasValue && ( date < calendar.FirstVisibleDate.Value ) )
           return calendar.FirstVisibleDate.Value;
-        else if( calendar.LastVisibleDate.HasValue && ( dateTime > calendar.LastVisibleDate.Value ) )
+        else if( calendar.LastVisibleDate.HasValue && ( date > calendar.LastVisibleDate.Value ) )
           return calendar.LastVisibleDate.Value;
       }
 
@@ -182,19 +186,19 @@ namespace Xceed.Maui.Toolkit
     {
       if( bindable is Calendar calendar )
       {
-        calendar.OnDisplayedDateChanged( ( DateTime )oldValue, ( DateTime )newValue );
+        calendar.OnDisplayedDateChanged( (DateOnly)oldValue, (DateOnly)newValue );
       }
     }
 
-    protected virtual void OnDisplayedDateChanged( DateTime oldValue, DateTime newValue )
+    protected virtual void OnDisplayedDateChanged( DateOnly oldValue, DateOnly newValue )
     {
-      this.DisplayedDateInternal = new DateTime( newValue.Year, newValue.Month, 1, 0, 0, 0 );
+      this.DisplayedDateInternal = new DateOnly( newValue.Year, newValue.Month, 1 );
       if( !m_isMovingThroughMonths )
       {
         this.UpdateViews();
       }
 
-      this.RaiseDisplayedDateChanged( this, new ValueChangedEventArgs<DateTime>( oldValue, newValue ) );
+      this.RaiseDisplayedDateChanged( this, new ValueChangedEventArgs<DateOnly>( oldValue, newValue ) );
     }
 
 
@@ -320,13 +324,14 @@ namespace Xceed.Maui.Toolkit
 
     #region FirstVisibleDate
 
-    public static readonly BindableProperty FirstVisibleDateProperty = BindableProperty.Create( nameof( FirstVisibleDate ), typeof( DateTime? ), typeof( Calendar ), defaultBindingMode: BindingMode.TwoWay, defaultValue: null, propertyChanged: OnFirstVisibleDateChanged, coerceValue: CoerceFirstVisibleDate );
+    public static readonly BindableProperty FirstVisibleDateProperty = BindableProperty.Create( nameof( FirstVisibleDate ), typeof( DateOnly? ), typeof( Calendar ), defaultBindingMode: BindingMode.TwoWay, defaultValue: null, propertyChanged: OnFirstVisibleDateChanged, coerceValue: CoerceFirstVisibleDate );
 
-    public DateTime? FirstVisibleDate
+    [TypeConverter( typeof( DateOnlyTypeConverter ) )]
+    public DateOnly? FirstVisibleDate
     {
       get
       {
-        return ( DateTime? )GetValue( FirstVisibleDateProperty );
+        return (DateOnly?)GetValue( FirstVisibleDateProperty );
       }
       set
       {
@@ -338,7 +343,7 @@ namespace Xceed.Maui.Toolkit
     {
       if( bindable is Calendar calendar )
       {
-        var minDate = ( DateTime? )value;
+        var minDate = (DateOnly?)value;
         if( minDate.HasValue && calendar.LastVisibleDate.HasValue && ( minDate.Value > calendar.LastVisibleDate.Value ) )
           return calendar.LastVisibleDate;
       }
@@ -350,11 +355,11 @@ namespace Xceed.Maui.Toolkit
     {
       if( bindable is Calendar calendar )
       {
-        calendar.OnFirstVisibleDateChanged( ( DateTime? )oldValue, ( DateTime? )newValue );
+        calendar.OnFirstVisibleDateChanged( (DateOnly?)oldValue, (DateOnly?)newValue );
       }
     }
 
-    protected virtual void OnFirstVisibleDateChanged( DateTime? oldValue, DateTime? newValue )
+    protected virtual void OnFirstVisibleDateChanged( DateOnly? oldValue, DateOnly? newValue )
     {
       this.CoerceValue( Calendar.LastVisibleDateProperty );
       this.CoerceValue( Calendar.DisplayedDateProperty );
@@ -390,7 +395,7 @@ namespace Xceed.Maui.Toolkit
 
     protected virtual void OnIsTodayHighlightedChanged( bool oldValue, bool newValue )
     {
-      var num = DateTimeHelper.CompareYearAndMonth( this.DisplayedDateInternal, DateTime.Today );
+      var num = DateTimeHelper.CompareYearAndMonth( this.DisplayedDateInternal, Calendar.TodayDateOnly );
       if( ( num > -2 ) && ( num < 2 ) )
       {
         this.UpdateViews();
@@ -401,13 +406,14 @@ namespace Xceed.Maui.Toolkit
 
     #region LastVisibleDate 
 
-    public static readonly BindableProperty LastVisibleDateProperty = BindableProperty.Create( nameof( LastVisibleDate ), typeof( DateTime? ), typeof( Calendar ), defaultBindingMode: BindingMode.TwoWay, defaultValue: null, propertyChanged: OnLastVisibleDateChanged, coerceValue: CoerceLastVisibleDate );
+    public static readonly BindableProperty LastVisibleDateProperty = BindableProperty.Create( nameof( LastVisibleDate ), typeof( DateOnly? ), typeof( Calendar ), defaultBindingMode: BindingMode.TwoWay, defaultValue: null, propertyChanged: OnLastVisibleDateChanged, coerceValue: CoerceLastVisibleDate );
 
-    public DateTime? LastVisibleDate
+    [TypeConverter( typeof( DateOnlyTypeConverter ) )]
+    public DateOnly? LastVisibleDate
     {
       get
       {
-        return ( DateTime? )GetValue( LastVisibleDateProperty );
+        return (DateOnly?)GetValue( LastVisibleDateProperty );
       }
       set
       {
@@ -419,7 +425,7 @@ namespace Xceed.Maui.Toolkit
     {
       if( bindable is Calendar calendar )
       {
-        var maxDate = ( DateTime? )value;
+        var maxDate = (DateOnly?)value;
         if( maxDate.HasValue && calendar.FirstVisibleDate.HasValue && ( maxDate.Value < calendar.FirstVisibleDate.Value ) )
           return calendar.FirstVisibleDate;
       }
@@ -430,11 +436,11 @@ namespace Xceed.Maui.Toolkit
     {
       if( bindable is Calendar calendar )
       {
-        calendar.OnLastVisibleDateChanged( ( DateTime? )oldValue, ( DateTime? )newValue );
+        calendar.OnLastVisibleDateChanged( (DateOnly?)oldValue, (DateOnly?)newValue );
       }
     }
 
-    protected virtual void OnLastVisibleDateChanged( DateTime? oldValue, DateTime? newValue )
+    protected virtual void OnLastVisibleDateChanged( DateOnly? oldValue, DateOnly? newValue )
     {
       this.CoerceValue( Calendar.FirstVisibleDateProperty );
       this.CoerceValue( Calendar.DisplayedDateProperty );
@@ -446,13 +452,14 @@ namespace Xceed.Maui.Toolkit
 
     #region SelectedDate
 
-    public static readonly BindableProperty SelectedDateProperty = BindableProperty.Create( nameof( SelectedDate ), typeof( DateTime? ), typeof( Calendar ), defaultValue: null, defaultBindingMode: BindingMode.TwoWay, propertyChanged: OnSelectedDateChanged );
+    public static readonly BindableProperty SelectedDateProperty = BindableProperty.Create( nameof( SelectedDate ), typeof( DateOnly? ), typeof( Calendar ), defaultValue: null, defaultBindingMode: BindingMode.TwoWay, propertyChanged: OnSelectedDateChanged );
 
-    public DateTime? SelectedDate
+    [TypeConverter( typeof( DateOnlyTypeConverter ) )]
+    public DateOnly? SelectedDate
     {
       get
       {
-        return ( DateTime? )GetValue( SelectedDateProperty );
+        return (DateOnly?)GetValue( SelectedDateProperty );
       }
       set
       {
@@ -464,11 +471,11 @@ namespace Xceed.Maui.Toolkit
     {
       if( bindable is Calendar calendar )
       {
-        calendar.OnSelectedDateChanged( ( DateTime? )oldValue, ( DateTime? )newValue );
+        calendar.OnSelectedDateChanged( (DateOnly?)oldValue, (DateOnly?)newValue );
       }
     }
 
-    protected virtual void OnSelectedDateChanged( DateTime? oldValue, DateTime? newValue )
+    protected virtual void OnSelectedDateChanged( DateOnly? oldValue, DateOnly? newValue )
     {
       if( ( this.SelectionMode != CalendarSelectionMode.None ) || ( newValue == null ) )
       {
@@ -486,8 +493,8 @@ namespace Xceed.Maui.Toolkit
 
               if( this.SelectedDates.OldItems.Count > 0 )
               {
-                Collection<DateTime> addedItems = [];
-                this.OnSelectedDatesCollectionChanged( new ValueChangedEventArgs<Collection<DateTime>>( this.SelectedDates.OldItems, addedItems ) );
+                Collection<DateOnly> addedItems = [];
+                this.OnSelectedDatesCollectionChanged( new ValueChangedEventArgs<Collection<DateOnly>>( this.SelectedDates.OldItems, addedItems ) );
 
                 this.SelectedDates.OldItems.Clear();
               }
@@ -537,13 +544,13 @@ namespace Xceed.Maui.Toolkit
         {
           if( calendar.FirstVisibleDate.HasValue )
           {
-            if( DateTime.Compare( calendar.FirstVisibleDate.Value, date ) > 0 )
-              throw new InvalidDataException( $"The value {date.Date} is invalid as SelectedDate property." );
+            if( calendar.FirstVisibleDate.Value > date )
+              throw new InvalidDataException( $"The value {date} is invalid as SelectedDate property." );
           }
           if( calendar.LastVisibleDate.HasValue )
           {
-            if( DateTime.Compare( calendar.LastVisibleDate.Value, date ) < 0 )
-              throw new InvalidDataException( $"The value {date.Date} is invalid as SelectedDate property." );
+            if( calendar.LastVisibleDate.Value < date )
+              throw new InvalidDataException( $"The value {date} is invalid as SelectedDate property." );
           }
         }
       }
@@ -588,8 +595,8 @@ namespace Xceed.Maui.Toolkit
 
       if( this.SelectedDates.OldItems.Count > 0 )
       {
-        Collection<DateTime> addedItems = [];
-        this.OnSelectedDatesCollectionChanged( new ValueChangedEventArgs<Collection<DateTime>>( this.SelectedDates.OldItems, addedItems ) );
+        Collection<DateOnly> addedItems = [];
+        this.OnSelectedDatesCollectionChanged( new ValueChangedEventArgs<Collection<DateOnly>>( this.SelectedDates.OldItems, addedItems ) );
         this.SelectedDates.OldItems.Clear();
       }
       this.UpdateViews();
@@ -602,13 +609,13 @@ namespace Xceed.Maui.Toolkit
 
     #region Internal Properties
 
-    internal DateTime DisplayedDateInternal { get; private set; }
+    internal DateOnly DisplayedDateInternal { get; private set; }
 
-    internal DateTime LastVisibleDateInternal => this.LastVisibleDate.GetValueOrDefault( DateTime.MaxValue );
+    internal DateOnly LastVisibleDateInternal => this.LastVisibleDate.GetValueOrDefault( DateOnly.MaxValue );
 
-    internal DateTime FirstVisibleDateInternal => this.FirstVisibleDate.GetValueOrDefault( DateTime.MinValue );
+    internal DateOnly FirstVisibleDateInternal => this.FirstVisibleDate.GetValueOrDefault( DateOnly.MinValue );
 
-    internal DateTime CurrentDateInternal
+    internal DateOnly CurrentDateInternal
     {
       get
       {
@@ -620,7 +627,7 @@ namespace Xceed.Maui.Toolkit
       }
     }
 
-    internal DateTime? DateRangeStart
+    internal DateOnly? DateRangeStart
     {
       get
       {
@@ -635,7 +642,7 @@ namespace Xceed.Maui.Toolkit
       }
     }
 
-    internal DateTime? DateRangeEnd
+    internal DateOnly? DateRangeEnd
     {
       get
       {
@@ -729,7 +736,7 @@ namespace Xceed.Maui.Toolkit
 
     internal void RefreshDecadeView()
     {
-      var decadeForDecadeMode = new DateTime( this.DisplayedDate.Year, 1, 1 ).Year - new DateTime( this.DisplayedDate.Year, 1, 1 ).Year % 10;
+      var decadeForDecadeMode = new DateOnly( this.DisplayedDate.Year, 1, 1 ).Year - new DateOnly( this.DisplayedDate.Year, 1, 1 ).Year % 10;
       var num = decadeForDecadeMode + 9;
       this.DecadeHeaderButton( decadeForDecadeMode );
       this.DecadePreviousButton( decadeForDecadeMode );
@@ -763,14 +770,14 @@ namespace Xceed.Maui.Toolkit
       }
     }
 
-    internal static bool IsValidDateSelection( Calendar cal, DateTime? value )
+    internal static bool IsValidDateSelection( Calendar cal, DateOnly? value )
     {
       if( value.HasValue )
       {
         var flag = true;
         if( cal.BlackoutDates.Contains( value.Value )
-          || ( cal.FirstVisibleDate != null && DateTime.Compare( value.Value, cal.FirstVisibleDate.Value ) < 0 )
-          || ( cal.LastVisibleDate != null && DateTime.Compare( value.Value, cal.LastVisibleDate.Value ) > 0 ) )
+          || ( cal.FirstVisibleDate != null &&  ( value.Value < cal.FirstVisibleDate.Value ) )
+          || ( cal.LastVisibleDate != null && ( value.Value > cal.LastVisibleDate.Value ) ) )
         {
           flag = false;
         }
@@ -780,7 +787,7 @@ namespace Xceed.Maui.Toolkit
       return true;
     }
 
-    internal void OnDayClick( DateTime selectedDate )
+    internal void OnDayClick( DateOnly selectedDate )
     {
       if( this.IsEnabled )
       {
@@ -798,8 +805,7 @@ namespace Xceed.Maui.Toolkit
               {
                 if( this.SelectionMode == CalendarSelectionMode.Single )
                 {
-                  if( !this.SelectedDate.HasValue
-                      || DateTime.Compare( this.SelectedDate.Value.Date, selectedDate.Date ) != 0 )
+                  if( !this.SelectedDate.HasValue || ( this.SelectedDate.Value != selectedDate ) )
                   {
                     this.SelectedDate = selectedDate;
                   }
@@ -893,13 +899,13 @@ namespace Xceed.Maui.Toolkit
                 {
                   this.SelectedDates.IsAddingRange = true;
                   var currentDate = this.DateRangeStart.Value;
-                  this.SelectedDates.NewItems = new Collection<DateTime>( this.SelectedDates.ToList() );
-                  this.SelectedDates.OldItems = new Collection<DateTime>( this.SelectedDates.ToList() );
+                  this.SelectedDates.NewItems = new Collection<DateOnly>( this.SelectedDates.ToList() );
+                  this.SelectedDates.OldItems = new Collection<DateOnly>( this.SelectedDates.ToList() );
                   this.CurrentDateInternal = selectedDate;
 
                   foreach( var item in CalendarSelectedDatesCollection.GetDaysInRange( this.DateRangeStart.Value, selectedDate ) )
                   {
-                    if( DateTime.Compare( item, this.DateRangeStart.Value ) != 0 )
+                    if( item != this.DateRangeStart.Value )
                     {
                       if( Calendar.IsValidDateSelection( this, item ) )
                       {
@@ -941,30 +947,30 @@ namespace Xceed.Maui.Toolkit
 
     internal void OnCalendarButtonPressed( CalendarButton b, bool switchDisplayMode )
     {
-      if( b.Content is DateTime yearMonth )
+      if( b.BindingContext is DateOnly yearMonth )
       {
-        DateTime? dateTime = null;
+        DateOnly? date = null;
         var calendarMode = CalendarMode.Month;
 
         switch( this.DisplayMode )
         {
           case CalendarMode.Year:
             {
-              dateTime = DateTimeHelper.SetYearMonth( this.DisplayedDate, yearMonth );
+              date = DateTimeHelper.SetYearMonth( this.DisplayedDate, yearMonth );
               calendarMode = CalendarMode.Month;
             }
             break;
           case CalendarMode.Decade:
             {
-              dateTime = DateTimeHelper.AddYears( this.DisplayedDate, yearMonth.Year - this.DisplayedDate.Year );
+              date = DateTimeHelper.AddYears( this.DisplayedDate, yearMonth.Year - this.DisplayedDate.Year );
               calendarMode = CalendarMode.Year;
             }
             break;
         }
 
-        if( dateTime.HasValue )
+        if( date.HasValue )
         {
-          this.DisplayedDate = dateTime.Value;
+          this.DisplayedDate = date.Value;
           if( switchDisplayMode )
           {
             this.DisplayMode = calendarMode;
@@ -982,7 +988,7 @@ namespace Xceed.Maui.Toolkit
         var dateOffset = this.GetDateOffset( this.DisplayedDate, 1, this.DisplayMode );
         if( dateOffset.HasValue )
         {
-          this.MoveViewToDate( new DateTime( dateOffset.Value.Year, dateOffset.Value.Month, 1, 0, 0, 0 ) );
+          this.MoveViewToDate( new DateOnly( dateOffset.Value.Year, dateOffset.Value.Month, 1 ) );
         }
 
         m_isMovingThroughMonths = false;
@@ -998,7 +1004,7 @@ namespace Xceed.Maui.Toolkit
         var dateOffset = this.GetDateOffset( this.DisplayedDate, -1, this.DisplayMode );
         if( dateOffset.HasValue )
         {
-          this.MoveViewToDate( new DateTime( dateOffset.Value.Year, dateOffset.Value.Month, 1, 0, 0, 0 ) );
+          this.MoveViewToDate( new DateOnly( dateOffset.Value.Year, dateOffset.Value.Month, 1 ) );
         }
 
         m_isMovingThroughMonths = false;
@@ -1037,7 +1043,7 @@ namespace Xceed.Maui.Toolkit
       }
     }
 
-    internal void OnSelectedDatesCollectionChanged( ValueChangedEventArgs<Collection<DateTime>> e )
+    internal void OnSelectedDatesCollectionChanged( ValueChangedEventArgs<Collection<DateOnly>> e )
     {
       if( Calendar.IsSelectionChanged( e ) )
       {
@@ -1085,8 +1091,8 @@ namespace Xceed.Maui.Toolkit
     {
       if( m_previousButton != null )
       {
-        var dt = new DateTime( this.DisplayedDate.Year, this.DisplayedDate.Month, 1, 0, 0, 0 );
-        m_previousButton.IsEnabled = DateTime.Compare( this.FirstVisibleDateInternal.Date, dt.Date ) < 0;
+        var dt = new DateOnly( this.DisplayedDate.Year, this.DisplayedDate.Month, 1 );
+        m_previousButton.IsEnabled = ( this.FirstVisibleDateInternal < dt );
       }
     }
 
@@ -1094,46 +1100,51 @@ namespace Xceed.Maui.Toolkit
     {
       if( m_nextButton != null )
       {
-        var dateTime = new DateTime( this.DisplayedDate.Year, this.DisplayedDate.Month, 1, 0, 0, 0 );
-        if( DateTimeHelper.CompareYearAndMonth( dateTime, DateTime.MaxValue ) == 0 )
+        var date = new DateOnly( this.DisplayedDate.Year, this.DisplayedDate.Month, 1 );
+        if( DateTimeHelper.CompareYearAndMonth( date, DateOnly.MaxValue ) == 0 )
         {
           m_nextButton.IsEnabled = false;
           return;
         }
 
-        var dt = m_calendar.AddMonths( dateTime, 1 );
-        m_nextButton.IsEnabled = DateTime.Compare( this.LastVisibleDateInternal.Date, dt.Date ) > -1;
+        var dt = date.AddMonths( 1 );
+        m_nextButton.IsEnabled = (this.LastVisibleDateInternal >= dt);
       }
     }
 
     private void RefreshMonthViewDayTitles()
     {
-      if( m_monthView == null )
+      if( (m_monthView == null) || (m_monthView.Children.Count == 0) )
+        return;
+      if( (m_monthView.Children[ 0 ] is Label label) && (label.BindingContext != null) )
         return;
 
       var shortestDayNames = DateTimeHelper.GetDateFormat( CultureInfo.CurrentCulture ).ShortestDayNames;
       for( var i = 0; i < NUMBER_OF_DAYS_IN_WEEK; i++ )
       {
-        var dayLabel = ( Label )m_monthView.Children[ i ];
-        dayLabel.BindingContext = shortestDayNames[ ( int )( i + this.FirstDayOfWeek ) % shortestDayNames.Length ];
+        var dayLabel = (Label)m_monthView.Children[ i ];
+        dayLabel.Text = shortestDayNames[ (int)( i + this.FirstDayOfWeek ) % shortestDayNames.Length ];
       }
     }
 
     internal void RefreshMonthViewCalendarDayButtons()
     {
-      var dateTime = new DateTime( this.DisplayedDate.Year, this.DisplayedDate.Month, 1, 0, 0, 0 );
-      var numberOfVisibleDaysFromPreviousMonth = this.GetNumberOfVisibleDaysFromPreviousMonth( dateTime );
-      var flag = DateTimeHelper.CompareYearAndMonth( dateTime, DateTime.MinValue ) <= 0;
-      var flag2 = DateTimeHelper.CompareYearAndMonth( dateTime, DateTime.MaxValue ) >= 0;
-      var daysInMonth = m_calendar.GetDaysInMonth( dateTime.Year, dateTime.Month );
+      if( m_monthView.Children.Count < ( COLS * ROWS ) )
+        return;
+
+      var date = new DateOnly( this.DisplayedDate.Year, this.DisplayedDate.Month, 1 );
+      var numberOfVisibleDaysFromPreviousMonth = this.GetNumberOfVisibleDaysFromPreviousMonth( date );
+      var flag = DateTimeHelper.CompareYearAndMonth( date, DateOnly.MinValue ) <= 0;
+      var flag2 = DateTimeHelper.CompareYearAndMonth( date, DateOnly.MaxValue ) >= 0;
+      var daysInMonth =  m_calendar.GetDaysInMonth( date.Year, date.Month );
       for( var i = NUMBER_OF_DAYS_IN_WEEK; i < COLS * ROWS; i++ )
       {
         var calendarDayButton = m_monthView.Children[ i ] as CalendarDayButton;
-        var num2 = i - numberOfVisibleDaysFromPreviousMonth - NUMBER_OF_DAYS_IN_WEEK;
+        var num2 = i - numberOfVisibleDaysFromPreviousMonth - NUMBER_OF_DAYS_IN_WEEK;        
         if( ( !flag || num2 >= 0 ) && ( !flag2 || num2 < daysInMonth ) )
         {
-          var dateTime2 = m_calendar.AddDays( dateTime, num2 );
-          this.RefreshMonthDayButtonState( calendarDayButton, dateTime2 );
+          var date2 = date.AddDays( num2 );
+          this.RefreshMonthDayButtonState( calendarDayButton, date2 );
         }
         else
         {
@@ -1142,9 +1153,9 @@ namespace Xceed.Maui.Toolkit
       }
     }
 
-    private int GetNumberOfVisibleDaysFromPreviousMonth( DateTime firstOfMonth )
+    private int GetNumberOfVisibleDaysFromPreviousMonth( DateOnly firstOfMonth )
     {
-      var dayOfWeek = m_calendar.GetDayOfWeek( firstOfMonth );
+      var dayOfWeek = firstOfMonth.DayOfWeek;
       int num = ( dayOfWeek - this.FirstDayOfWeek + NUMBER_OF_DAYS_IN_WEEK ) % NUMBER_OF_DAYS_IN_WEEK;
       if( num == 0 )
         return NUMBER_OF_DAYS_IN_WEEK;
@@ -1152,47 +1163,34 @@ namespace Xceed.Maui.Toolkit
       return num;
     }
 
-    private void RefreshMonthDayButtonState( CalendarDayButton childButton, DateTime? dateToAdd )
+    private void RefreshMonthDayButtonState( CalendarDayButton childButton, DateOnly? dateToAdd )
     {
       if( dateToAdd.HasValue )
       {
         var visibilityFlag = true;
         var enabledFlag = this.IsEnabled;
-        if( DateTime.Compare( dateToAdd.Value.Date, this.FirstVisibleDateInternal.Date ) < 0
-          || DateTime.Compare( dateToAdd.Value.Date, this.LastVisibleDateInternal.Date ) > 0 )
+        if( (dateToAdd.Value < this.FirstVisibleDateInternal)
+          || (dateToAdd.Value > this.LastVisibleDateInternal) )
         {
           visibilityFlag = false;
           enabledFlag = false;
         }
-        var selectionFlag = false;
-        foreach( var selectedDate in this.SelectedDates )
-        {
-          selectionFlag |= DateTime.Compare( dateToAdd.Value.Date, selectedDate.Date ) == 0;
-        }
+        var selectionFlag = this.SelectedDates.Contains( dateToAdd.Value );
 
-        if( childButton.BindingContext == null )
+        childButton.ParentCalendar = this;
+        childButton.IsBlackedOut = this.BlackoutDates.Contains( dateToAdd.Value );
+        childButton.IsInactive = DateTimeHelper.CompareYearAndMonth( dateToAdd.Value, this.DisplayedDateInternal ) != 0;
+        childButton.IsToday = (dateToAdd.Value == Calendar.TodayDateOnly);
+        childButton.IsEnabled = enabledFlag;
+        childButton.IsVisible = visibilityFlag;
+        childButton.IsSelected = selectionFlag;
+        childButton.Text = dateToAdd.Value.ToString( "%d" );
+        childButton.BindingContext = dateToAdd.Value;
+
+        if( childButton.IsLoaded )
         {
-          MonthViewDayModel monthViewModel = new( isBlackOut: this.BlackoutDates.Contains( dateToAdd.Value ),
-                                                  isToday: DateTime.Compare( dateToAdd.Value.Date, DateTime.Today.Date ) == 0,
-                                                  isInactive: DateTimeHelper.CompareYearAndMonth( dateToAdd.Value, this.DisplayedDateInternal ) != 0,
-                                                  isSelected: selectionFlag,
-                                                  isVisible: visibilityFlag,
-                                                  isEnabled: enabledFlag )
-          { Date = dateToAdd.Value };
-          childButton.BindingContext = monthViewModel;
+          childButton.NotifyNeedsVisualStateUpdate();
         }
-        else
-        {
-          var monthViewModel = childButton.BindingContext as MonthViewDayModel;
-          monthViewModel.IsBlackedOut = this.BlackoutDates.Contains( dateToAdd.Value );
-          monthViewModel.IsToday = DateTime.Compare( dateToAdd.Value.Date, DateTime.Today.Date ) == 0;
-          monthViewModel.IsInactive = DateTimeHelper.CompareYearAndMonth( dateToAdd.Value, this.DisplayedDateInternal ) != 0;
-          monthViewModel.IsSelected = selectionFlag;
-          monthViewModel.IsElementVisible = visibilityFlag;
-          monthViewModel.IsElementEnabled = enabledFlag;
-          monthViewModel.Date = dateToAdd.Value;
-        }
-        childButton.NotifyNeedsVisualStateUpdate();
       }
     }
 
@@ -1228,10 +1226,11 @@ namespace Xceed.Maui.Toolkit
       var num = 0;
       foreach( var calendarButton in m_yearView.Children.OfType<CalendarButton>() )
       {
-        var dateTime = new DateTime( this.DisplayedDate.Year, num + 1, 1 );
-        calendarButton.Content = dateTime;
-        calendarButton.HasSelectedDays = DateTimeHelper.CompareYearAndMonth( dateTime, this.DisplayedDateInternal ) == 0;
-        if( DateTimeHelper.CompareYearAndMonth( dateTime, this.FirstVisibleDateInternal ) < 0 || DateTimeHelper.CompareYearAndMonth( dateTime, this.LastVisibleDateInternal ) > 0 )
+        var date = new DateOnly( this.DisplayedDate.Year, num + 1, 1 );
+        calendarButton.BindingContext = date;
+        calendarButton.Text = date.ToString( "MMM" );
+        calendarButton.HasSelectedDays = DateTimeHelper.CompareYearAndMonth( date, this.DisplayedDateInternal ) == 0;
+        if( DateTimeHelper.CompareYearAndMonth( date, this.FirstVisibleDateInternal ) < 0 || DateTimeHelper.CompareYearAndMonth( date, this.LastVisibleDateInternal ) > 0 )
         {
           calendarButton.IsPointerOver = false;
           calendarButton.IsEnabled = false;
@@ -1283,9 +1282,11 @@ namespace Xceed.Maui.Toolkit
       foreach( var calendarButton in m_yearView.Children.OfType<CalendarButton>() )
       {
         int num2 = decade + num;
-        if( ( num2 <= DateTime.MaxValue.Year ) && ( num2 >= DateTime.MinValue.Year ) )
+        if( ( num2 <= DateOnly.MaxValue.Year ) && ( num2 >= DateOnly.MinValue.Year ) )
         {
-          calendarButton.Content = new DateTime( num2, 1, 1 );
+          var date = new DateOnly( num2, 1, 1 );
+          calendarButton.Text = date.ToString( "yyyy" );
+          calendarButton.BindingContext = date;
           calendarButton.HasSelectedDays = this.DisplayedDate.Year == num2;
           if( ( num2 < this.FirstVisibleDateInternal.Year ) || ( num2 > this.LastVisibleDateInternal.Year ) )
           {
@@ -1314,12 +1315,12 @@ namespace Xceed.Maui.Toolkit
 
     #endregion
 
-    private static bool IsSelectionChanged( ValueChangedEventArgs<System.Collections.ObjectModel.Collection<DateTime>> e )
+    private static bool IsSelectionChanged( ValueChangedEventArgs<System.Collections.ObjectModel.Collection<DateOnly>> e )
     {
       if( e.NewValue.Count != e.OldValue.Count )
         return true;
 
-      foreach( DateTime addedItem in e.NewValue )
+      foreach( DateOnly addedItem in e.NewValue )
       {
         if( !e.OldValue.Contains( addedItem ) )
           return true;
@@ -1328,9 +1329,9 @@ namespace Xceed.Maui.Toolkit
       return false;
     }
 
-    private DateTime? GetDateOffset( DateTime date, int offset, CalendarMode displayMode )
+    private DateOnly? GetDateOffset( DateOnly date, int offset, CalendarMode displayMode )
     {
-      DateTime? dateTime = null;
+      DateOnly? dateTime = null;
       switch( displayMode )
       {
         case CalendarMode.Month: return DateTimeHelper.AddMonths( date, offset );
@@ -1340,16 +1341,16 @@ namespace Xceed.Maui.Toolkit
       }
     }
 
-    private void MoveViewToDate( DateTime? date )
+    private void MoveViewToDate( DateOnly? date )
     {
       if( date.HasValue )
       {
-        var date2 = date.Value.Date;
+        var date2 = date.Value;
         switch( this.DisplayMode )
         {
           case CalendarMode.Month:
             {
-              this.DisplayedDate = new DateTime( date2.Year, date2.Month, 1, 0, 0, 0 );
+              this.DisplayedDate = new DateOnly( date2.Year, date2.Month, 1 );
               this.CurrentDateInternal = date2;
               this.UpdateViews();
             }
@@ -1376,9 +1377,9 @@ namespace Xceed.Maui.Toolkit
 
     #region Events
 
-    public event EventHandler<ValueChangedEventArgs<Collection<DateTime>>> SelectedDatesChanged;
+    public event EventHandler<ValueChangedEventArgs<Collection<DateOnly>>> SelectedDatesChanged;
 
-    internal void RaiseSelectedDatesChanged( object sender, ValueChangedEventArgs<Collection<DateTime>> e )
+    internal void RaiseSelectedDatesChanged( object sender, ValueChangedEventArgs<Collection<DateOnly>> e )
     {
       if( this.IsEnabled )
       {
@@ -1386,9 +1387,9 @@ namespace Xceed.Maui.Toolkit
       }
     }
 
-    public event EventHandler<ValueChangedEventArgs<DateTime>> DisplayedDateChanged;
+    public event EventHandler<ValueChangedEventArgs<DateOnly>> DisplayedDateChanged;
 
-    internal void RaiseDisplayedDateChanged( object sender, ValueChangedEventArgs<DateTime> e )
+    internal void RaiseDisplayedDateChanged( object sender, ValueChangedEventArgs<DateOnly> e )
     {
       if( this.IsEnabled )
       {
@@ -1421,15 +1422,21 @@ namespace Xceed.Maui.Toolkit
 
     private void BlackoutDates_CollectionChanged( object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e )
     {
-      this.UpdateViews();
+      if( (m_monthView != null) && (m_monthView.Children.Count == ( COLS * ROWS ) ) )
+      {
+        this.UpdateViews();
+      }
     }
 
     private void BlackoutDates_CalendarDateRangeChanged( object sender, EventArgs e )
     {
-      this.UpdateViews();
+      if( ( m_monthView != null ) && ( m_monthView.Children.Count == ( COLS * ROWS ) ) )
+      {
+        this.UpdateViews();
+      }
     }
 
-    private void SelectedDates_SelectedDatesChanged( object sender, ValueChangedEventArgs<Collection<DateTime>> e )
+    private void SelectedDates_SelectedDatesChanged( object sender, ValueChangedEventArgs<Collection<DateOnly>> e )
     {
       this.OnSelectedDatesCollectionChanged( e );
     }
@@ -1438,17 +1445,17 @@ namespace Xceed.Maui.Toolkit
     {
       if( e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add )
       {
-        if( e.NewItems[ 0 ] is DateTime )
+        if( e.NewItems[ 0 ] is DateOnly )
         {
           if( ( e.NewStartingIndex == 0 )
-          && ( !this.SelectedDate.HasValue || DateTime.Compare( this.SelectedDate.Value, (DateTime)e.NewItems[ 0 ] ) != 0 ) )
+          && ( !this.SelectedDate.HasValue || ( this.SelectedDate.Value != (DateOnly)e.NewItems[ 0 ] ) ) )
           {
-            this.SelectedDate = (DateTime)e.NewItems[ 0 ];
+            this.SelectedDate = (DateOnly)e.NewItems[ 0 ];
           }
 
           if( !this.SelectedDates.IsAddingRange )
           {
-            var num = DateTimeHelper.CompareYearAndMonth( (DateTime)e.NewItems[ 0 ], this.DisplayedDateInternal );
+            var num = DateTimeHelper.CompareYearAndMonth( (DateOnly)e.NewItems[ 0 ], this.DisplayedDateInternal );
             if( ( num < 2 ) && ( num > -2 ) )
             {
               this.UpdateViews();
@@ -1463,9 +1470,9 @@ namespace Xceed.Maui.Toolkit
           this.SelectedDate = ( this.SelectedDates.Count > 0 ) ? this.SelectedDates[ 0 ] : null;
         }
 
-        if( e.OldItems[ 0 ] is DateTime )
+        if( e.OldItems[ 0 ] is DateOnly )
         {
-          var num = DateTimeHelper.CompareYearAndMonth( (DateTime)e.OldItems[ 0 ], this.DisplayedDateInternal );
+          var num = DateTimeHelper.CompareYearAndMonth( (DateOnly)e.OldItems[ 0 ], this.DisplayedDateInternal );
           if( ( num < 2 ) && ( num > -2 ) )
           {
             this.UpdateViews();
@@ -1502,7 +1509,7 @@ namespace Xceed.Maui.Toolkit
           case CalendarMode.Year:
           case CalendarMode.Decade:
             {
-              DisplayedDate = dateOffset.Value;
+              this.DisplayedDate = dateOffset.Value;
               this.UpdateViews();
             }
             break;
@@ -1535,7 +1542,7 @@ namespace Xceed.Maui.Toolkit
         if( btn.IsBlackedOut )
           return;
 
-        this.OnDayClick( ( ( MonthViewDayModel )btn.BindingContext ).Date );
+        this.OnDayClick( ( (DateOnly)btn.BindingContext ) );
       }
     }
 

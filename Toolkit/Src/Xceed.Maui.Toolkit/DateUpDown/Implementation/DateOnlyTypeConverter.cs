@@ -16,31 +16,29 @@
   *************************************************************************************/
 
 
+using System.ComponentModel;
 using System.Globalization;
 
 namespace Xceed.Maui.Toolkit
 {
-  public class CalendarMonthYearFormatConverter : IMultiValueConverter
+  public class DateOnlyTypeConverter : TypeConverter
   {
-    public object Convert( object[] values, Type targetType, object parameter, CultureInfo culture )
+    public override bool CanConvertFrom( ITypeDescriptorContext context, Type sourceType )
     {
-      if( values.Any( val => val is null ) || ( values.Length != 2 ) )
-        return "";
-
-      var btnDate = ( DateTime )values[ 0 ];
-      var displayMode = ( CalendarMode )values[ 1 ];
-
-      if( displayMode == CalendarMode.Month )
-        return "";
-      else if( displayMode == CalendarMode.Year )
-        return btnDate.ToString( "MMM" );
-      else
-        return btnDate.ToString( "yyyy" );
+      return ( sourceType == typeof( string ) ) || base.CanConvertFrom( context, sourceType );
     }
 
-    public object[] ConvertBack( object value, Type[] targetTypes, object parameter, CultureInfo culture )
+    public override object ConvertFrom( ITypeDescriptorContext context, CultureInfo culture, object value )
     {
-      throw new NotImplementedException();
+      if( value is string stringValue )
+      {
+        if( DateOnly.TryParse( stringValue, out DateOnly result ) )
+          return result;
+        else
+          throw new ArgumentException( "Invalid date format." );
+      }
+
+      return base.ConvertFrom( context, culture, value );
     }
   }
 }

@@ -126,32 +126,26 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Images\logowhite_w.png">
+    <EmbeddedResource Include="Resources\Images\logowhite_w.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Images\logox_w.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Images\logox_w.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Images\logo_w.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </EmbeddedResource>
     <MauiImage Include="Resources\Images\moon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </MauiImage>
-    <Content Include="Resources\Images\moon_w.png">
+    <EmbeddedResource Include="Resources\Images\moon_w.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </EmbeddedResource>
     <MauiImage Include="Resources\Images\sun.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </MauiImage>
-    <Content Include="Resources\Images\sun_w.png">
+    <EmbeddedResource Include="Resources\Images\sun_w.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <MauiImage Include="Resources\Images\logo.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </MauiImage>
     <MauiImage Include="Resources\Images\logowhite.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </MauiImage>

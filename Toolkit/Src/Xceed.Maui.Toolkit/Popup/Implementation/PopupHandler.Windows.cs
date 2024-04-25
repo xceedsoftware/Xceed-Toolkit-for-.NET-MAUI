@@ -78,7 +78,9 @@ namespace Xceed.Maui.Toolkit
         layoutPanel.Children.Remove( platformView );
       }
 
+#pragma warning disable CS8602
       platformView.Closed -= this.PlatformView_Closed;
+#pragma warning restore CS8602
 
       base.DisconnectHandler( platformView );
     }
@@ -241,6 +243,8 @@ namespace Xceed.Maui.Toolkit
         throw new ArgumentNullException( "platformPopup" );
       if( popup == null )
         throw new ArgumentNullException( "popup" );
+      if( popup.Handler?.MauiContext == null )
+        throw new InvalidDataException( "MauiContext is null.");
 
       var parent = PopupHandler.GetParent( popup ) as VisualElement;
       if( parent == null )
@@ -248,7 +252,7 @@ namespace Xceed.Maui.Toolkit
 
       var parentWidth = parent.Width;
       var parentHeight = parent.Height;
-      var popupParent = parent.ToPlatform( popup.Handler?.MauiContext );
+      var popupParent = parent.ToPlatform( popup.Handler.MauiContext );
       var parentPosition = popupParent.TransformToVisual( null ).TransformPoint( new Windows.Foundation.Point( 0, 0 ) );
 
       var contentSize = new Size( platformPopup.Width, platformPopup.Height );
@@ -432,10 +436,12 @@ namespace Xceed.Maui.Toolkit
         if( !handler.m_isContentWidthSetByUser )
         {
           content.Width = double.NaN;
+          content.MaxWidth = double.PositiveInfinity;
         }
         if( !handler.m_isContentHeightSetByUser )
         {
           content.Height = double.NaN;
+          content.MaxHeight = double.PositiveInfinity;
         }
         content.Measure( new Windows.Foundation.Size( double.PositiveInfinity, double.PositiveInfinity ) );
 
@@ -462,6 +468,9 @@ namespace Xceed.Maui.Toolkit
         var parent = PopupHandler.GetParent( popup );
         if( parent == null )
           throw new InvalidDataException( "parent can't be found for Popup." );
+
+        if( handler.MauiContext == null )
+          throw new InvalidDataException( "MauiContext is null." );
 
         var popupParent = parent.ToPlatform( handler.MauiContext );
         if( popupParent != null )

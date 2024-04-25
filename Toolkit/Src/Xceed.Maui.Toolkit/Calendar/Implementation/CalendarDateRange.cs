@@ -24,24 +24,24 @@ namespace Xceed.Maui.Toolkit
   {
     #region Private Members
 
-    private DateTime m_end;
-    private DateTime m_start;
+    private DateOnly m_end;
+    private DateOnly m_start;
 
     #endregion
 
     #region Constructors
 
     public CalendarDateRange()
-      : this( DateTime.MinValue, DateTime.MaxValue )
+      : this( DateOnly.MinValue, DateOnly.MaxValue )
     {
     }
 
-    public CalendarDateRange( DateTime day )
+    public CalendarDateRange( DateOnly day )
       : this( day, day )
     {
     }
 
-    public CalendarDateRange( DateTime start, DateTime end )
+    public CalendarDateRange( DateOnly start, DateOnly end )
     {
       m_start = start;
       m_end = end;
@@ -53,7 +53,7 @@ namespace Xceed.Maui.Toolkit
 
     #region End
 
-    public DateTime End
+    public DateOnly End
     {
       get
       {
@@ -61,10 +61,10 @@ namespace Xceed.Maui.Toolkit
       }
       set
       {
-        var dateTime = CalendarDateRange.GetGreater( m_start, value );
-        if( dateTime != End )
+        var date = CalendarDateRange.GetGreater( m_start, value );
+        if( date != this.End )
         {
-          this.OnChanging( new CalendarDateRangeChangingEventArgs( m_start, dateTime ) );
+          this.OnChanging( new CalendarDateRangeChangingEventArgs( m_start, date ) );
           m_end = value;
           this.OnPropertyChanged( new PropertyChangedEventArgs( nameof( End ) ) );
         }
@@ -75,7 +75,7 @@ namespace Xceed.Maui.Toolkit
 
     #region Start
 
-    public DateTime Start
+    public DateOnly Start
     {
       get
       {
@@ -86,13 +86,13 @@ namespace Xceed.Maui.Toolkit
         if( m_start != value )
         {
           var end = this.End;
-          var dateTime = CalendarDateRange.GetGreater( value, m_end );
-          this.OnChanging( new CalendarDateRangeChangingEventArgs( value, dateTime ) );
+          var date = CalendarDateRange.GetGreater( value, m_end );
+          this.OnChanging( new CalendarDateRangeChangingEventArgs( value, date ) );
           m_start = value;
           this.OnPropertyChanged( new PropertyChangedEventArgs( nameof( Start ) ) );
-          if( dateTime != end )
+          if( date != end )
           {
-            m_end = dateTime;
+            m_end = date;
             this.OnPropertyChanged( new PropertyChangedEventArgs( nameof( End ) ) );
           }
         }
@@ -105,9 +105,9 @@ namespace Xceed.Maui.Toolkit
 
     #region Private Methods
 
-    private static DateTime GetGreater( DateTime start, DateTime end )
+    private static DateOnly GetGreater( DateOnly start, DateOnly end )
     {
-      if( DateTime.Compare( start, end ) > 0 )
+      if( start > end )
         return start;
       return end;
     }

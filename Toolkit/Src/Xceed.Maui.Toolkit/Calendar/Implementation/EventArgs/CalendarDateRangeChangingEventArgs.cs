@@ -22,15 +22,15 @@ namespace Xceed.Maui.Toolkit
   {
     #region Private Members
 
-    private DateTime m_start;
+    private DateOnly m_start;
 
-    private DateTime m_end;
+    private DateOnly m_end;
 
     #endregion
 
     #region Constructors
 
-    public CalendarDateRangeChangingEventArgs( DateTime start, DateTime end )
+    public CalendarDateRangeChangingEventArgs( DateOnly start, DateOnly end )
     {
       m_start = start;
       m_end = end;
@@ -40,9 +40,9 @@ namespace Xceed.Maui.Toolkit
 
     #region Public Properties
 
-    public DateTime End => m_end;
+    public DateOnly End => m_end;
 
-    public DateTime Start => m_start;    
+    public DateOnly Start => m_start;    
 
     #endregion
   }

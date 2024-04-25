@@ -18,14 +18,11 @@
 
 namespace Xceed.Maui.Toolkit
 {
-  public partial class CalendarButton : Button
+  public partial class CalendarButton : CalendarLabel
   {
     #region Private Members
 
     private const string VisualState_Inactive = "Inactive";
-    private const string PART_MainBorder = "PART_MainBorder";
-
-    private Border m_mainBorder;
 
     #endregion
 
@@ -88,11 +85,9 @@ namespace Xceed.Maui.Toolkit
 
     #endregion
 
-    #endregion    
+    #endregion
 
     #region Partial Methods
-
-    partial void ApplyTemplateForPlatform( Border oldMainBorder, Border newMainBorder );
 
     partial void UpdateVisualState();
 
@@ -100,25 +95,24 @@ namespace Xceed.Maui.Toolkit
 
     #region Protected Methods
 
-    protected override void OnApplyTemplate()
+    protected override void OnIsPointerOverChanged( bool oldValue, bool newValue )
     {
-      base.OnApplyTemplate();
+      base.OnIsPointerOverChanged( oldValue, newValue );
 
-      var old_mainBorder = m_mainBorder;
-
-      if( m_mainBorder != null )
+      if( this.IsEnabled )
       {
-        m_mainBorder.PointerDown -= this.Border_PointerDown;
-        m_mainBorder.PointerUp -= this.Border_PointerUp;
+        this.SetVisualStateAfterPointerEvent();
       }
-      m_mainBorder = this.GetTemplateChild( PART_MainBorder ) as Border;
-      if( m_mainBorder != null )
-      {
-        m_mainBorder.PointerDown += this.Border_PointerDown;
-        m_mainBorder.PointerUp += this.Border_PointerUp;
-      }
+    }
 
-      this.ApplyTemplateForPlatform( old_mainBorder, m_mainBorder );
+    protected override void OnIsPressedChanged( bool oldValue, bool newValue )
+    {
+      base.OnIsPressedChanged( oldValue, newValue );
+
+      if( this.IsEnabled )
+      {
+        this.SetVisualStateAfterPointerEvent();
+      }
     }
 
     #endregion
@@ -148,16 +142,6 @@ namespace Xceed.Maui.Toolkit
       this.UpdateVisualState();
     }
 
-    private void Border_PointerUp( object sender, EventArgs e )
-    {
-      base.Button_PointerUp();
-    }
-
-    private void Border_PointerDown( object sender, EventArgs e )
-    {
-      base.Button_PointerDown();
-    }
-
-    #endregion    
+    #endregion
   }
 }

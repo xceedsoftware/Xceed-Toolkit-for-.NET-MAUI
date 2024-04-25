@@ -32,7 +32,7 @@ namespace Xceed.Maui.Toolkit
       {
         VisualStateManager.GoToState( this, CalendarDayButton.VisualState_BlackoutDay );
       }
-      else if( this.IsToday && m_calendar != null && m_calendar.IsTodayHighlighted )
+      else if( this.IsToday && (this.ParentCalendar != null) && ParentCalendar.IsTodayHighlighted )
       {
         VisualStateManager.GoToState( this, CalendarDayButton.VisualState_Today );
       }

@@ -30,12 +30,12 @@ namespace Xceed.Maui.Toolkit
     None
   }
 
-  public sealed class CalendarSelectedDatesCollection : ObservableCollection<DateTime>
+  public sealed class CalendarSelectedDatesCollection : ObservableCollection<DateOnly>
   {
     #region Private Members
 
-    private Collection<DateTime> m_newItems;
-    private Collection<DateTime> m_oldItems;
+    private Collection<DateOnly> m_newItems;
+    private Collection<DateOnly> m_oldItems;
     private Thread m_dispatcherThread;
     private bool m_isAddingRange;
     private Calendar m_calendar;
@@ -56,14 +56,14 @@ namespace Xceed.Maui.Toolkit
     #region Internal Properties
 
     internal bool IsAddingRange { get => m_isAddingRange; set => m_isAddingRange = value; }
-    internal Collection<DateTime> NewItems { get => m_newItems; set => m_newItems = value; }
-    internal Collection<DateTime> OldItems { get => m_oldItems; set => m_oldItems = value; }
+    internal Collection<DateOnly> NewItems { get => m_newItems; set => m_newItems = value; }
+    internal Collection<DateOnly> OldItems { get => m_oldItems; set => m_oldItems = value; }
 
     #endregion
 
     #region Public Methods   
 
-    public void AddRange( DateTime start, DateTime end )
+    public void AddRange( DateOnly start, DateOnly end )
     {
       this.IsAddingRange = true;
       if( m_calendar.SelectionMode == CalendarSelectionMode.Range && base.Count > 0 )
@@ -71,7 +71,7 @@ namespace Xceed.Maui.Toolkit
         this.ClearInternal();
       }
 
-      foreach( DateTime item in CalendarSelectedDatesCollection.GetDaysInRange( start, end ) )
+      foreach( DateOnly item in CalendarSelectedDatesCollection.GetDaysInRange( start, end ) )
       {
         this.Add( item );
       }
@@ -93,19 +93,19 @@ namespace Xceed.Maui.Toolkit
 
       if( this.OldItems.Count > 0 )
       {
-        Collection<DateTime> addedItems = [];
+        Collection<DateOnly> addedItems = [];
         this.RaiseSelectionChanged( this.OldItems, addedItems );
         this.OldItems.Clear();
       }
     }
 
-    protected override void InsertItem( int index, DateTime item )
+    protected override void InsertItem( int index, DateOnly item )
     {
       this.ValidateThread();
 
       if( !this.Contains( item ) )
       {
-        Collection<DateTime> collection = [];
+        Collection<DateOnly> collection = [];
         var flag = this.CheckSelectionMode();
         if( !Calendar.IsValidDateSelection( m_calendar, item ) )
           throw new ArgumentOutOfRangeException( "Invalid value for SelectedDate property" );
@@ -143,8 +143,8 @@ namespace Xceed.Maui.Toolkit
         return;
       }
 
-      Collection<DateTime> addedItems = [];
-      Collection<DateTime> collection = [];
+      Collection<DateOnly> addedItems = [];
+      Collection<DateOnly> collection = [];
       var num = DateTimeHelper.CompareYearAndMonth( base[ index ], m_calendar.DisplayedDateInternal );
       collection.Add( base[ index ] );
       base.RemoveItem( index );
@@ -161,7 +161,7 @@ namespace Xceed.Maui.Toolkit
       if( base.Count <= 0 )
         return;
 
-      using( IEnumerator<DateTime> enumerator = this.GetEnumerator() )
+      using( IEnumerator<DateOnly> enumerator = this.GetEnumerator() )
       {
         while( enumerator.MoveNext() )
         {
@@ -181,16 +181,18 @@ namespace Xceed.Maui.Toolkit
       this.NewItems.Clear();
     }
 
-    internal static IEnumerable<DateTime> GetDaysInRange( DateTime start, DateTime end )
+    internal static IEnumerable<DateOnly> GetDaysInRange( DateOnly start, DateOnly end )
     {
-      int increment = DateTime.Compare( end, start ) < 0 ? -1 : 1;
-      DateTime? rangeStart = start;
+      int increment = (end < start) ? -1 : 1;
+      DateOnly? rangeStart = start;
       do
       {
         yield return rangeStart.Value;
         rangeStart = DateTimeHelper.AddDays( rangeStart.Value, increment );
       }
-      while( rangeStart.HasValue && DateTime.Compare( end, rangeStart.Value ) != -increment );
+      while( rangeStart.HasValue
+           && ( ( ( increment > 0 ) && ( end >= rangeStart.Value ) )
+              || ( ( increment < 0 ) && ( end <= rangeStart.Value ) ) ) );
     }
 
 
@@ -225,11 +227,11 @@ namespace Xceed.Maui.Toolkit
 
     #region Events
 
-    internal event EventHandler<ValueChangedEventArgs<Collection<DateTime>>> SelectedDatesChanged;
+    internal event EventHandler<ValueChangedEventArgs<Collection<DateOnly>>> SelectedDatesChanged;
 
-    private void RaiseSelectionChanged( Collection<DateTime> oldItems, Collection<DateTime> newItems )
+    private void RaiseSelectionChanged( Collection<DateOnly> oldItems, Collection<DateOnly> newItems )
     {
-      this.SelectedDatesChanged?.Invoke( this, new ValueChangedEventArgs<Collection<DateTime>>( oldItems, newItems ) );
+      this.SelectedDatesChanged?.Invoke( this, new ValueChangedEventArgs<Collection<DateOnly>>( oldItems, newItems ) );
     }
 
     internal event EventHandler<EventArgs> ItemsCleared;

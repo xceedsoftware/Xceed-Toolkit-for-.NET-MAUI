@@ -332,7 +332,7 @@ namespace Xceed.Maui.Toolkit
 
     #region Events
 
-    public event EventHandler<SelectionChangedEventArgs> SelectionChanged;
+    public new event EventHandler<SelectionChangedEventArgs> SelectionChanged;
 
     private void RaiseSelectionChangedEvent( object sender, SelectionChangedEventArgs e )
     {
@@ -390,7 +390,7 @@ namespace Xceed.Maui.Toolkit
           }
 
           // Scroll to Top to prevent a CollectionView Height of 0.
-          m_collectionView.ScrollTo( 0 );
+          //m_collectionView.ScrollTo( 0 );
           m_collectionView.ItemsSource = this.FilteredItems;
 
           this.ActivatePopup( true );

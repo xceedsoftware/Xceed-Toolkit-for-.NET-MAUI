@@ -34,9 +34,11 @@ namespace Xceed.Maui.Toolkit
     public PopupContainer()
     {
       m_popup = new Popup( this );
+#nullable enable
       m_popup.Focused += this.PopupOnFocused;
       m_popup.Opened += this.PopupOnOpened;
       m_popup.Closed += this.PopupOnClosed;
+#nullable disable
 
       this.Loaded += this.PopupContainer_Loaded;
 
@@ -65,11 +67,13 @@ namespace Xceed.Maui.Toolkit
 
     public static readonly BindableProperty AnchorProperty = BindableProperty.Create( nameof( Anchor ), typeof( View ), typeof( PopupContainer ) );
 
+#nullable enable
     public View? Anchor
     {
       get => (View?)GetValue( AnchorProperty );
       set => SetValue( AnchorProperty, value );
     }
+#nullable disable
 
     #endregion
 
@@ -77,6 +81,7 @@ namespace Xceed.Maui.Toolkit
 
     public static readonly BindableProperty ContentProperty = BindableProperty.Create( nameof( Content ), typeof( View ), typeof( PopupContainer ), propertyChanged: OnContentChanged );
 
+#nullable enable
     public View? Content
     {
       get => (View?)GetValue( ContentProperty );
@@ -94,6 +99,8 @@ namespace Xceed.Maui.Toolkit
     protected virtual void OnContentChanged( View? oldValue, View? newValue )
     {
     }
+
+#nullable disable
 
     #endregion
 
@@ -202,6 +209,7 @@ namespace Xceed.Maui.Toolkit
 
     #region Event Handlers
 
+#nullable enable
     private void PopupOnFocused( object? sender, FocusEventArgs e )
     {
       this.RaiseFocusedEvent( this, EventArgs.Empty );
@@ -219,7 +227,7 @@ namespace Xceed.Maui.Toolkit
 
     private void PopupContainer_Loaded( object? sender, EventArgs e )
     {
-      m_popup.UpdateParent( this );
+      m_popup.InitForPopupContainer( this );
 
       this.Dispatcher.Dispatch( () =>
       {
@@ -229,6 +237,7 @@ namespace Xceed.Maui.Toolkit
         }
       } );
     }
+#nullable disable
 
     #endregion
 

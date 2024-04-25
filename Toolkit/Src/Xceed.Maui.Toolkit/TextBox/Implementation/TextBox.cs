@@ -406,13 +406,19 @@ namespace Xceed.Maui.Toolkit
     {
       if( isFocused )
       {
-        this.Focus();
+        if( m_entry != null )
+        {
+          m_entry.Focus();
+        }
         this.IsFocused = true;
         this.RaiseFocusedEvent( this, EventArgs.Empty );
       }
       else
       {
-        this.Unfocus();
+        if( m_entry != null )
+        {
+          m_entry.Unfocus();
+        }
         this.IsFocused = false;
         this.RaiseUnFocusedEvent( this, EventArgs.Empty );
       }
