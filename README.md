@@ -117,7 +117,7 @@ Here's a quick code sample to get you started:
 Choose dates effortlessly with a control similar to the WPF, which allows selection by month, year, or decade. It supports specifying SelectedDates and BlackoutDates, providing flexibility in choosing single dates, ranges, or multiple ranges to meet your scheduling needs.
 
 ````xaml
-<xctk:Calendar ="MultiRange"
+<xctk:Calendar SelectionMode="MultiRange"
                IsTodayHighlighted="True"
                SelectedDatesChanged="Calendar_SelectedDatesChanged"/>
 ````
